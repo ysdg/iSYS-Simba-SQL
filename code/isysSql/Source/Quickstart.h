@@ -62,7 +62,9 @@ namespace Quickstart
     #define ISYS_ADDR simba_wstring(L"ISYS_ADDR")
     #define ISYS_PORT simba_wstring(L"ISYS_PORT")
 
-
+    // Aggregate Functions
+    static const simba_wstring CB_AGGRFN_NAME(L"AF_NAME");
+    static const simba_wstring CB_AGGRFN_NUM(L"AF_NUM");
         
     /// The connection key to use when looking up the Description in the connection string.
     #define QS_DESC_KEY simba_wstring(L"DESCRIPTION")
@@ -93,7 +95,27 @@ namespace Quickstart
 #else
     #define QS_PATH_SEPARATOR simba_string("/")
 #endif
-        
+
+
+    /// The date format for Codebase.
+    static const simba_string CB_DATE_FORMAT("CCYY-MM-DD");
+
+    /// The Codebase's dbase string for True and False.
+    static const simba_wstring CB_DBASE_TRUE(L".T.");
+    static const simba_wstring CB_DBASE_FALSE(L".F.");
+
+    // The Database's field value for logical True and False.
+    static const simba_wstring CB_LOGICAL_FALSE(L"0");
+    static const simba_wstring CB_LOGICAL_TRUE(L"1");
+
+    /// The comparison math symbols.
+    static const simba_wstring EQ_SYM(L"=");
+    static const simba_wstring NE_SYM(L"<>");
+    static const simba_wstring GT_SYM(L">");
+    static const simba_wstring GE_SYM(L">=");
+    static const simba_wstring LT_SYM(L"<");
+    static const simba_wstring LE_SYM(L"<=");
+
     /// Custom property example for the POINTER attribute type.
     static const simba_int32 QS_CUSTOM_PROP_POINTER = 30000;
         

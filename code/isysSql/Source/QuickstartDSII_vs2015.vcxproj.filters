@@ -31,6 +31,12 @@
     <Filter Include="Setup\Include">
       <UniqueIdentifier>{87313a12-b506-4aa8-9587-74ad0bc34512}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DataEngine\Filter">
+      <UniqueIdentifier>{3e9c5d59-38df-44c7-97d0-1c6aac076a78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataEngine\Filter\include">
+      <UniqueIdentifier>{df672daa-e671-4cb8-8c92-58c5c822f063}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\QSConnection.cpp">
@@ -97,6 +103,18 @@
     <ClCompile Include="Core\IsysConn.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="DataEngine\Filter\CPassdownInfo.cpp">
+      <Filter>DataEngine\Filter</Filter>
+    </ClCompile>
+    <ClCompile Include="DataEngine\Filter\OperationHandlerFactory.cpp">
+      <Filter>DataEngine\Filter</Filter>
+    </ClCompile>
+    <ClCompile Include="DataEngine\Filter\FilterHandler.cpp">
+      <Filter>DataEngine\Filter</Filter>
+    </ClCompile>
+    <ClCompile Include="DataEngine\Filter\FilterResult.cpp">
+      <Filter>DataEngine\Filter</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\QSConnection.h">
@@ -162,6 +180,21 @@
     </ClInclude>
     <ClInclude Include="Setup\QSTestResultDialog.h">
       <Filter>Setup\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="DataEngine\Filter\OperationHandlerFactory.h">
+      <Filter>DataEngine\Filter\include</Filter>
+    </ClInclude>
+    <ClInclude Include="DataEngine\Filter\CPassdownInfo.h">
+      <Filter>DataEngine\Filter\include</Filter>
+    </ClInclude>
+    <ClInclude Include="DataEngine\Filter\FilterHandler.h">
+      <Filter>DataEngine\Filter\include</Filter>
+    </ClInclude>
+    <ClInclude Include="DataEngine\Filter\AbStractResultSet.h">
+      <Filter>DataEngine\Filter\include</Filter>
+    </ClInclude>
+    <ClInclude Include="DataEngine\Filter\FilterResult.h">
+      <Filter>DataEngine\Filter\include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

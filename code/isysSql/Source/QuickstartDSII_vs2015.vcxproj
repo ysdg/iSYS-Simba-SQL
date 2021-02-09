@@ -916,7 +916,7 @@ xcopy /Y /D "$(SIMBAENGINE_DIR)\ErrorMessages\en-US\SQLEngineMessages.xml" ..\Er
     <ClCompile>
       <AdditionalOptions>/Gs %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.;.\Common;.\Core;.\DataEngine;.\DataEngine\Metadata;.\Resources;.\Setup;$(SIMBAENGINE_DIR)\Include;$(SIMBAENGINE_DIR)\Include\DSI;$(SIMBAENGINE_DIR)\Include\DSI\Client;$(SIMBAENGINE_DIR)\Include\Support;$(SIMBAENGINE_DIR)\Include\Support\Exceptions;$(SIMBAENGINE_DIR)\Include\Support\TypedDataWrapper;$(SIMBAENGINE_DIR)\Include\SQLEngine;$(SIMBAENGINE_DIR)\Include\SQLEngine\AETree;$(SIMBAENGINE_DIR)\Include\SQLEngine\DSIExt;$(SIMBAENGINE_DIR)\Include\Server;$(SIMBAENGINE_THIRDPARTY_DIR)\Expat\$(S_EXPAT_V)\;$(SolutionDir)..\..\..\..\..\SDK\iSYS\C\inc</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;.\Common;.\Core;.\DataEngine;.\DataEngine\Metadata;.\Resources;.\Setup;$(SIMBAENGINE_DIR)\Include;$(SIMBAENGINE_DIR)\Include\DSI;$(SIMBAENGINE_DIR)\Include\DSI\Client;$(SIMBAENGINE_DIR)\Include\Support;$(SIMBAENGINE_DIR)\Include\Support\Exceptions;$(SIMBAENGINE_DIR)\Include\Support\TypedDataWrapper;$(SIMBAENGINE_DIR)\Include\SQLEngine;$(SIMBAENGINE_DIR)\Include\SQLEngine\Parser;$(SIMBAENGINE_DIR)\Include\SQLEngine\Executor\ETree;$(SIMBAENGINE_DIR)\Include\SQLEngine\AETree;$(SIMBAENGINE_DIR)\Include\SQLEngine\DSIExt;$(SIMBAENGINE_DIR)\Include\Server;$(SIMBAENGINE_THIRDPARTY_DIR)\Expat\$(S_EXPAT_V)\;$(SolutionDir)..\..\..\..\..\SDK\iSYS\C\inc</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>UNICODE;_UNICODE;WIN64;_WIN64;_DEBUG;_LIB;SIMBA;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -1711,6 +1711,10 @@ xcopy /Y /D "$(SIMBAENGINE_DIR)\ErrorMessages\en-US\ServerMessages.xml" ..\Error
     <ClCompile Include="Core\QSDriver.cpp" />
     <ClCompile Include="Core\QSEnvironment.cpp" />
     <ClCompile Include="Core\QSStatement.cpp" />
+    <ClCompile Include="DataEngine\Filter\CPassdownInfo.cpp" />
+    <ClCompile Include="DataEngine\Filter\FilterHandler.cpp" />
+    <ClCompile Include="DataEngine\Filter\FilterResult.cpp" />
+    <ClCompile Include="DataEngine\Filter\OperationHandlerFactory.cpp" />
     <ClCompile Include="DataEngine\QSDataEngine.cpp" />
     <ClCompile Include="DataEngine\QSMetadataHelper.cpp" />
     <ClCompile Include="DataEngine\QSTable.cpp" />
@@ -1742,6 +1746,11 @@ xcopy /Y /D "$(SIMBAENGINE_DIR)\ErrorMessages\en-US\ServerMessages.xml" ..\Error
     <ClInclude Include="Core\QSDriver.h" />
     <ClInclude Include="Core\QSEnvironment.h" />
     <ClInclude Include="Core\QSStatement.h" />
+    <ClInclude Include="DataEngine\Filter\AbStractResultSet.h" />
+    <ClInclude Include="DataEngine\Filter\CPassdownInfo.h" />
+    <ClInclude Include="DataEngine\Filter\FilterHandler.h" />
+    <ClInclude Include="DataEngine\Filter\FilterResult.h" />
+    <ClInclude Include="DataEngine\Filter\OperationHandlerFactory.h" />
     <ClInclude Include="DataEngine\QSDataEngine.h" />
     <ClInclude Include="DataEngine\QSMetadataHelper.h" />
     <ClInclude Include="Resources\resource.h" />

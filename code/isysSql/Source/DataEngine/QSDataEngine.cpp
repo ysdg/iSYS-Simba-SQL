@@ -8,6 +8,12 @@
 
 #include "QSDataEngine.h"
 
+#include "Filter/CPassdownInfo.h"
+#include "Filter/OperationHandlerFactory.h"
+#include "DSIExtAggregateFunction.h"
+#include "DSIExtPassdownInformation.h"
+#include "DSIExtOperationHandlerFactory.h"
+
 #include "QSMetadataHelper.h"
 #include "QSTable.h"
 #include "QSTypeInfoMetadataSource.h"
@@ -16,6 +22,7 @@
 using namespace Simba::Quickstart;
 using namespace Simba::DSI;
 using namespace Simba::SQLEngine;
+using namespace ISYS::SQL;
 
 // Public ==========================================================================================
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -160,4 +167,44 @@ SharedPtr<DSIExtResultSet> QSDataEngine::OpenTable(
 AutoPtr<DSIExtMetadataHelper> QSDataEngine::CreateMetadataHelper()
 {
     return AutoPtr<DSIExtMetadataHelper> (new QSMetadataHelper(m_statement, m_settings));
+}
+
+
+SharedPtr<Simba::SQLEngine::DSIExtAggregateFunction> QSDataEngine::OpenAggregateFunction(
+    const simba_wstring& in_aggrName, 
+    Simba::SQLEngine::SESetQuantifier in_setQuantifier,
+    simba_size_t in_numArguments)
+{
+    ENTRANCE_LOG(GetLog(), "Simba::CodeBase", "CBDataEngine", "OpenAggregateFunction");
+
+    if (1 == in_numArguments)
+    {
+        if (in_aggrName.IsEqual(CB_AGGRFN_NAME, false))
+        {
+            //return SharedPtr<DSIExtAggregateFunction>(new CBAggrFnName(in_setQuantifier));
+        }
+        else if (in_aggrName.IsEqual(CB_AGGRFN_NUM, false))
+        {
+            //return SharedPtr<DSIExtAggregateFunction>(new CBAggrFnNum(in_setQuantifier));
+        }
+    }
+
+    return SharedPtr<DSIExtAggregateFunction>();
+}
+
+
+AutoPtr<Simba::SQLEngine::DSIExtPassdownInformation> QSDataEngine::CreatePassdownInformation()
+{
+    return AutoPtr<DSIExtPassdownInformation>(new ISYS::SQL::CPassdownInfo());
+}
+
+Simba::Support::AutoPtr<Simba::SQLEngine::DSIExtOperationHandlerFactory> QSDataEngine::CreateOperationHandlerFactory()
+{
+    ENTRANCE_LOG(
+        GetLog(),
+        "Simba::CodeBase",
+        "CBDataEngine",
+        "CreateOperationHandlerFactory");
+
+    return AutoPtr<DSIExtOperationHandlerFactory>(new COperationHandlerFactory(m_settings));
 }

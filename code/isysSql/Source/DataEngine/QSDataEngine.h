@@ -100,6 +100,15 @@ namespace Quickstart
         /// @return A helper object to retrieve basic metadata if supported, NULL otherwise.
         virtual AutoPtr<Simba::SQLEngine::DSIExtMetadataHelper> CreateMetadataHelper();
 
+        virtual SharedPtr<Simba::SQLEngine::DSIExtAggregateFunction> OpenAggregateFunction(
+            const simba_wstring& in_aggrName, 
+            Simba::SQLEngine::SESetQuantifier in_setQuantifier,
+            simba_size_t in_numArguments) override;
+
+        virtual AutoPtr<Simba::SQLEngine::DSIExtPassdownInformation> CreatePassdownInformation();
+
+        virtual Simba::Support::AutoPtr<Simba::SQLEngine::DSIExtOperationHandlerFactory>
+            CreateOperationHandlerFactory();
     // Private =====================================================================================
     private:
         // Struct containing connection settings and error codes. (NOT OWN)

@@ -2,13 +2,13 @@
 #ifndef ISYS_CONN_H_
 #define ISYS_CONN_H_
 
+#include "IsysCommon.h"
+
 #include "DataStructure.h"
 #include "DllFunDef.h"
 #include "Simba_Windows.h"
 #include "simba_wstring.h"
-
-#define ISYS_SQL_NAMESPACE_BEGIN namespace ISYS{namespace SQL{
-#define ISYS_SQL_NAMESPACE_END }}
+#include "NumberConverter.h"
 
 ISYS_SQL_NAMESPACE_BEGIN
 
@@ -24,9 +24,12 @@ public:
 	simba_wstring Dump();
 };
 
-inline simba_wstring Dump()
+inline simba_wstring CIsysConn::Dump()
 {
-
+	return 	"addr: " + addr + 
+			", port: " + Simba::Support::NumberConverter::ConvertUInt32ToWString(port) + 
+			", user: " + user + 
+			", password: " + password;
 }
 
 ISYS_SQL_NAMESPACE_END
