@@ -37,7 +37,7 @@ namespace Quickstart
     #define ERROR_MESSAGES_FILE "QSMessages"
         
     // The Windows branding for the driver.
-    #define DRIVER_WINDOWS_BRANDING "Simba\\Quickstart"
+    #define DRIVER_WINDOWS_BRANDING "Simba\\isysSql"
         
     // The Linux branding for the driver.
     #define DRIVER_LINUX_BRANDING "simba.quickstart.ini"
@@ -56,6 +56,13 @@ namespace Quickstart
         
     /// The catalog name of all tables.
     #define QS_CATALOG simba_wstring(L"DBF")
+
+    #define USER_ID simba_wstring(L"UID")
+    #define PASSWORD simba_wstring(L"PWD")
+    #define ISYS_ADDR simba_wstring(L"ISYS_ADDR")
+    #define ISYS_PORT simba_wstring(L"ISYS_PORT")
+
+
         
     /// The connection key to use when looking up the Description in the connection string.
     #define QS_DESC_KEY simba_wstring(L"DESCRIPTION")

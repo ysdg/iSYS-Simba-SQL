@@ -125,6 +125,28 @@ void QSConnection::Connect(const DSIConnSettingRequestMap& in_connectionSettings
         m_locale = data->GetWStringValue().GetAsPlatformString();
     }
 
+	m_isysConn.addr = GetOptionalSetting(ISYS_ADDR, in_connectionSettings, &data) ? data->GetWStringValue() : L"127.0.0.1";
+	m_isysConn.port = GetOptionalSetting(ISYS_PORT, in_connectionSettings, &data) ? data->GetUInt32Value() : 5150;
+	m_isysConn.user = GetOptionalSetting(USER_ID, in_connectionSettings, &data) ? data->GetWStringValue() : L"Administrator";
+	m_isysConn.password = GetOptionalSetting(PASSWORD, in_connectionSettings, &data) ? data->GetWStringValue() : L"supcon";
+
+	m_isysConn.conn = ::Connect(m_isysConn.addr.GetAsPlatformWString().c_str(), m_isysConn.port);
+
+	if(!m_isysConn.conn)
+	{
+		m_isConnected = false;
+		HRESULT hr = GetLastException();
+		QSTHROWGEN1("Isys connect error: ", NumberConverter::ConvertUInt32ToWString(hr));
+		ERROR_LOG(	m_log, 
+					"Simba::Quickstart", 
+					"QSConnection", 
+					"Connect", 
+					(m_isysConn.Dump() + simba_wstring("Connet to isys error") + NumberConverter::ConvertInt32ToWString(hr)).GetAsPlatformString().c_str()
+					);
+		return;
+	}
+
+
 #endif
 
     // This flag is simply to fake a connected status, there is no real connection to a data-source
@@ -143,6 +165,15 @@ IStatement* QSConnection::CreateStatement()
 void QSConnection::Disconnect()
 {
     ENTRANCE_LOG(m_log, "Simba::Quickstart", "QSConnection", "Disconnect");
+    if (m_isConnected && m_isysConn.conn)
+    {
+        bool isConnected = false;
+        auto result = IsConnected(m_isysConn.conn, isConnected);
+        if (isConnected)
+        {
+            DisConnect(m_isysConn.conn);
+        }
+    }
     m_isConnected = false;
 }
 
@@ -280,6 +311,8 @@ void QSConnection::UpdateConnectionSettings(
     VerifyOptionalSetting(QS_USE_CUSTOM_STATES_KEY, in_connectionSettings, out_connectionSettings);
     VerifyOptionalSetting(QS_USE_CACHING_KEY, in_connectionSettings, out_connectionSettings);
     VerifyOptionalSetting(QS_LOCALE, in_connectionSettings, out_connectionSettings);
+    VerifyOptionalSetting(USER_ID, in_connectionSettings, out_connectionSettings);
+    VerifyOptionalSetting(PASSWORD, in_connectionSettings, out_connectionSettings);
 #endif
 }
 

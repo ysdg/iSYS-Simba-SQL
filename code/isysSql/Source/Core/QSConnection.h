@@ -9,6 +9,7 @@
 #ifndef _SIMBA_QUICKSTART_QSCONNECTION_H_
 #define _SIMBA_QUICKSTART_QSCONNECTION_H_
 
+#include "IsysConn.h"
 #include "Quickstart.h"
 
 #include "DSIConnection.h"
@@ -199,6 +200,8 @@ namespace Quickstart
 
         // True if this Connection is connected; false otherwise.
         bool m_isConnected;
+
+		ISYS::SQL::CIsysConn m_isysConn; 
     };
 }
 }

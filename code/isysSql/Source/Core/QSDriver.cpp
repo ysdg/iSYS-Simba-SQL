@@ -20,9 +20,9 @@ using namespace std;
 // Public ==========================================================================================
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma message (__FILE__ "(" MACRO_TO_STRING(__LINE__) ") : TODO #3: Set the driver-wide logging details.")
-QSDriver::QSDriver() : DSIDriver(), m_driverLog(new DSIFileLogger("quickstart_driver.log"))
+QSDriver::QSDriver() : DSIDriver(), m_driverLog(new DSIFileLogger("isysSql_driver.log"))
 {
-    ENTRANCE_LOG(m_driverLog, "Simba::Quickstart", "QSDriver", "QSDriver");
+    ENTRANCE_LOG(m_driverLog, "isys::SQL", "QSDriver", "QSDriver");
     SetDriverPropertyValues();
 
 #pragma message (__FILE__ "(" MACRO_TO_STRING(__LINE__) ") : TODO #9: Register Messages xml file for handling by DSIMessageSource.")
@@ -80,7 +80,7 @@ void QSDriver::SetDriverPropertyValues()
     // The name of the driver used to access the datastore.
     SetProperty(
         DSI_DRIVER_DRIVER_NAME, 
-        AttributeData::MakeNewWStringAttributeData("Quickstart"));
+        AttributeData::MakeNewWStringAttributeData("isys"));
 
     // The default encoding used for string data and input/output parameter values.
     SetProperty(

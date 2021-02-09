@@ -10,48 +10,48 @@ REGEDIT4
 [HKEY_LOCAL_MACHINE\SOFTWARE\ODBC\ODBC.INI]
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\ODBC\ODBC.INI\ODBC Data Sources]
-"MyQuickstartDSII"="MyQuickstartDSIIDriver"
+"isysSqlDSII"="isysSqlDSIIDriver"
 
-[HKEY_LOCAL_MACHINE\SOFTWARE\ODBC\ODBC.INI\MyQuickstartDSII]
-"Driver"="MyQuickstartDSIIDriver"
-"DBF"="[INSTALL_DIRECTORY]\\SimbaEngineSDK\\10.1\\Examples\\Databases\\Quickstart"
-"Description"="My 64-bit SimbaEngine Quickstart DSII"
+[HKEY_LOCAL_MACHINE\SOFTWARE\ODBC\ODBC.INI\isysSqlDSII]
+"Driver"="isysSqlDSIIDriver"
+"DBF"="C:\\Simba Technologies\\SimbaEngineSDK\\10.1\\Examples\\Databases\\Quickstart"
+"Description"="My 64-bit SimbaEngine isys SQL DSII"
 "Locale"="en-US"
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\ODBC\ODBCINST.INI]
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\ODBC\ODBCINST.INI\ODBC Drivers]
-"MyQuickstartDSIIDriver"="Installed"
+"isysSqlDSIIDriver"="Installed"
 
-[HKEY_LOCAL_MACHINE\SOFTWARE\ODBC\ODBCINST.INI\MyQuickstartDSIIDriver]
-"Setup"="[INSTALL_DIRECTORY]\\SimbaEngineSDK\\10.1\\Examples\\Source\\Quickstart\\Bin\\Windows_vs2015\\debug64md\\QuickstartDSIIODBC64.dll"
-"Driver"="[INSTALL_DIRECTORY]\\SimbaEngineSDK\\10.1\\Examples\\Source\\Quickstart\\Bin\\Windows_vs2015\\debug64md\\QuickstartDSIIODBC64.dll"
-"Description"="My 64-bit SimbaEngine Quickstart DSII"
+[HKEY_LOCAL_MACHINE\SOFTWARE\ODBC\ODBCINST.INI\isysSqlDSIIDriver]
+"Setup"="C:\\Users\\王小贵\\Documents\\yuanquan\\supcon\\simbaSql\\iSYS-Simba-SQL\\code\\isysSql\\Bin\\Windows_vs2015\\debug64md\\isysSqlDSIIODBC64.dll"
+"Driver"="C:\\Users\\王小贵\\Documents\\yuanquan\\supcon\\simbaSql\\iSYS-Simba-SQL\\code\\isysSql\\Bin\\Windows_vs2015\\debug64md\\isysSqlDSIIODBC64.dll"
+"Description"="My 64-bit SimbaEngine isys SQL DSII"
 
-[HKEY_LOCAL_MACHINE\SOFTWARE\Simba\Quickstart]
+[HKEY_LOCAL_MACHINE\SOFTWARE\Simba\isysSql]
 
-[HKEY_LOCAL_MACHINE\SOFTWARE\Simba\Quickstart\Server]
+[HKEY_LOCAL_MACHINE\SOFTWARE\Simba\isysSql\Server]
 "LogLevel"="0"
 "LogNamespace"=""
 "LogPath"=""
-"DBF"="[INSTALL_DIRECTORY]\\SimbaEngineSDK\\10.1\\Examples\\Databases\\Quickstart"
+"DBF"="C:\\Simba Technologies\\SimbaEngineSDK\\10.1\\Examples\\Databases\\Quickstart"
 "DriverManagerEncoding"="UTF-16"
 "DriverLocale"="en-US"
-"ErrorMessagesPath"="[INSTALL_DIRECTORY]\\SimbaEngineSDK\\10.1\\DataAccessComponents\\ErrorMessages"
+"ErrorMessagesPath"="C:\\Simba Technologies\\SimbaEngineSDK\\10.1\\DataAccessComponents\\ErrorMessages"
 "MaxConnections"="64"
 "ListenAddress"=""
 "IdleTimeout"="86400"
 "ListenPort"="1543"
 "UseSsl"="0"
-"SslCertfile"="[INSTALL_DIRECTORY]\\SimbaEngineSDK\\10.1\\Documentation\\SSLCertificates\\SampleServerCertificate.pem"
-"SslKeyFile"="[INSTALL_DIRECTORY]\\SimbaEngineSDK\\10.1\\Documentation\\SSLCertificates\\SampleServerKey.pem"
+"SslCertfile"="C:\\Simba Technologies\\SimbaEngineSDK\\10.1\\Documentation\\SSLCertificates\\SampleServerCertificate.pem"
+"SslKeyFile"="C:\\Simba Technologies\\SimbaEngineSDK\\10.1\\Documentation\\SSLCertificates\\SampleServerKey.pem"
 "MinWorkerThreads"="10"
 "MaxWorkerThreads"="0"
 
-[HKEY_LOCAL_MACHINE\SOFTWARE\Simba\Quickstart\Driver]
+[HKEY_LOCAL_MACHINE\SOFTWARE\Simba\isysSql\Driver]
 "LogLevel"="0"
 "LogPath"=""
 "LogNamespace"=""
 "DriverManagerEncoding"="UTF-16"
 "DriverLocale"="en-US"
-"ErrorMessagesPath"="[INSTALL_DIRECTORY]\\SimbaEngineSDK\\10.1\\DataAccessComponents\\ErrorMessages"
+"ErrorMessagesPath"="C:\\Simba Technologies\\SimbaEngineSDK\\10.1\\DataAccessComponents\\ErrorMessages"
