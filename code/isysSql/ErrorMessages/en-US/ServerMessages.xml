@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE Messages [
+    <!ELEMENT Messages (Package*)>
+
+    <!ELEMENT Package (Error*)>
+    <!ATTLIST Package ID CDATA #REQUIRED>
+    <!ATTLIST Package DefaultComponent CDATA #REQUIRED>
+
+    <!ELEMENT Error (#PCDATA)>
+    <!ATTLIST Error Key CDATA #REQUIRED>
+    <!ATTLIST Error Component CDATA #IMPLIED>
+    <!ATTLIST Error NativeErrorCode CDATA #REQUIRED>
+    <!ATTLIST Error Params CDATA "0">
+]>
+
+<Messages>
+    <Package ID="7" DefaultComponent="Server">
+
+      <!-- Error thrown when an client provides an invalid DSI object handle. -->
+      <Error Key="InvalidHandle" NativeErrorCode="80006">Handle does not correlate to a DSI object.</Error>
+
+      <!-- The server requires integrated security authentication. -->
+      <Error Key="IntegratedSecurityAuthRequired" NativeErrorCode="80702">Integrated security authentication is required. Connection refused.</Error>
+
+      <!-- General error thrown during data retrieval of an executed statement. -->
+      <Error Key="UnknownReadError" NativeErrorCode="80900">Unknown preparation error.</Error>
+      
+      <!-- Error thrown during an attempt to get connection properties. -->
+      <Error Key="GetAllConnPropsError" NativeErrorCode="81302">Error retrieving connection properties: %1%</Error>
+      
+      <!-- Error thrown during an attempt to get connection properties. -->
+      <Error Key="GetCustomConnPropError" NativeErrorCode="81303">Error retrieving custom connection properties: %1%</Error>
+      
+      <!-- Error thrown during an attempt to get connection properties. -->
+      <Error Key="GetConnPropError" NativeErrorCode="81304">Error retrieving connection property: %1%</Error>
+      
+       <!-- Error thrown during an attempt to set connection properties. -->
+      <Error Key="ConnPropOverflowError" NativeErrorCode="81305">Connection property value overflow.</Error>
+      
+      <!-- Error thrown during an attempt to set connection properties. -->
+      <Error Key="SetCustomConnPropError" NativeErrorCode="81306">Failed to set custom connection property: %1%</Error>
+      
+      <!-- Error thrown during an attempt to set connection properties. -->
+      <Error Key="SetConnPropError" NativeErrorCode="81307">Failed to set connection property: %1%</Error>
+      
+      <!-- Error thrown during an attempt to get statement properties. -->
+      <Error Key="GetAllStmtPropsError" NativeErrorCode="81309">Error retrieving statement properties: %1%</Error>
+      
+      <!-- Error thrown during an attempt to get statement properties. -->
+      <Error Key="GetCustomStmtPropError" NativeErrorCode="81310">Error retrieving custom statement properties: %1%</Error>
+      
+      <!-- Error thrown during an attempt to get statement properties. -->
+      <Error Key="GetStmtPropError" NativeErrorCode="81311">Error retrieving statement property: %1%.</Error>
+      
+       <!-- Error thrown during an attempt to get statement properties. -->
+      <Error Key="CustomStmtPropOverflowError" NativeErrorCode="81312">Custom statement property value overflow.</Error>
+      
+      <!-- Error thrown during an attempt to get statement properties. -->
+      <Error Key="ConnStmtOverflowError" NativeErrorCode="81313">Statement property value overflow.</Error>
+      
+      <!-- Error thrown during an attempt to set statement properties. -->
+      <Error Key="SetCustomStmtPropError" NativeErrorCode="81314">Failed to set custom statement property: %1%</Error>
+      
+      <!-- Error thrown during an attempt to set statement properties. -->
+      <Error Key="SetStmtPropError" NativeErrorCode="81315">Failed to set statement property: %1%</Error>
+      
+      <!-- Error thrown during pre-login GET. -->
+      <Error Key="PreLoginGetError" NativeErrorCode="81316">Error during pre-login GET: %1%</Error>
+      
+      <!-- Error thrown during pre-login SET. -->
+      <Error Key="PreLoginSetError" NativeErrorCode="81317">Error during pre-login SET: %1%</Error>
+      
+      <!-- Error thrown during MoveToNextRow. -->
+      <Error Key="MoveNextError" NativeErrorCode="81318">Failed to fetch next row: %1%</Error>
+      
+      <!-- Error thrown when trying to retrieve data. -->
+      <Error Key="RetrieveDataError" NativeErrorCode="81319">Failed to fetch data: %1%</Error>
+
+      <!-- Missing a required setting. -->
+      <Error Key="MissingRequiredSetting" NativeErrorCode="81320" Params="1">Missing required setting: %1%.</Error>
+
+      <!-- Error thrown during GetResponses. -->
+      <Error Key="ServerGetResponsesError" NativeErrorCode="81321" Params="1">Error during GetResponses: %1%.</Error>
+
+      <!-- Error thrown when paramset status + DSI_CONN_ODBC_PARAMSET_EXECUTION_ERROR_BEHAVIOUR value indicates that the execution has failed, but the client associated with the connection is too old to take care of it -->
+      <Error Key="ExecutionDeemedFailed" NativeErrorCode="81330">Execution was deemed to have failed according to value of DSI_CONN_ODBC_PARAMSET_EXECUTION_ERROR_BEHAVIOUR, but client doesn't understand this property.</Error>
+      
+      <!-- Error thrown when the DSII tells us that no parameter sets suceeded during an execution via IParameterSetStatusSet, but didn't post relevant diagnostics -->
+      <Error Key="ExecutionFailedButNoPostedErrors" NativeErrorCode="81331">Execution failed, but no associated diagnostics produced.</Error>
+
+      <!-- Missing a required setting. -->
+      <Error Key="UnsupportedClientAPI" NativeErrorCode="81340" Params="1">Client API Type not supported: %1%.</Error>
+
+      <!-- Client asked for an unknown key during PreLoginGet, the server is probably just too old to understand it. -->
+      <Error Key="PreLoginGetUnknownKeyNewerClient" NativeErrorCode="81350" Params="1">Unknown Key for PreLoginGet (Server probably too old): %1%.</Error>
+
+      <!-- Client asked for an unknown key during PreLoginGet. -->
+      <Error Key="PreLoginGetUnknownKey" NativeErrorCode="81351" Params="1">Unknown Key for PreLoginGet: %1%.</Error>
+
+      <!-- Client asked for an unknown key during PreLoginSet, the server is probably just too old to understand it. -->
+      <Error Key="PreLoginSetUnknownKeyNewerClient" NativeErrorCode="81352" Params="1">Unknown Key for PreLoginSet (Server probably too old): %1%.</Error>
+
+      <!-- Client asked for an unknown key during PreLoginSet. -->
+      <Error Key="PreLoginSetUnknownKey" NativeErrorCode="81353" Params="1">Unknown Key for PreLoginSet: %1%.</Error>
+
+      <!-- Client asked for an unknown key during PreLoginSet. -->
+      <Error Key="OnServerStartedFailed" NativeErrorCode="81360" Params="0">Call to SIMBA_SERVER_LISTENER_VTABLE::OnServerStarted returned non-zero result, indicating failure.</Error>
+	  
+      <!-- Failure to bind the listening socket when server starts -->
+      <Error Key="CannotBindListeningSocket" NativeErrorCode="81400" Params="2">Failed to bind listening socket to %1%:%2% while starting server.</Error>
+	  
+      <!-- Failure to bind the cancel socket when server starts -->
+      <Error Key="CannotBindCancelSocket" NativeErrorCode="81401" Params="2">Failed to bind cancel socket to %1%:%2% while starting server.</Error>
+	  
+      <!-- Thrown when the DSII attempts to get an input parameter set that wasn't sent by the client, due to >TRUNCEXEC -->
+      <Error Key="CannotGetTruncatedParamSet" NativeErrorCode="81500">Input parameter set unavailable due to error in earlier parameter set.</Error>
+    </Package>
+</Messages>

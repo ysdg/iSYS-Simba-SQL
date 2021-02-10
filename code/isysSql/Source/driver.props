@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <!-- These 'macros' allow nesting, but must be declared before referenced. -->
+  <PropertyGroup Label="UserMacros">
+    <S_SEN_V>Maintenance\10.1</S_SEN_V>
+    <S_ICU_V>58.2.x</S_ICU_V>
+    <S_EXPAT_V>2.2.0</S_EXPAT_V>
+    <S_OPENSSL_V>1.1.1</S_OPENSSL_V>
+    <S_VS_COMP_OPT>/GL /O2 /MP</S_VS_COMP_OPT>
+    <S_VS_LINK_OPT>/LTCG</S_VS_LINK_OPT>
+  </PropertyGroup>
+
+  <!-- Calculate bitness once -->
+  <PropertyGroup Condition="'$(Platform)'=='x64'" Label="UserMacros">
+    <C_BITNESS>64</C_BITNESS>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Platform)'=='Win32'" Label="UserMacros">
+    <C_BITNESS>32</C_BITNESS>
+  </PropertyGroup>
+  
+  <!-- Calculate compiler name -->
+  <PropertyGroup Condition="'$(PlatformToolset)'=='v141'" Label="UserMacros">
+    <C_COMPILER>vs2017</C_COMPILER>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(PlatformToolset)'=='v140'" Label="UserMacros">
+    <C_COMPILER>vs2015</C_COMPILER>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(PlatformToolset)'=='v120'" Label="UserMacros">
+    <C_COMPILER>vs2013</C_COMPILER>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(PlatformToolset)'=='v110'" Label="UserMacros">
+    <C_COMPILER>vs2012</C_COMPILER>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='debug' Or '$(Configuration)'=='debug_Server' Or '$(Configuration)'=='debug_ODBC' Or '$(Configuration)'=='debug_OLEDB' Or '$(Configuration)'=='debug_ODBC+OLEDB'" Label="UserMacros">
+    <C_CONF>debug</C_CONF>
+    <C_CONF_SUFFIX>mt</C_CONF_SUFFIX>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='debug_MTDLL' Or '$(Configuration)'=='debug_MTDLL_Server' Or '$(Configuration)'=='debug_MTDLL_ODBC' Or '$(Configuration)'=='debug_MTDLL_OLEDB' Or '$(Configuration)'=='debug_MTDLL_ODBC+OLEDB'" Label="UserMacros">
+    <C_CONF>debug</C_CONF>
+    <C_CONF_SUFFIX>md</C_CONF_SUFFIX>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='release' Or '$(Configuration)'=='release_Server' Or '$(Configuration)'=='release_ODBC' Or '$(Configuration)'=='release_OLEDB' Or '$(Configuration)'=='release_ODBC+OLEDB'" Label="UserMacros">
+    <C_CONF>release</C_CONF>
+    <C_CONF_SUFFIX>mt</C_CONF_SUFFIX>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='release_MTDLL' Or '$(Configuration)'=='release_MTDLL_Server' Or '$(Configuration)'=='release_MTDLL_ODBC' Or '$(Configuration)'=='release_MTDLL_OLEDB' Or '$(Configuration)'=='release_MTDLL_ODBC+OLEDB'" Label="UserMacros">
+    <C_CONF>release</C_CONF>
+    <C_CONF_SUFFIX>md</C_CONF_SUFFIX>
+  </PropertyGroup>
+
+  <Import Project="simba.props" Condition="Exists('simba.props')" />
+  <PropertyGroup Label="OutputPrefix" Condition="!Exists('simba.props')" >
+    <S_OUTPUT_BASE_DIR>Windows_$(C_COMPILER)</S_OUTPUT_BASE_DIR>
+    <S_OUTPUT_PREFIX>Windows_$(C_COMPILER)</S_OUTPUT_PREFIX>
+  </PropertyGroup>
+  <ItemGroup Condition="!Exists('simba.props')" >
+    <BuildMacro Include="S_OUTPUT_BASE_DIR">
+      <Value>$(S_OUTPUT_BASE_DIR)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="S_OUTPUT_PREFIX">
+      <Value>$(S_OUTPUT_PREFIX)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+  </ItemGroup>
+  
+  <PropertyGroup Label="UserMacros">
+    <C_BLD_DIR>$(S_OUTPUT_BASE_DIR)\$(C_CONF)$(C_BITNESS)$(C_CONF_SUFFIX)</C_BLD_DIR>
+    <C_BLD_RELDIR>$(S_OUTPUT_BASE_DIR)\release$(C_BITNESS)$(C_CONF_SUFFIX)</C_BLD_RELDIR>
+    <C_BLD_OUTDIR>$(S_OUTPUT_BASE_DIR)\$(C_CONF)$(C_BITNESS)$(C_CONF_SUFFIX)</C_BLD_OUTDIR>
+    <C_BLD_NAME>$(S_OUTPUT_PREFIX)_$(C_CONF)$(C_BITNESS)$(C_CONF_SUFFIX)</C_BLD_NAME>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <BuildMacro Include="S_SEN_V">
+      <Value>$(S_SEN_V)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="S_ICU_V">
+      <Value>$(S_ICU_V)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="S_EXPAT_V">
+      <Value>$(S_EXPAT_V)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="S_OPENSSL_V">
+      <Value>$(S_OPENSSL_V)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="S_VS_COMP_OPT">
+      <Value>$(S_VS_COMP_OPT)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="S_VS_LINK_OPT">
+      <Value>$(S_VS_LINK_OPT)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="C_COMPILER">
+      <Value>$(C_COMPILER)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="C_BITNESS">
+      <Value>$(C_BITNESS)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="C_BLD_DIR">
+      <Value>$(C_BLD_DIR)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="C_BLD_RELDIR">
+      <Value>$(C_BLD_RELDIR)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="C_BLD_OUTDIR">
+      <Value>$(C_BLD_OUTDIR)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="C_BLD_NAME">
+      <Value>$(C_BLD_NAME)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+  </ItemGroup>
+</Project>

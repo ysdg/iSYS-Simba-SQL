@@ -1,0 +1,54 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QuickstartDSII", "QuickstartDSII_VS2015.vcxproj", "{205AD37B-D192-4E6D-B192-418E7FACF911}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		debug_MTDLL_OLEDB|Win32 = debug_MTDLL_OLEDB|Win32
+		debug_MTDLL_OLEDB|x64 = debug_MTDLL_OLEDB|x64
+		debug_MTDLL_Server|Win32 = debug_MTDLL_Server|Win32
+		debug_MTDLL_Server|x64 = debug_MTDLL_Server|x64
+		debug_MTDLL|Win32 = debug_MTDLL|Win32
+		debug_MTDLL|x64 = debug_MTDLL|x64
+		release_MTDLL_OLEDB|Win32 = release_MTDLL_OLEDB|Win32
+		release_MTDLL_OLEDB|x64 = release_MTDLL_OLEDB|x64
+		release_MTDLL_Server|Win32 = release_MTDLL_Server|Win32
+		release_MTDLL_Server|x64 = release_MTDLL_Server|x64
+		release_MTDLL|Win32 = release_MTDLL|Win32
+		release_MTDLL|x64 = release_MTDLL|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{205AD37B-D192-4E6D-B192-418E7FACF911}.debug_MTDLL_OLEDB|Win32.ActiveCfg = debug_MTDLL_OLEDB|Win32
+		{205AD37B-D192-4E6D-B192-418E7FACF911}.debug_MTDLL_OLEDB|Win32.Build.0 = debug_MTDLL_OLEDB|Win32
+		{205AD37B-D192-4E6D-B192-418E7FACF911}.debug_MTDLL_OLEDB|x64.ActiveCfg = debug_MTDLL_OLEDB|x64
+		{205AD37B-D192-4E6D-B192-418E7FACF911}.debug_MTDLL_OLEDB|x64.Build.0 = debug_MTDLL_OLEDB|x64
+		{205AD37B-D192-4E6D-B192-418E7FACF911}.debug_MTDLL_Server|Win32.ActiveCfg = debug_MTDLL_Server|Win32
+		{205AD37B-D192-4E6D-B192-418E7FACF911}.debug_MTDLL_Server|Win32.Build.0 = debug_MTDLL_Server|Win32
+		{205AD37B-D192-4E6D-B192-418E7FACF911}.debug_MTDLL_Server|x64.ActiveCfg = debug_MTDLL_Server|x64
+		{205AD37B-D192-4E6D-B192-418E7FACF911}.debug_MTDLL_Server|x64.Build.0 = debug_MTDLL_Server|x64
+		{205AD37B-D192-4E6D-B192-418E7FACF911}.debug_MTDLL|Win32.ActiveCfg = debug_MTDLL|Win32
+		{205AD37B-D192-4E6D-B192-418E7FACF911}.debug_MTDLL|Win32.Build.0 = debug_MTDLL|Win32
+		{205AD37B-D192-4E6D-B192-418E7FACF911}.debug_MTDLL|x64.ActiveCfg = debug_MTDLL|x64
+		{205AD37B-D192-4E6D-B192-418E7FACF911}.debug_MTDLL|x64.Build.0 = debug_MTDLL|x64
+		{205AD37B-D192-4E6D-B192-418E7FACF911}.release_MTDLL_OLEDB|Win32.ActiveCfg = release_MTDLL_OLEDB|Win32
+		{205AD37B-D192-4E6D-B192-418E7FACF911}.release_MTDLL_OLEDB|Win32.Build.0 = release_MTDLL_OLEDB|Win32
+		{205AD37B-D192-4E6D-B192-418E7FACF911}.release_MTDLL_OLEDB|x64.ActiveCfg = release_MTDLL_OLEDB|x64
+		{205AD37B-D192-4E6D-B192-418E7FACF911}.release_MTDLL_OLEDB|x64.Build.0 = release_MTDLL_OLEDB|x64
+		{205AD37B-D192-4E6D-B192-418E7FACF911}.release_MTDLL_Server|Win32.ActiveCfg = release_MTDLL_Server|Win32
+		{205AD37B-D192-4E6D-B192-418E7FACF911}.release_MTDLL_Server|Win32.Build.0 = release_MTDLL_Server|Win32
+		{205AD37B-D192-4E6D-B192-418E7FACF911}.release_MTDLL_Server|x64.ActiveCfg = release_MTDLL_Server|x64
+		{205AD37B-D192-4E6D-B192-418E7FACF911}.release_MTDLL_Server|x64.Build.0 = release_MTDLL_Server|x64
+		{205AD37B-D192-4E6D-B192-418E7FACF911}.release_MTDLL|Win32.ActiveCfg = release_MTDLL|Win32
+		{205AD37B-D192-4E6D-B192-418E7FACF911}.release_MTDLL|Win32.Build.0 = release_MTDLL|Win32
+		{205AD37B-D192-4E6D-B192-418E7FACF911}.release_MTDLL|x64.ActiveCfg = release_MTDLL|x64
+		{205AD37B-D192-4E6D-B192-418E7FACF911}.release_MTDLL|x64.Build.0 = release_MTDLL|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(DPCodeReviewSolutionGUID) = preSolution
+		DPCodeReviewSolutionGUID = {00000000-0000-0000-0000-000000000000}
+	EndGlobalSection
+EndGlobal
