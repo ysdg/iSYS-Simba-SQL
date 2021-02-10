@@ -162,10 +162,6 @@ SharedPtr<DSIExtResultSet> QSDataEngine::OpenTable(
     //}
     ::HTAG tag = 0;
     auto result = ::GetTagIDByName(m_isysConn->conn, in_tableName.GetAsPlatformWString().c_str(), tag);
-    
-    HRESULT** ppResult = nullptr;
-    TAGVALSTATE** ppTagValues = nullptr;
-    result = ::ReadTagsValue(m_isysConn->conn, sizeof(tag) / sizeof(HTAG), &tag, ppResult, ppTagValues);
 
     if (ISYS_SUCCESS(result))
     {

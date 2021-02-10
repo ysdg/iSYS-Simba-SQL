@@ -7,6 +7,7 @@
 //==================================================================================================
 
 #include "QSTable.h"
+#include "Filter/IsysParameter.h"
 
 #include "DSIResultSetColumn.h"
 #include "DSITypeUtilities.h"
@@ -454,6 +455,36 @@ void QSTable::InitializeColumns(bool in_isODBCV3)
     m_columns.Attach(columns.Detach());
 }
 
+
+simba_wstring FileTime2Str(const FILETIME& ft)
+{
+    SYSTEMTIME systemTime;
+    FileTimeToSystemTime(&ft, &systemTime);
+    WCHAR szDate[128];
+    WCHAR szTime[128];
+    GetDateFormat(LOCALE_SYSTEM_DEFAULT, NULL, &systemTime, TEXT("yyyy-MM-dd"), szDate, 12);
+    GetTimeFormat(LOCALE_SYSTEM_DEFAULT, NULL, &systemTime, TEXT("HH:mm:ss"), szTime, 10);
+    return simba_wstring(szDate) + simba_wstring(" ") + simba_wstring(szTime);
+}
+
+simba_wstring GetRtdColStr(const simba_uint16& in_column, const TAGVALSTATE TagValue)
+{
+    simba_wstring valueStr;
+    switch (in_column)
+    {
+    case 0: 
+        //valueStr = NumberConverter::ConvertUInt64ToWString(TagValue.ftTimeStamp.dwHighDateTime << 32 + TagValue.ftTimeStamp.dwLowDateTime);
+        valueStr = FileTime2Str(TagValue.ftTimeStamp);
+        break;
+    case 1: valueStr = NumberConverter::ConvertUInt64ToWString(TagValue.wQuality);  break;
+    case 2: valueStr = NumberConverter::ConvertUInt64ToWString(TagValue.wAlarmState); break;
+    case 3: valueStr = NumberConverter::ConvertDouble64ToWString(TagValue.vEng_value.dblVal); break;
+    default:
+        break;
+    }
+    return valueStr;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 simba_wstring QSTable::ReadWholeColumnAsString(simba_uint16 in_column) const
 {
@@ -465,45 +496,19 @@ simba_wstring QSTable::ReadWholeColumnAsString(simba_uint16 in_column) const
 
     bool hasMoreData = true;
     ::HTAG tag[1] = { 0 };
-    HRESULT** ppResult = nullptr;
-    TAGVALSTATE** ppTagValues = nullptr;
     auto result = ::GetTagIDByName(m_isysConn->conn, m_tableName.GetAsPlatformWString().c_str(), tag[0]);
-    result = ::ReadTagsValue(m_isysConn->conn, sizeof(tag)/sizeof(HTAG), tag, ppResult, ppTagValues);
+
+    HRESULT* ppResult = NULL;
+    TAGVALSTATE* ppTagValues = NULL;
+    result = ::ReadTagsValue(m_isysConn->conn, sizeof(tag) / sizeof(HTAG), tag, &ppResult, &ppTagValues);
+
     if (!ISYS_SUCCESS(result))
     {
         QSTHROW2(QS_DATAENGINE_STATE, L"ReadRealTagValueError", m_tableName, NumberConverter::ConvertInt32ToWString(result));
     }
     
-    return simba_wstring(NumberConverter::ConvertDouble64ToWString(ppTagValues[0][0].vEng_value.dblVal));
-    //do
-    //{
-    //    // Keep reading while there is more data to retrieve for the column.
-    //    hasMoreData = m_fileReader->GetData(
-    //        in_column,
-    //        &buffer[offset],
-    //        buffer.size() - offset,
-    //        offset,
-    //        bytesRead);
-
-    //    assert(bytesRead >= 0);
-
-    //    if (!hasMoreData)
-    //    {
-    //        if (0 == bytesRead)
-    //        {
-    //            return simba_wstring();
-    //        }
-
-    //        return simba_wstring(
-    //            reinterpret_cast<simba_byte*>(&buffer[0]),
-    //            static_cast<simba_int32>(offset + bytesRead),
-    //            ENC_UTF16_LE);
-    //    }
-
-    //    // Resize the buffer to hold more data if necessary.
-    //    offset += static_cast<std::vector<simba_int8>::size_type>(bytesRead);
-    //    buffer.resize(buffer.size() + bufferSize);
-    //} while (hasMoreData);
+    //ISYS::SQL::CIsysParameter::Instance()->IsHis()
+    return GetRtdColStr(in_column, ppTagValues[0]);
 
     // It shouldn't be possible to reach this point.
     assert(false);
