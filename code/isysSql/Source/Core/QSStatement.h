@@ -11,6 +11,7 @@
 
 #include "Quickstart.h"
 #include "DSIStatement.h"
+#include "IsysConn.h"
 
 namespace Simba
 {
@@ -29,7 +30,8 @@ namespace Quickstart
         /// @param in_settings              The connection settings. (NOT OWN)
         QSStatement(
             Simba::DSI::IConnection* in_connection,
-            QuickstartSettings* in_settings);
+            QuickstartSettings* in_settings, 
+            ISYS::SQL::CIsysConn* isysConn);
 
         /// @brief Destructor.
         ~QSStatement();
@@ -97,6 +99,8 @@ namespace Quickstart
 
         // Map containing custom statement properties.
         QSCustomPropertyMap m_customStmtProperties;
+
+        ISYS::SQL::CIsysConn* m_isysConn;
     };
 }
 }

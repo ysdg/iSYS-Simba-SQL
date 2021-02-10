@@ -1714,6 +1714,7 @@ xcopy /Y /D "$(SIMBAENGINE_DIR)\ErrorMessages\en-US\ServerMessages.xml" ..\Error
     <ClCompile Include="DataEngine\Filter\CPassdownInfo.cpp" />
     <ClCompile Include="DataEngine\Filter\FilterHandler.cpp" />
     <ClCompile Include="DataEngine\Filter\FilterResult.cpp" />
+    <ClCompile Include="DataEngine\Filter\IsysParameter.cpp" />
     <ClCompile Include="DataEngine\Filter\OperationHandlerFactory.cpp" />
     <ClCompile Include="DataEngine\QSDataEngine.cpp" />
     <ClCompile Include="DataEngine\QSMetadataHelper.cpp" />
@@ -1741,6 +1742,7 @@ xcopy /Y /D "$(SIMBAENGINE_DIR)\ErrorMessages\en-US\ServerMessages.xml" ..\Error
     <ClCompile Include="Setup\QSTestResultDialog.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Core\IsysConn.h" />
     <ClInclude Include="Core\QSConnection.h" />
     <ClInclude Include="Core\QSConnectionDialog.h" />
     <ClInclude Include="Core\QSDriver.h" />
@@ -1750,6 +1752,7 @@ xcopy /Y /D "$(SIMBAENGINE_DIR)\ErrorMessages\en-US\ServerMessages.xml" ..\Error
     <ClInclude Include="DataEngine\Filter\CPassdownInfo.h" />
     <ClInclude Include="DataEngine\Filter\FilterHandler.h" />
     <ClInclude Include="DataEngine\Filter\FilterResult.h" />
+    <ClInclude Include="DataEngine\Filter\IsysParameter.h" />
     <ClInclude Include="DataEngine\Filter\OperationHandlerFactory.h" />
     <ClInclude Include="DataEngine\QSDataEngine.h" />
     <ClInclude Include="DataEngine\QSMetadataHelper.h" />

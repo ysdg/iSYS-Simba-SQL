@@ -26,9 +26,10 @@ using namespace ISYS::SQL;
 
 // Public ==========================================================================================
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-QSDataEngine::QSDataEngine(IStatement* in_statement, QuickstartSettings* in_settings) :
+QSDataEngine::QSDataEngine(IStatement* in_statement, QuickstartSettings* in_settings, ISYS::SQL::CIsysConn* isysConn) :
     DSIExtSqlDataEngine(in_statement),
-    m_settings(in_settings)
+    m_settings(in_settings), 
+    m_isysConn(isysConn)
 {
     ENTRANCE_LOG(GetLog(), "Simba::Quickstart", "QSDataEngine", "QSDataEngine");
 
@@ -139,28 +140,48 @@ SharedPtr<DSIExtResultSet> QSDataEngine::OpenTable(
     simba_wstring tableName(in_tableName);
     tableName.ToUpper();
 
-    if (utilities.DoesTableDataExist(tableName) && utilities.DoesTableMetadataExist(tableName))
+    //if (utilities.DoesTableDataExist(tableName) && utilities.DoesTableMetadataExist(tableName))
+    //{
+    //    table = new QSTable(
+    //        m_settings,
+    //        GetLog(),
+    //        tableName,
+    //        m_statement->GetWarningListener(),
+    //        IsODBCVersion3());
+    //}
+    //else if (m_settings->m_useCustomSQLStates)
+    //{
+    //    // This is an example of throwing an error with a custom SQL state. If a query involving
+    //    // a non-existent table is executed, the driver will return SQL_ERROR, a SQL state of
+    //    // QS_DATAENGINE_STATE (QS001) and an error message that the table does not exist.
+    //    //
+    //    // NOTE: This is only an example of throwing a custom SQL State, to indicate a table does
+    //    // not exist to the SDK this function should return an empty SharedPtr in a production
+    //    // driver.
+    //    QSTHROW1(QS_DATAENGINE_STATE, L"QSTableDoesNotExist", in_tableName);
+    //}
+    ::HTAG tag = 0;
+    auto result = ::GetTagIDByName(m_isysConn->conn, in_tableName.GetAsPlatformWString().c_str(), tag);
+    
+    HRESULT** ppResult = nullptr;
+    TAGVALSTATE** ppTagValues = nullptr;
+    result = ::ReadTagsValue(m_isysConn->conn, sizeof(tag) / sizeof(HTAG), &tag, ppResult, ppTagValues);
+
+    if (ISYS_SUCCESS(result))
     {
         table = new QSTable(
             m_settings,
             GetLog(),
-            tableName,
+            in_tableName,
             m_statement->GetWarningListener(),
-            IsODBCVersion3());
+            IsODBCVersion3(),
+            m_isysConn);
+        return table;
     }
-    else if (m_settings->m_useCustomSQLStates)
+    else
     {
-        // This is an example of throwing an error with a custom SQL state. If a query involving
-        // a non-existent table is executed, the driver will return SQL_ERROR, a SQL state of
-        // QS_DATAENGINE_STATE (QS001) and an error message that the table does not exist.
-        //
-        // NOTE: This is only an example of throwing a custom SQL State, to indicate a table does
-        // not exist to the SDK this function should return an empty SharedPtr in a production
-        // driver.
-        QSTHROW1(QS_DATAENGINE_STATE, L"QSTableDoesNotExist", in_tableName);
+        QSTHROW2(QS_DATAENGINE_STATE, L"ISYSTagDoesNotExist", in_tableName, NumberConverter::ConvertInt32ToWString(result));
     }
-
-    return table;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

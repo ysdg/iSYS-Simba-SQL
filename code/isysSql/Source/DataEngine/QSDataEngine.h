@@ -10,6 +10,7 @@
 #define _SIMBA_QUICKSTART_QSDATAENGINE_H_
 
 #include "Quickstart.h"
+#include "IsysConn.h"
 
 #include "DSIExtSqlDataEngine.h"
 
@@ -28,7 +29,7 @@ namespace Quickstart
         ///
         /// @param in_statement             The parent statement. (NOT OWN)
         /// @param in_settings              The connection settings. (NOT OWN)
-        QSDataEngine(Simba::DSI::IStatement* in_statement, QuickstartSettings* in_settings);
+        QSDataEngine(Simba::DSI::IStatement* in_statement, QuickstartSettings* in_settings, ISYS::SQL::CIsysConn* isysConn);
 
         /// @brief Destructor.
         virtual ~QSDataEngine();
@@ -113,6 +114,7 @@ namespace Quickstart
     private:
         // Struct containing connection settings and error codes. (NOT OWN)
         QuickstartSettings* m_settings;
+        ISYS::SQL::CIsysConn* m_isysConn;
     };
 }
 }

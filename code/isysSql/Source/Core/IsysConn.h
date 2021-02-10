@@ -10,6 +10,8 @@
 #include "simba_wstring.h"
 #include "NumberConverter.h"
 
+#define ISYS_SUCCESS(x)		((x)==S_OK)
+
 ISYS_SQL_NAMESPACE_BEGIN
 
 class CIsysConn

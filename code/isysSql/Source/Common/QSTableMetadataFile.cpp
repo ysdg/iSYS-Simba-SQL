@@ -7,6 +7,7 @@
 //==================================================================================================
 
 #include "QSTableMetadataFile.h"
+#include <vector>
 
 #include "DSIColumnMetadata.h"
 #include "DSIResultSetColumn.h"
@@ -135,15 +136,51 @@ QSTableMetadataFile::~QSTableMetadataFile()
     ; // Do nothing.
 }
 
+struct ColumnData
+{
+    simba_wstring name;
+    simba_int16 type = SQL_INTEGER;
+    bool isUnsigned = false;
+    simba_uint32* size = nullptr;
+
+    ColumnData(const simba_wstring& inName, const simba_int16& inType): name(inName), type(inType)
+    {
+
+    }
+};
+
+static std::vector<ColumnData> HisColumns{
+    ColumnData{"time_stamp", SQL_TIMESTAMP},
+    ColumnData{"quality", SQL_INTEGER},
+    ColumnData{"alarm_state", SQL_INTEGER},
+    ColumnData{"value", SQL_DOUBLE},
+};
+
+static std::vector<ColumnData> RtdColumns{
+    ColumnData{"time_stamp", SQL_TIMESTAMP},
+    ColumnData{"quality", SQL_INTEGER},
+    ColumnData{"alarm_state", SQL_INTEGER},
+    ColumnData{"value", SQL_DOUBLE},
+    //ColumnData{"transfer", SQL_VARCHAR},
+    //ColumnData{"item_name", SQL_VARCHAR},
+    //ColumnData{"item_name", SQL_VARCHAR},
+};
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-AutoPtr<DSIResultSetColumns> QSTableMetadataFile::Read(const simba_wstring& in_tableName)
+AutoPtr<DSIResultSetColumns> QSTableMetadataFile::Read(const simba_wstring& in_tableName, bool isHis)
 {
     QSUtilities utilities(m_settings);
 
     m_tableName = in_tableName;
 
     m_resultSetColumns = new DSIResultSetColumns();
-    ParseMetadataFile(utilities.GetTableMetadataFullPathName(in_tableName));
+    
+    std::vector<ColumnData>& columns = isHis ? HisColumns : RtdColumns;
+    
+    for (const auto& col : columns)
+    {
+        AddColumnMetadata(col.name, NumberConverter::ConvertInt32ToWString(col.type), col.isUnsigned, col.size);
+    }
 
     // Take ownership of the m_resultSetColumns and return them.
     return m_resultSetColumns;

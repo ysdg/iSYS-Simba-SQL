@@ -8,6 +8,7 @@
 
 #include "QSTable.h"
 
+#include "DSIResultSetColumn.h"
 #include "DSITypeUtilities.h"
 #include "ErrorException.h"
 #include "IWarningListener.h"
@@ -30,12 +31,14 @@ QSTable::QSTable(
     ILogger* in_log,
     const simba_wstring& in_tableName,
     IWarningListener* in_warningListener,
-    bool in_isODBCV3) :
+    bool in_isODBCV3, 
+    ISYS::SQL::CIsysConn* isysConn) :
         m_log(in_log),
         m_tableName(in_tableName),
         m_settings(in_settings),
         m_warningListener(in_warningListener),
-        m_hasStartedFetch(false)
+        m_hasStartedFetch(false), 
+        m_isysConn(isysConn)
 {
     SE_CHK_INVALID_ARG(
         (NULL == in_settings) ||
@@ -51,7 +54,7 @@ QSTable::QSTable(
     simba_wstring dataFilePath(utilities.GetTableDataFullPathName(in_tableName));
 
     // Open the file.
-    m_fileReader.Attach(new TabbedUnicodeFileReader(dataFilePath));
+    m_fileReader.Attach(new TabbedUnicodeFileReader(dataFilePath, m_isysConn));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -157,10 +160,11 @@ bool QSTable::MoveToNextRow()
     if (!m_hasStartedFetch)
     {
         m_hasStartedFetch = true;
-        return m_fileReader->MoveToFirst();
+        return true;//m_fileReader->MoveToFirst();
     }
 
-    return m_fileReader->MoveToNext();
+    return false;
+    // return m_fileReader->MoveToNext();
 }
 
 // Private =========================================================================================
@@ -427,22 +431,25 @@ bool QSTable::ConvertData(
 void QSTable::InitializeColumns(bool in_isODBCV3)
 {
     AutoPtr<DSIResultSetColumns> columns;
-
+    
     QSUtilities utilities(m_settings);
 
     // Metadata for columns in the Quickstart sample is stored in XML files that are associated with
     // the normal data files.
-    if (utilities.DoesTableMetadataExist(m_tableName))
+
+
+
+    // if (utilities.DoesTableMetadataExist(m_tableName))
     {
         // If the XML file exists, read it to determine the column metadata for the data file.
         QSTableMetadataFile metadataFile(m_settings, in_isODBCV3);
         columns = metadataFile.Read(m_tableName);
     }
-    else
-    {
-        // If the XML file doesn't exist, throw the QSTableDoesNotExist exception.
-        QSTHROWGEN1(L"QSTableDoesNotExist", m_tableName);
-    }
+    //else
+    //{
+    //    // If the XML file doesn't exist, throw the QSTableDoesNotExist exception.
+    //    QSTHROWGEN1(L"QSTableDoesNotExist", m_tableName);
+    //}
 
     m_columns.Attach(columns.Detach());
 }
@@ -457,36 +464,46 @@ simba_wstring QSTable::ReadWholeColumnAsString(simba_uint16 in_column) const
     simba_int64 bytesRead = 0;
 
     bool hasMoreData = true;
-
-    do
+    ::HTAG tag[1] = { 0 };
+    HRESULT** ppResult = nullptr;
+    TAGVALSTATE** ppTagValues = nullptr;
+    auto result = ::GetTagIDByName(m_isysConn->conn, m_tableName.GetAsPlatformWString().c_str(), tag[0]);
+    result = ::ReadTagsValue(m_isysConn->conn, sizeof(tag)/sizeof(HTAG), tag, ppResult, ppTagValues);
+    if (!ISYS_SUCCESS(result))
     {
-        // Keep reading while there is more data to retrieve for the column.
-        hasMoreData = m_fileReader->GetData(
-            in_column,
-            &buffer[offset],
-            buffer.size() - offset,
-            offset,
-            bytesRead);
+        QSTHROW2(QS_DATAENGINE_STATE, L"ReadRealTagValueError", m_tableName, NumberConverter::ConvertInt32ToWString(result));
+    }
+    
+    return simba_wstring(NumberConverter::ConvertDouble64ToWString(ppTagValues[0][0].vEng_value.dblVal));
+    //do
+    //{
+    //    // Keep reading while there is more data to retrieve for the column.
+    //    hasMoreData = m_fileReader->GetData(
+    //        in_column,
+    //        &buffer[offset],
+    //        buffer.size() - offset,
+    //        offset,
+    //        bytesRead);
 
-        assert(bytesRead >= 0);
+    //    assert(bytesRead >= 0);
 
-        if (!hasMoreData)
-        {
-            if (0 == bytesRead)
-            {
-                return simba_wstring();
-            }
+    //    if (!hasMoreData)
+    //    {
+    //        if (0 == bytesRead)
+    //        {
+    //            return simba_wstring();
+    //        }
 
-            return simba_wstring(
-                reinterpret_cast<simba_byte*>(&buffer[0]),
-                static_cast<simba_int32>(offset + bytesRead),
-                ENC_UTF16_LE);
-        }
+    //        return simba_wstring(
+    //            reinterpret_cast<simba_byte*>(&buffer[0]),
+    //            static_cast<simba_int32>(offset + bytesRead),
+    //            ENC_UTF16_LE);
+    //    }
 
-        // Resize the buffer to hold more data if necessary.
-        offset += static_cast<std::vector<simba_int8>::size_type>(bytesRead);
-        buffer.resize(buffer.size() + bufferSize);
-    } while (hasMoreData);
+    //    // Resize the buffer to hold more data if necessary.
+    //    offset += static_cast<std::vector<simba_int8>::size_type>(bytesRead);
+    //    buffer.resize(buffer.size() + bufferSize);
+    //} while (hasMoreData);
 
     // It shouldn't be possible to reach this point.
     assert(false);

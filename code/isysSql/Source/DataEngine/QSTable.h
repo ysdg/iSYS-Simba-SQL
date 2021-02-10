@@ -10,6 +10,7 @@
 #define _SIMBA_QUICKSTART_QSTABLE_H_
 
 #include "Quickstart.h"
+#include "IsysConn.h"
 
 #include "AutoPtr.h"
 #include "DSIExtSimpleResultSet.h"
@@ -53,7 +54,8 @@ namespace Quickstart
             ILogger *in_log,
             const simba_wstring& in_tableName,
             IWarningListener* in_warningListener,
-            bool in_isODBCV3);
+            bool in_isODBCV3, 
+            ISYS::SQL::CIsysConn* isysConn);
 
         /// @brief Indicate whether the table has the row count information.
         ///
@@ -232,6 +234,8 @@ namespace Quickstart
 
         // Flag indicating if Move() has been called yet.
         bool m_hasStartedFetch;
+
+        ISYS::SQL::CIsysConn* m_isysConn;
     };
 }
 }

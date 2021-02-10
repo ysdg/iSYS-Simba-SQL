@@ -21,9 +21,10 @@ QSCustomPropertyKeyMap QSStatement::s_customStmtPropertyKeys = InitializeCustomS
 
 // Public ==========================================================================================
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-QSStatement::QSStatement(IConnection* in_connection, QuickstartSettings* in_settings) :
+QSStatement::QSStatement(IConnection* in_connection, QuickstartSettings* in_settings, ISYS::SQL::CIsysConn* isysConn) :
     DSIStatement(in_connection),
-    m_settings(in_settings)
+    m_settings(in_settings),
+    m_isysConn(isysConn)
 {
     ENTRANCE_LOG(GetLog(), "Simba::Quickstart", "QSStatement", "QSStatement");
     // Default property values and limits can be overridden here.
@@ -39,7 +40,7 @@ QSStatement::~QSStatement()
 IDataEngine* QSStatement::CreateDataEngine()
 {
     ENTRANCE_LOG(GetLog(), "Simba::Quickstart", "QSStatement", "CreateDataEngine");
-    return new QSDataEngine(this, m_settings);
+    return new QSDataEngine(this, m_settings, m_isysConn);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

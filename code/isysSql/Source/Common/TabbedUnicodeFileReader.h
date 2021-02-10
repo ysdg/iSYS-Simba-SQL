@@ -10,6 +10,7 @@
 #define _SIMBA_QUICKSTART_TABBEDUNICODEFILEREADER_H_
 
 #include "Quickstart.h"
+#include "IsysConn.h"
 
 #include "BinaryFile.h"
 
@@ -32,7 +33,7 @@ namespace Quickstart
     // Public ======================================================================================
     public:
         /// @brief Constructor.
-        TabbedUnicodeFileReader(const simba_wstring &in_filename);
+        TabbedUnicodeFileReader(const simba_wstring &in_filename, ISYS::SQL::CIsysConn* isysConn);
 
         /// @brief Destructor.
         ~TabbedUnicodeFileReader();
@@ -85,7 +86,7 @@ namespace Quickstart
         simba_int64 ReadChar(simba_uint16& io_data);
 
         // file to be processed.
-        BinaryFile m_file;
+        //BinaryFile m_file;
 
         // Offsets within the row to the beginning of the tokens, along with a flag indicating if 
         // the token represented by the offset is enclosed by quotes.
@@ -93,6 +94,8 @@ namespace Quickstart
 
         // An additional offset to mark the end of line.
         simba_int64 m_endOfLine;
+
+        ISYS::SQL::CIsysConn* m_isysConn;
     };
 }
 }

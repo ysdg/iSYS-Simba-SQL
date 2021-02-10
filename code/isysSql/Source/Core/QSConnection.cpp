@@ -145,6 +145,12 @@ void QSConnection::Connect(const DSIConnSettingRequestMap& in_connectionSettings
 					);
 		return;
 	}
+    auto result = ::LogIn(m_isysConn.conn, m_isysConn.user.GetAsPlatformWString().c_str(), m_isysConn.password.GetAsPlatformWString().c_str());
+    if (!ISYS_SUCCESS(result))
+    {
+        HRESULT hr = GetLastException();
+        QSTHROWGEN1("Isys connect error: ", NumberConverter::ConvertUInt32ToWString(hr));
+    }
 
 
 #endif
@@ -158,7 +164,7 @@ void QSConnection::Connect(const DSIConnSettingRequestMap& in_connectionSettings
 IStatement* QSConnection::CreateStatement()
 {
     ENTRANCE_LOG(m_log, "Simba::Quickstart", "QSConnection", "CreateStatement");
-    return new QSStatement(this, &m_settings);
+    return new QSStatement(this, &m_settings, &m_isysConn);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -168,10 +174,11 @@ void QSConnection::Disconnect()
     if (m_isConnected && m_isysConn.conn)
     {
         bool isConnected = false;
-        auto result = IsConnected(m_isysConn.conn, isConnected);
+        auto result = ::IsConnected(m_isysConn.conn, isConnected);
         if (isConnected)
         {
-            DisConnect(m_isysConn.conn);
+            ::LogOut(m_isysConn.conn);
+            ::DisConnect(m_isysConn.conn);
         }
     }
     m_isConnected = false;

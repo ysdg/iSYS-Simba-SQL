@@ -115,6 +115,9 @@
     <ClCompile Include="DataEngine\Filter\FilterResult.cpp">
       <Filter>DataEngine\Filter</Filter>
     </ClCompile>
+    <ClCompile Include="DataEngine\Filter\IsysParameter.cpp">
+      <Filter>DataEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\QSConnection.h">
@@ -195,6 +198,12 @@
     </ClInclude>
     <ClInclude Include="DataEngine\Filter\FilterResult.h">
       <Filter>DataEngine\Filter\include</Filter>
+    </ClInclude>
+    <ClInclude Include="DataEngine\Filter\IsysParameter.h">
+      <Filter>DataEngine\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\IsysConn.h">
+      <Filter>Core\Include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -2,6 +2,7 @@
 #include "FilterHandler.h"
 #include "AbStractResultSet.h"
 #include "FilterResult.h"
+#include "IsysParameter.h"
 
 #include "AEComparison.h"
 #include "AELiteral.h"

@@ -36,7 +36,7 @@ namespace Quickstart
         /// @param in_tableName         The name of the table to read.
         ///
         /// @return DSIResultSetColumns for the specified table.
-        AutoPtr<Simba::DSI::DSIResultSetColumns> Read(const simba_wstring& in_tableName);
+        AutoPtr<Simba::DSI::DSIResultSetColumns> Read(const simba_wstring& in_tableName, bool isHis=false);
 
     // Private =====================================================================================
     private:

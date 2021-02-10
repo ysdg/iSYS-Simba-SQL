@@ -8,6 +8,7 @@
 
 #include "TabbedUnicodeFileReader.h"
 
+#include "IsysConn.h"
 #include "NumberConverter.h"
 
 using namespace Simba::Quickstart;
@@ -32,30 +33,31 @@ using namespace Simba::Quickstart;
 
 // Public ==========================================================================================
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-TabbedUnicodeFileReader::TabbedUnicodeFileReader(const simba_wstring& in_filename) : 
-    m_file(in_filename, OPENMODE_READONLY),
+TabbedUnicodeFileReader::TabbedUnicodeFileReader(const simba_wstring& in_filename, ISYS::SQL::CIsysConn* isysConn) :
+    //m_file(in_filename, OPENMODE_READONLY),
+    m_isysConn(isysConn),
     m_endOfLine(-1)
 {
     // Check that the file opened safely.
-    if (!m_file.IsOpen())
-    {
-        QSTHROWGEN1(L"QSFileOpenError", in_filename);
-    }
+    //if (!m_file.IsOpen())
+    //{
+    //    QSTHROWGEN1(L"QSFileOpenError", in_filename);
+    //}
 
     // Check that the file is indeed a unicode text file encoded using UTF-16LE.
-    simba_int8 header[HEADER_SIZE];
+    //simba_int8 header[HEADER_SIZE];
     
     // Read the header.
-    if (HEADER_SIZE != m_file.Read(header, HEADER_SIZE))
-    {
-        QSTHROWGEN1(L"QSFileReadError", in_filename);
-    }
+    //if (HEADER_SIZE != m_file.Read(header, HEADER_SIZE))
+    //{
+    //    QSTHROWGEN1(L"QSFileReadError", in_filename);
+    //}
 
     // Validate the header.
-    if (HEADER != *(reinterpret_cast<simba_uint16*>(header)))
-    {
-        QSTHROWGEN1(L"QSInvalidFileFormat", in_filename);
-    }
+    //if (HEADER != *(reinterpret_cast<simba_uint16*>(header)))
+    //{
+    //    QSTHROWGEN1(L"QSInvalidFileFormat", in_filename);
+    //}
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -132,15 +134,15 @@ bool TabbedUnicodeFileReader::GetData(
     }
 
     // Seek to the beginning of the token.
-    m_file.Seek(startOffset, BinaryFile::DIRECTION_START);
+    //m_file.Seek(startOffset, BinaryFile::DIRECTION_START);
 
     // Read the data.
-    out_bytesRead = m_file.Read(io_buffer, tokenLength);
+    //out_bytesRead = m_file.Read(io_buffer, tokenLength);
 
-    if (skipEOL && !moreToRead)
-    {
-        m_file.Seek(4, BinaryFile::DIRECTION_FORWARD);
-    }
+    //if (skipEOL && !moreToRead)
+    //{
+    //    m_file.Seek(4, BinaryFile::DIRECTION_FORWARD);
+    //}
 
     return moreToRead;
 }
@@ -164,10 +166,10 @@ simba_size_t TabbedUnicodeFileReader::GetNumColumns()
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool TabbedUnicodeFileReader::MoveToFirst()
 {
-    if (-1 == m_file.Seek(HEADER_SIZE, BinaryFile::DIRECTION_START))
-    {
-        return false;
-    }
+    //if (-1 == m_file.Seek(HEADER_SIZE, BinaryFile::DIRECTION_START))
+    //{
+    //    return false;
+    //}
 
     return ProcessRow();
 }
@@ -176,7 +178,7 @@ bool TabbedUnicodeFileReader::MoveToFirst()
 bool TabbedUnicodeFileReader::MoveToNext()
 {
     // Move to the beginning of the next line.
-    if (-1 == m_file.Seek(m_endOfLine, BinaryFile::DIRECTION_START))
+    //if (-1 == m_file.Seek(m_endOfLine, BinaryFile::DIRECTION_START))
     {
         return false;
     }
@@ -197,7 +199,7 @@ bool TabbedUnicodeFileReader::ProcessRow()
     // Haven't detected an the end of line.
     m_endOfLine = -1;
 
-    simba_int64 tokenStart = m_file.GetPosition();
+    //simba_int64 tokenStart = m_file.GetPosition();
     bool isQuoted = false;
     bool isValueStart = true;
     
@@ -215,10 +217,10 @@ bool TabbedUnicodeFileReader::ProcessRow()
             // We hit a tab delimiter. Store the offset to the token.
             case UNICODE_TAB_DELIM:
             {
-                m_tokenOffsets.push_back(TokenOffset(tokenStart, isQuoted));
+                //m_tokenOffsets.push_back(TokenOffset(tokenStart, isQuoted));
                 isValueStart = true;
 
-                tokenStart = m_file.GetPosition();
+                //tokenStart = m_file.GetPosition();
                 break;
             }
 
@@ -231,10 +233,10 @@ bool TabbedUnicodeFileReader::ProcessRow()
                 // Did we hit a new line?
                 if (UNICODE_NEWLINE == data)
                 {
-                    m_tokenOffsets.push_back(TokenOffset(tokenStart, isQuoted));
-                    
-                    // Mark the position of the end of line.
-                    m_endOfLine = m_file.GetPosition();
+                    //m_tokenOffsets.push_back(TokenOffset(tokenStart, isQuoted));
+                    //
+                    //// Mark the position of the end of line.
+                    //m_endOfLine = m_file.GetPosition();
                     return true;
                 }
 
@@ -249,7 +251,7 @@ bool TabbedUnicodeFileReader::ProcessRow()
     }  
 
     // Use the end of the file to mark the end of the line.
-    m_endOfLine = m_file.GetPosition();
+    //m_endOfLine = m_file.GetPosition();
     return false;
 }
 
@@ -257,14 +259,14 @@ bool TabbedUnicodeFileReader::ProcessRow()
 simba_int64 TabbedUnicodeFileReader::ReadChar(simba_uint16& io_data)
 {
     // Read data 1 char at a time.  We must be aligned with the number of bytes in a char.
-    simba_int64 numBytes = m_file.Read(reinterpret_cast<simba_int8*>(&io_data), BYTES_PER_CHAR);
+    //simba_int64 numBytes = m_file.Read(reinterpret_cast<simba_int8*>(&io_data), BYTES_PER_CHAR);
 
     // If we cannot read 2 bytes then we throw an exception.
-    if ((BYTES_PER_CHAR > numBytes) && 
-        (0 != numBytes))
-    {
-        QSTHROWGEN1(L"QSInvalidFileFormat", m_file.GetName());
-    }
+    //if ((BYTES_PER_CHAR > numBytes) && 
+    //    (0 != numBytes))
+    //{
+    //    QSTHROWGEN1(L"QSInvalidFileFormat", m_file.GetName());
+    //}
 
-    return numBytes;
+    return 0;
 }
