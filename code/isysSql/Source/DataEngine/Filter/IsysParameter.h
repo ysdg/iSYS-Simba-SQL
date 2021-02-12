@@ -11,6 +11,7 @@
 
 #include "IsysCommon.h"
 #include "Quickstart.h"
+#include <deque>
 
 ISYS_SQL_NAMESPACE_BEGIN
 
@@ -41,11 +42,14 @@ private:
 public:
 	static CIsysParameter* Instance();
 	void AddTbName(const simba_wstring& tbName);
+	void AddTag(const simba_wstring& tagName);
+	simba_wstring GetFrontTag();
+	bool NextTag();
 
 private:
-	std::vector<simba_wstring> m_tbName;
+	std::deque<simba_wstring> m_tbName;
+	std::deque<simba_wstring> m_tags;
 	std::vector<simba_wstring> m_columns;
-	std::vector<simba_wstring> m_tags;
 	SBoundary<simba_wstring> m_timeLeft;
 	SBoundary<simba_wstring> m_timeRight;
 	DataType m_type;
@@ -55,6 +59,26 @@ private:
 inline void CIsysParameter::AddTbName(const simba_wstring& tbName)
 {
 	m_tbName.push_back(tbName);
+}
+
+inline void CIsysParameter::AddTag(const simba_wstring& tagName)
+{
+	m_tags.push_back(tagName);
+}
+
+inline simba_wstring CIsysParameter::GetFrontTag()
+{
+	return m_tags.front();
+}
+
+inline bool CIsysParameter::NextTag()
+{
+	if (m_tags.empty())
+	{
+		return false;
+	}
+	m_tags.pop_front();
+	return true;
 }
 
 ISYS_SQL_NAMESPACE_END

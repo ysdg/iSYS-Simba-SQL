@@ -211,6 +211,9 @@
     <ClInclude Include="Common\IsysTable.h">
       <Filter>Common\Include</Filter>
     </ClInclude>
+    <ClInclude Include="DataEngine\Filter\ColumnHolder.h">
+      <Filter>DataEngine\Filter\include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="exports.def" />

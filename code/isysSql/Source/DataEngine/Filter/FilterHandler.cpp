@@ -3,6 +3,7 @@
 #include "AbStractResultSet.h"
 #include "FilterResult.h"
 #include "IsysParameter.h"
+#include "Filter/ColumnHolder.h"
 
 #include "AEComparison.h"
 #include "AELiteral.h"
@@ -176,48 +177,47 @@ bool CFilterHandler::PassdownComparison(AEComparison* in_node)
         AEValueExpr* lExpr = lOperand->GetChild(0);
         AEValueExpr* rExpr = rOperand->GetChild(0);
 
+        AEValueExpr* columnExpr;
+        AEValueExpr* literalExpr;
+
         //  Only handle two cases: 
         //   - <column_reference> <compOp> <parameter>
         //   - <parameter> <compOp> <column_reference>
-        if ((AE_NT_VX_COLUMN != lExpr->GetNodeType()) ||
-            (AE_NT_VX_PARAMETER != rExpr->GetNodeType()))
+        if ((AE_NT_VX_COLUMN == lExpr->GetNodeType()) == (AE_NT_VX_COLUMN == rExpr->GetNodeType()))
         {
-            if ((AE_NT_VX_COLUMN == rExpr->GetNodeType()) &&
-                (AE_NT_VX_PARAMETER == lExpr->GetNodeType()))
+            return false;
+        }
+        else
+        {
+            if (AE_NT_VX_COLUMN == lExpr->GetNodeType())
             {
-                // Swap the pointers, so the expressions are always in the form of
-                // <column_reference> <compOp> <parameter>.
-                std::swap(lExpr, rExpr);
+                columnExpr = lExpr;
+                literalExpr = rExpr;
             }
             else
             {
-                return false;
+                columnExpr = rExpr;
+                literalExpr = lExpr;
             }
         }
 
         // Get the column reference information.
         DSIExtColumnRef colRef;
-        if (!GetTableColRef(lExpr, colRef))
+        if (!GetTableColRef(columnExpr, colRef))
         {
             // Column not found.
             return false;
         }
 
-        simba_wstring lname, rname;
-        lExpr->GetName(lname);
-        rExpr->GetName(rname);
-        SEComparisonType compOp = in_node->GetComparisonOp();
-
         // Get information about the column in the table that the filter is applied to.
         IColumns* tableColumns = colRef.m_table->GetSelectColumns();
         assert(tableColumns);
-         //CBColumnHolder filterColumn(tableColumns->GetColumn(colRef.m_colIndex));
-         //SqlTypeMetadata* columnMetadata = filterColumn.GetMetadata();
-         //simba_int16 columnSqlType = columnMetadata->GetSqlType();
-        simba_int16 columnSqlType = 1;
+        CColumnHolder filterColumn(tableColumns->GetColumn(colRef.m_colIndex));
+        SqlTypeMetadata* columnMetadata = filterColumn.GetMetadata();
+        simba_int16 columnSqlType = columnMetadata->GetSqlType();
 
         // Get the literal type of RHS of comparison expression.
-        simba_int16 paramSqlType = rExpr->GetMetadata()->GetSqlType();
+        simba_int16 paramSqlType = literalExpr->GetMetadata()->GetSqlType();
 
         // Supported parameter types: Integer, Decimal, Character String, and Date
         // (Time comparison is not supported by DBASE expressions)
@@ -228,10 +228,10 @@ bool CFilterHandler::PassdownComparison(AEComparison* in_node)
             ((SQL_TYPE_TIME != columnSqlType) &&
                 (dataTypeUtils->IsCharacterType(paramSqlType) || dataTypeUtils->IsWideCharacterType(paramSqlType))))
         {
-            // Get the parameter value.
-            simba_wstring paramValue = GetParameterValue(rExpr->GetAsParameter());
+            // Get the literal value.
+            simba_wstring literalValue = literalExpr->GetAsLiteral()->GetLiteralValue();
 
-            if (paramValue.IsNull())
+            if (literalValue.IsNull())
             {
                 // Can't handle NULL parameters.
                 return false;
@@ -239,18 +239,24 @@ bool CFilterHandler::PassdownComparison(AEComparison* in_node)
 
             // Get the column name and comparison type.
             simba_wstring columnName;
-            //filterColumn.GetName(columnName);
+            filterColumn.GetName(columnName);
             SEComparisonType compOp = in_node->GetComparisonOp();
 
+            if (SE_COMP_EQ == compOp)
+            {
+                CIsysParameter::Instance()->AddTag(literalValue);
+            }
+
             // Construct the filter string for input to CodeBase.
-            ConstructFilter(columnName, columnSqlType, paramSqlType, paramValue, compOp);
+            //ConstructFilter(columnName, columnSqlType, paramSqlType, literalValue, compOp);
 
             // Setting passdown flag so the filter result set is returned.
             m_isPassedDown = true;
+            return false;
 
             // Determine if filter result might include NULL records, because
             // CodeBase doesn't recognize NULL, and treats it as '0' or 'false'.
-            return !IsNullIncluded(columnSqlType, paramSqlType, paramValue, compOp);
+            return !IsNullIncluded(columnSqlType, paramSqlType, literalValue, compOp);
         }
     }
 

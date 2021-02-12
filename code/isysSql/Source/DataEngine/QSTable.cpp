@@ -24,6 +24,7 @@
 
 using namespace Simba::Quickstart;
 using namespace Simba::DSI;
+using namespace ISYS::SQL;
 
 // Public ==========================================================================================
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -129,7 +130,13 @@ bool QSTable::RetrieveData(
     DEBUG_ENTRANCE_LOG(m_log, "Simba::Quickstart", "QSTable", "RetrieveData");
     assert(in_data);
 
-    return ConvertData(in_column, in_data, in_offset, in_maxSize);
+    ConvertData(in_column, in_data, in_offset, in_maxSize);
+    if (in_column + 1 == m_columns.Get()->GetColumnCount())
+    {
+        CloseCursor();
+        //MoveToNextRow();
+    }
+    return false;
 }
 
 // Protected =======================================================================================
@@ -161,11 +168,12 @@ bool QSTable::MoveToNextRow()
     if (!m_hasStartedFetch)
     {
         m_hasStartedFetch = true;
-        return true;//m_fileReader->MoveToFirst();
+        return false;
+        return CIsysParameter::Instance()->NextTag();
     }
 
     return false;
-    // return m_fileReader->MoveToNext();
+    //return CIsysParameter::Instance()->NextTag();
 }
 
 // Private =========================================================================================
@@ -182,11 +190,6 @@ bool QSTable::ConvertData(
     // of the contained types and how they map to the SQL types. To indicate NULL data, call
     // in_data->SetNull(true).
     simba_wstring value(ReadWholeColumnAsString(in_column));
-    if (value.IsNull())
-    {
-        in_data->SetNull(true);
-        return false;
-    }
 
     // Copy the data over depending on the data type.
     switch (in_data->GetMetadata()->GetTDWType())
@@ -224,16 +227,16 @@ bool QSTable::ConvertData(
         case TDW_SQL_WLONGVARCHAR:
         {
             // Ensure that the string is a quoted string.
-            simba_int32 length = value.GetLength();
-            if ((length < 2) ||
-                (value.CharAt(0) != L'\'') ||
-                (value.CharAt(length - 1) != L'\''))
-            {
-                QSTHROWGEN2(L"QSConvError", value, in_data->GetMetadata()->GetLocalTypeName());
-            }
+            //simba_int32 length = value.GetLength();
+            //if ((length < 2) ||
+            //    (value.CharAt(0) != L'\'') ||
+            //    (value.CharAt(length - 1) != L'\''))
+            //{
+            //    QSTHROWGEN2(L"QSConvError", value, in_data->GetMetadata()->GetLocalTypeName());
+            //}
 
-            // Strip quotes from either side.
-            value = value.Substr(1, length - 2);
+            //// Strip quotes from either side.
+            //value = value.Substr(1, length - 2);
 
             // This utility function will automatically handle chunking data back if the amount of
             // data in the column exceeds the amount of data requested, which will result in
@@ -472,13 +475,11 @@ simba_wstring GetRtdColStr(const simba_uint16& in_column, const TAGVALSTATE TagV
     simba_wstring valueStr;
     switch (in_column)
     {
-    case 0: 
-        //valueStr = NumberConverter::ConvertUInt64ToWString(TagValue.ftTimeStamp.dwHighDateTime << 32 + TagValue.ftTimeStamp.dwLowDateTime);
-        valueStr = FileTime2Str(TagValue.ftTimeStamp);
-        break;
-    case 1: valueStr = NumberConverter::ConvertUInt64ToWString(TagValue.wQuality);  break;
-    case 2: valueStr = NumberConverter::ConvertUInt64ToWString(TagValue.wAlarmState); break;
-    case 3: valueStr = NumberConverter::ConvertDouble64ToWString(TagValue.vEng_value.dblVal); break;
+    case 0: valueStr = CIsysParameter::Instance()->GetFrontTag(); break;
+    case 1: valueStr = FileTime2Str(TagValue.ftTimeStamp); break;
+    case 2: valueStr = NumberConverter::ConvertUInt64ToWString(TagValue.wQuality);  break;
+    case 3: valueStr = NumberConverter::ConvertUInt64ToWString(TagValue.wAlarmState); break;
+    case 4: valueStr = NumberConverter::ConvertDouble64ToWString(TagValue.vEng_value.dblVal); break;
     default:
         break;
     }
@@ -496,7 +497,8 @@ simba_wstring QSTable::ReadWholeColumnAsString(simba_uint16 in_column) const
 
     bool hasMoreData = true;
     ::HTAG tag[1] = { 0 };
-    auto result = ::GetTagIDByName(m_isysConn->conn, m_tableName.GetAsPlatformWString().c_str(), tag[0]);
+    const auto& tagName = CIsysParameter::Instance()->GetFrontTag();
+    auto result = ::GetTagIDByName(m_isysConn->conn, tagName.GetAsPlatformWString().c_str(), tag[0]);
 
     HRESULT* ppResult = NULL;
     TAGVALSTATE* ppTagValues = NULL;
@@ -504,7 +506,7 @@ simba_wstring QSTable::ReadWholeColumnAsString(simba_uint16 in_column) const
 
     if (!ISYS_SUCCESS(result))
     {
-        QSTHROW2(QS_DATAENGINE_STATE, L"ReadTagValueError", m_tableName, NumberConverter::ConvertInt32ToWString(result));
+        QSTHROW2(QS_DATAENGINE_STATE, L"ReadTagValueError", tagName, NumberConverter::ConvertInt32ToWString(result));
     }
     
     //ISYS::SQL::CIsysParameter::Instance()->IsHis()

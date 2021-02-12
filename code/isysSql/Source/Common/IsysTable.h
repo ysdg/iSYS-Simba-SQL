@@ -30,6 +30,7 @@ class CIsysTable
 public:
 	using Columns = std::vector<ColumnData>;
 	static const Columns& GetColumns(const simba_wstring& tbName);
+	static const bool IsContainTbName(const simba_wstring& tbName);
 
 private:
 	static std::map<simba_wstring, Columns> m_tbName2Cols;

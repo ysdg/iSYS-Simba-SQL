@@ -1751,6 +1751,7 @@ xcopy /Y /D "$(SIMBAENGINE_DIR)\ErrorMessages\en-US\ServerMessages.xml" ..\Error
     <ClInclude Include="Core\QSEnvironment.h" />
     <ClInclude Include="Core\QSStatement.h" />
     <ClInclude Include="DataEngine\Filter\AbStractResultSet.h" />
+    <ClInclude Include="DataEngine\Filter\ColumnHolder.h" />
     <ClInclude Include="DataEngine\Filter\CPassdownInfo.h" />
     <ClInclude Include="DataEngine\Filter\FilterHandler.h" />
     <ClInclude Include="DataEngine\Filter\FilterResult.h" />

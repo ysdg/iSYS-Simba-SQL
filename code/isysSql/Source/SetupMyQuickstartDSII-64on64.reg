@@ -24,8 +24,8 @@ REGEDIT4
 "isysSqlDSIIDriver"="Installed"
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\ODBC\ODBCINST.INI\isysSqlDSIIDriver]
-"Setup"="C:\\Users\\王小贵\\Documents\\yuanquan\\supcon\\simbaSql\\iSYS-Simba-SQL\\code\\isysSql\\Bin\\Windows_vs2015\\debug64md\\isysSqlDSIIODBC64.dll"
-"Driver"="C:\\Users\\王小贵\\Documents\\yuanquan\\supcon\\simbaSql\\iSYS-Simba-SQL\\code\\isysSql\\Bin\\Windows_vs2015\\debug64md\\isysSqlDSIIODBC64.dll"
+"Setup"="D:\\work\\supcon\\simba_sql\\code\\isysSql\\Bin\\Windows_vs2015\\debug64md\\isysSqlDSIIODBC64.dll"
+"Driver"="D:\\work\\supcon\\simba_sql\\code\\isysSql\\Bin\\Windows_vs2015\\debug64md\\isysSqlDSIIODBC64.dll"
 "Description"="My 64-bit SimbaEngine isys SQL DSII"
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\Simba\isysSql]

@@ -19,6 +19,7 @@
 #include "QSTypeInfoMetadataSource.h"
 #include "QSUtilities.h"
 #include "Filter/IsysParameter.h"
+#include "IsysTable.h"
 
 using namespace Simba::Quickstart;
 using namespace Simba::DSI;
@@ -161,10 +162,8 @@ SharedPtr<DSIExtResultSet> QSDataEngine::OpenTable(
     //    // driver.
     //    QSTHROW1(QS_DATAENGINE_STATE, L"QSTableDoesNotExist", in_tableName);
     //}
-    ::HTAG tag = 0;
-    auto result = ::GetTagIDByName(m_isysConn->conn, in_tableName.GetAsPlatformWString().c_str(), tag);
 
-    if (ISYS_SUCCESS(result))
+    if (CIsysTable::IsContainTbName(in_tableName))
     {
 		CIsysParameter::Instance()->AddTbName(in_tableName);
         table = new QSTable(
@@ -178,7 +177,7 @@ SharedPtr<DSIExtResultSet> QSDataEngine::OpenTable(
     }
     else
     {
-        QSTHROW2(QS_DATAENGINE_STATE, L"ISYSTagDoesNotExist", in_tableName, NumberConverter::ConvertInt32ToWString(result));
+        QSTHROW1(QS_DATAENGINE_STATE, L"ISYSTagDoesNotExist", in_tableName);
     }
 }
 

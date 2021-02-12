@@ -50,12 +50,21 @@ std::map<simba_wstring, CIsysTable::Columns> CIsysTable::m_tbName2Cols{
 	{simba_wstring("isys_his"), CIsysTable::HisColumns},
 };
 
-const CIsysTable::Columns& CIsysTable::GetColumns(const simba_wstring& tbName)
+const bool CIsysTable::IsContainTbName(const simba_wstring& tbName)
 {
 	auto pair = m_tbName2Cols.find(tbName);
-	if(pair != m_tbName2Cols.end())
+	if (pair != m_tbName2Cols.end())
 	{
-		return pair->second;
+		return true;
+	}
+	return false;
+}
+
+const CIsysTable::Columns& CIsysTable::GetColumns(const simba_wstring& tbName)
+{
+	if (IsContainTbName(tbName))
+	{
+		return m_tbName2Cols[tbName];
 	}
 
 	return Columns();
