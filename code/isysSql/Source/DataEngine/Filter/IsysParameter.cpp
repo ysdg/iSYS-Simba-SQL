@@ -16,6 +16,7 @@ CIsysParameter* CIsysParameter::Instance()
 
 CIsysParameter::CIsysParameter()
 	: m_type(DataType::RTD)
+	, m_rowNumNow(0)
 {
 
 }

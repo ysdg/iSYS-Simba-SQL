@@ -133,7 +133,6 @@ bool QSTable::RetrieveData(
     ConvertData(in_column, in_data, in_offset, in_maxSize);
     if (in_column + 1 == m_columns.Get()->GetColumnCount())
     {
-        CloseCursor();
         //MoveToNextRow();
     }
     return false;
@@ -168,12 +167,12 @@ bool QSTable::MoveToNextRow()
     if (!m_hasStartedFetch)
     {
         m_hasStartedFetch = true;
-        return false;
+        //return false;
         return CIsysParameter::Instance()->NextTag();
     }
 
-    return false;
-    //return CIsysParameter::Instance()->NextTag();
+    //return false;
+    return CIsysParameter::Instance()->NextTag();
 }
 
 // Private =========================================================================================

@@ -45,6 +45,8 @@ public:
 	void AddTag(const simba_wstring& tagName);
 	simba_wstring GetFrontTag();
 	bool NextTag();
+	bool IsTagOver();
+	simba_signed_native GetRowNum();
 
 private:
 	std::deque<simba_wstring> m_tbName;
@@ -53,6 +55,8 @@ private:
 	SBoundary<simba_wstring> m_timeLeft;
 	SBoundary<simba_wstring> m_timeRight;
 	DataType m_type;
+	simba_signed_native m_rowNumNow;
+
 	static CIsysParameter* m_pInstance;
 };
 
@@ -64,21 +68,38 @@ inline void CIsysParameter::AddTbName(const simba_wstring& tbName)
 inline void CIsysParameter::AddTag(const simba_wstring& tagName)
 {
 	m_tags.push_back(tagName);
+	m_rowNumNow = 0;
 }
 
 inline simba_wstring CIsysParameter::GetFrontTag()
 {
+	if (IsTagOver())
+	{
+		return simba_wstring();
+	}
 	return m_tags.front();
 }
 
 inline bool CIsysParameter::NextTag()
 {
-	if (m_tags.empty())
+	if (IsTagOver())
 	{
 		return false;
 	}
 	m_tags.pop_front();
-	return true;
+	++m_rowNumNow;
+
+	return !IsTagOver();
+}
+
+inline simba_signed_native CIsysParameter::GetRowNum()
+{
+	return m_rowNumNow;
+}
+
+inline bool CIsysParameter::IsTagOver()
+{
+	return m_tags.empty();
 }
 
 ISYS_SQL_NAMESPACE_END

@@ -154,113 +154,7 @@ SharedPtr<DSIExtResultSet> CFilterHandler::TakeResult()
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 bool CFilterHandler::PassdownComparison(AEComparison* in_node)
 {
-    // If true, then there is an attempt to process the filter. This implementation only supports 
-    // CBTable.
-    // if (m_codeBaseSettings->m_passDownFlag && (m_table->GetTableType() == CB_TABLE))
-    {
-        //// Try the default case first.
-        //if (DSIExtSimpleBooleanExprHandler::PassdownComparison(in_node))
-        //{
-        //    return true;
-        //}
-
-        // Try and handle parameters here.
-        AEValueList* lOperand = in_node->GetLeftOperand();
-        AEValueList* rOperand = in_node->GetRightOperand();
-
-        if ((1 != lOperand->GetChildCount()) ||
-            (1 != rOperand->GetChildCount()))
-        {
-            return false;
-        }
-
-        AEValueExpr* lExpr = lOperand->GetChild(0);
-        AEValueExpr* rExpr = rOperand->GetChild(0);
-
-        AEValueExpr* columnExpr;
-        AEValueExpr* literalExpr;
-
-        //  Only handle two cases: 
-        //   - <column_reference> <compOp> <parameter>
-        //   - <parameter> <compOp> <column_reference>
-        if ((AE_NT_VX_COLUMN == lExpr->GetNodeType()) == (AE_NT_VX_COLUMN == rExpr->GetNodeType()))
-        {
-            return false;
-        }
-        else
-        {
-            if (AE_NT_VX_COLUMN == lExpr->GetNodeType())
-            {
-                columnExpr = lExpr;
-                literalExpr = rExpr;
-            }
-            else
-            {
-                columnExpr = rExpr;
-                literalExpr = lExpr;
-            }
-        }
-
-        // Get the column reference information.
-        DSIExtColumnRef colRef;
-        if (!GetTableColRef(columnExpr, colRef))
-        {
-            // Column not found.
-            return false;
-        }
-
-        // Get information about the column in the table that the filter is applied to.
-        IColumns* tableColumns = colRef.m_table->GetSelectColumns();
-        assert(tableColumns);
-        CColumnHolder filterColumn(tableColumns->GetColumn(colRef.m_colIndex));
-        SqlTypeMetadata* columnMetadata = filterColumn.GetMetadata();
-        simba_int16 columnSqlType = columnMetadata->GetSqlType();
-
-        // Get the literal type of RHS of comparison expression.
-        simba_int16 paramSqlType = literalExpr->GetMetadata()->GetSqlType();
-
-        // Supported parameter types: Integer, Decimal, Character String, and Date
-        // (Time comparison is not supported by DBASE expressions)
-        SqlDataTypeUtilities* dataTypeUtils = SqlDataTypeUtilitiesSingleton::GetInstance();
-        if (dataTypeUtils->IsIntegerType(paramSqlType) ||
-            dataTypeUtils->IsExactNumericType(paramSqlType) ||
-            dataTypeUtils->IsApproximateNumericType(paramSqlType) ||
-            ((SQL_TYPE_TIME != columnSqlType) &&
-                (dataTypeUtils->IsCharacterType(paramSqlType) || dataTypeUtils->IsWideCharacterType(paramSqlType))))
-        {
-            // Get the literal value.
-            simba_wstring literalValue = literalExpr->GetAsLiteral()->GetLiteralValue();
-
-            if (literalValue.IsNull())
-            {
-                // Can't handle NULL parameters.
-                return false;
-            }
-
-            // Get the column name and comparison type.
-            simba_wstring columnName;
-            filterColumn.GetName(columnName);
-            SEComparisonType compOp = in_node->GetComparisonOp();
-
-            if (SE_COMP_EQ == compOp)
-            {
-                CIsysParameter::Instance()->AddTag(literalValue);
-            }
-
-            // Construct the filter string for input to CodeBase.
-            //ConstructFilter(columnName, columnSqlType, paramSqlType, literalValue, compOp);
-
-            // Setting passdown flag so the filter result set is returned.
-            m_isPassedDown = true;
-            return false;
-
-            // Determine if filter result might include NULL records, because
-            // CodeBase doesn't recognize NULL, and treats it as '0' or 'false'.
-            return !IsNullIncluded(columnSqlType, paramSqlType, literalValue, compOp);
-        }
-    }
-
-    return false;
+    return CheckNodeExpr(in_node);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -531,4 +425,18 @@ bool CFilterHandler::IsNullIncluded(
 
     // No NULL records are included in the filter result.
     return false;
+}
+
+
+bool CFilterHandler::PassdownOr(AEOr* in_node)
+{
+    AENodeIterator nodeIter = in_node->GetChildren();
+    while (nodeIter.HasMore())
+    {
+        AENode* node = nodeIter.GetNext();
+        auto compNode = node->GetAsBooleanExpr()->GetAsComparison();
+        CheckNodeExpr(compNode);
+    }
+
+    return true;
 }

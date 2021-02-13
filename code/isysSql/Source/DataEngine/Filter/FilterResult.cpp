@@ -1,5 +1,6 @@
 #include "Filter/FilterResult.h"
 #include "IResult.h"
+#include "IsysParameter.h"
 
 using namespace ISYS::SQL;
 
@@ -7,6 +8,7 @@ CFilterResult::CFilterResult(Simba::Support::SharedPtr<CAbstractResultSet> in_ta
     const simba_wstring& in_filter)
     : m_table(in_table)
     , m_filter(in_filter)
+    , m_hasStartedFetch(false)
 {
 
 }
@@ -125,15 +127,33 @@ const simba_wstring& CFilterResult::GetFilter() const
 
 void CFilterResult::DoCloseCursor()
 {
-
+    m_hasStartedFetch = false;
 }
 
 bool CFilterResult::MoveToNextRow()
 {
-    return true;
+    // Ensure the row number in the underlying table matches the row number corresponding to the
+    // next row in this filtered result.
+    // recNo - 1 because SetCurrentRow() takes in a 0-based row number. recNo() returns a 1-based
+    // row number.
+    //
+    // m_numRowsDeleted needs to be substracted because recNo() includes records that have already
+    // been marked for deletion.
+    // Get the first row
+    auto isysPara = CIsysParameter::Instance();
+    if (!m_hasStartedFetch)
+    {
+        m_hasStartedFetch = true;
+        return (!isysPara->IsTagOver());
+    }
+    m_table->SetCurrentRow(isysPara->GetRowNum());
+    //m_table->MoveToNextRow();
+
+    return CIsysParameter::Instance()->NextTag();
+    
 }
 
 void CFilterResult::MoveToBeforeFirstRow()
 {
-
+    m_hasStartedFetch = false;
 }

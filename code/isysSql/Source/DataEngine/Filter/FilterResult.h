@@ -70,6 +70,9 @@ public:
 private:
     simba_wstring m_filter;
     Simba::Support::SharedPtr<CAbstractResultSet> m_table;
+
+    /// Flag indicating if Move() has been called yet.
+    bool m_hasStartedFetch;
 };
 
 ISYS_SQL_NAMESPACE_END
