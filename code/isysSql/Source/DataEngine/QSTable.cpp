@@ -170,7 +170,7 @@ bool QSTable::MoveToNextRow()
     if (!m_hasStartedFetch)
     {
         m_hasStartedFetch = true;
-        m_result.UpdateTags(CIsysParameter::Instance()->GetTags());
+        //m_result.Read();
     }
 
     return m_result.NextRow();
@@ -469,7 +469,7 @@ simba_wstring QSTable::ReadWholeColumnAsString(simba_uint16 in_column)
     if (!m_hasStartedFetch)
     {
         m_hasStartedFetch = true;
-        m_result.UpdateTags(CIsysParameter::Instance()->GetTags());
+        //m_result.Read();
     }
     //::HTAG tag[1] = { 0 };
     //const auto& tagName = CIsysParameter::Instance()->GetFrontTag();

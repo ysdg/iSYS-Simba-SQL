@@ -163,9 +163,7 @@ SharedPtr<DSIExtResultSet> QSDataEngine::OpenTable(
     //}
 
     if (CIsysTable::IsContainTbName(in_tableName))
-    {
-		CIsysParameter::Instance()->AddTbName(in_tableName);
-        
+    {   
         auto table = new QSTable(
             m_settings,
             GetLog(),

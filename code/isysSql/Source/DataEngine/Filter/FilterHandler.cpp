@@ -255,7 +255,17 @@ bool CFilterHandler::PassdownSimpleInPredicate(
     UNUSED(in_column);
     UNUSED(in_literals);
 
-    return false;
+    if (IsTagNameCol(in_column))
+    {
+        for (const auto& literal : in_literals)
+        {
+            const auto& tagName = literal.first->GetLiteralValue();
+            m_isysPara.tagNames.push_back(tagName);
+        }
+    }
+    m_isPassedDown = true;
+
+    return true;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -450,10 +460,9 @@ bool CFilterHandler::Convert2Filter(
     const simba_wstring& literalStr, 
     bool& isLeftCol)
 {
-    if (static_cast<simba_uint16>(RtdHisColIndex::TAG_NAME) == colRef.m_colIndex && SE_COMP_EQ == compOp)
+    if (IsTagNameCol(colRef) && SE_COMP_EQ == compOp)
     {
         m_isysPara.tagNames.push_back(literalStr);
-        CIsysParameter::Instance()->AddTag(literalStr);
     }
     else if (static_cast<simba_uint16>(RtdHisColIndex::TIME_STAMP) == colRef.m_colIndex)
     {

@@ -13,6 +13,7 @@
 #include "IsysConn.h"
 #include "IsysTable.h"
 #include "IsysResult.h"
+#include "Filter/IsysParameter.h"
 
 #include "AutoPtr.h"
 #include "DSIExtSimpleResultSet.h"
@@ -242,6 +243,8 @@ namespace Quickstart
         ISYS::SQL::CIsysConn* m_isysConn;
 
         ISYS::SQL::CIsysResult m_result;
+
+        ISYS::SQL::SIsysPara* m_isysPara;
     };
 }
 }

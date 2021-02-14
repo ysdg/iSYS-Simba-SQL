@@ -146,13 +146,16 @@ bool CFilterResult::MoveToNextRow()
     // m_numRowsDeleted needs to be substracted because recNo() includes records that have already
     // been marked for deletion.
     // Get the first row
-    auto isysPara = CIsysParameter::Instance();
+    
+    //auto isysPara = CIsysParameter::Instance();
     if (!m_hasStartedFetch)
     {
         m_hasStartedFetch = true;
-        return (!isysPara->IsTagOver());
+        m_result->SetPara(&m_isysPara);
+        m_result->Read();
+        return m_result->IsOver();
     }
-    m_table->SetCurrentRow(isysPara->GetRowNum());
+    m_table->SetCurrentRow(m_result->GetRowNum());
 
     return m_result->NextRow();
     

@@ -6,6 +6,7 @@
 #include "Quickstart.h"
 #include "Filter/AbStractResultSet.h"
 #include "DSIExtSimpleBooleanExprHandler.h"
+#include "DSIExtColumnRef.h"
 #include "IsysResult.h"
 
 ISYS_SQL_NAMESPACE_BEGIN
@@ -72,11 +73,7 @@ private:
     template<typename AET, typename AEList>
     void GetLeftAndRightList(AET* in_node, AEList** left, AEList** right);
 
-    //template<>
-    //void GetLeftAndRightList<Simba::SQLEngine::AENode, Simba::SQLEngine::AEValueList>(  
-    //    Simba::SQLEngine::AENode* in_node, 
-    //    Simba::SQLEngine::AEValueList* left, 
-    //    Simba::SQLEngine::AEValueList* right);
+    bool IsTagNameCol(const Simba::SQLEngine::DSIExtColumnRef& colRef);
 
     template<typename AET, typename AEExpr>
     bool SortAENode(AET* in_node, AEExpr** columnExpr, AEExpr** literalExpr, bool& isLeftCol);
@@ -104,19 +101,6 @@ void CFilterHandler::GetLeftAndRightList(AET* in_node, AEList** left, AEList** r
     *left = in_node->GetLeftOperand();
     *right = in_node->GetRightOperand();
 }
-
-//template<>
-//void CFilterHandler::GetLeftAndRightList<Simba::SQLEngine::AENode, Simba::SQLEngine::AEValueList>(
-//    Simba::SQLEngine::AENode* in_node, 
-//    Simba::SQLEngine::AEValueList* left,
-//    Simba::SQLEngine::AEValueList* right)
-//{
-//    Simba::SQLEngine::AENode* leftExpr = in_node->GetChild(0);
-//    Simba::SQLEngine::AENode* rightExpr = in_node->GetChild(1);
-//
-//    left = leftExpr->GetAsValueList();
-//    right = rightExpr->GetAsValueList();
-//}
 
 template<typename AET, typename AEExpr>
 bool CFilterHandler::SortAENode(AET* in_node, AEExpr** columnExpr, AEExpr** literalExpr, bool& isLeftCol)
@@ -235,6 +219,12 @@ bool CFilterHandler::CheckNodeExpr(AET* in_node)
 
     m_isPassedDown = true;
     return true;
+}
+
+inline bool CFilterHandler::IsTagNameCol(const Simba::SQLEngine::DSIExtColumnRef& colRef)
+{
+    return (static_cast<simba_uint16>(RtdHisColIndex::TAG_NAME) == colRef.m_colIndex) ||
+        static_cast<simba_uint16>(TagColIndex::NAME) == colRef.m_colIndex;
 }
 
 ISYS_SQL_NAMESPACE_END

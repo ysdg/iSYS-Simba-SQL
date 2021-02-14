@@ -4,7 +4,7 @@
  * @Email: yuanquan@supcon.com
  * @Date: 2021-02-19 16:47:25
  * @LastEditors: yuanquan
- * @LastEditTime: 2021-02-14 00:46:29
+ * @LastEditTime: 2021-02-14 14:52:22
  * @copyright: Copyright (c) SUPCON
  *************************************************/
 #pragma once
@@ -23,11 +23,31 @@ enum class RtdHisColIndex : simba_uint16 {
 };
 
 enum class TagColIndex : simba_uint16 {
-	TAG_NAME = 0,
-	TIME_STAMP,
-	QUALITY,
-	ALARM_STATE,
-	VALUE
+	NAME = 0,
+	TRANSFER, 
+	ITEM_NAME, 
+	SCAN, 
+	SCAN_SEC, 
+	INTERFACE_FLAG, 
+	DESCR, 
+	PATH, 
+	UNIT, 
+	DATA_TYPE, 
+	READONLY, 
+	STORE, 
+	POOL_LEN, 
+	HIHI_LIMIT, 
+	HI_LIMIT, 
+	LOLO_LIMIT, 
+	LO_LIMIT, 
+	ALARM_FLAG, 
+	ARCHIVE, 
+	COMPRESS, 
+	COMP_MAX, 
+	COMP_MIN, 
+	COMP_DEV, 
+	BUFFER_COUNT, 
+	PRECISION, 
 };
 
 struct ColumnData
@@ -43,16 +63,17 @@ struct ColumnData
 	}
 };
 
+struct STagResult {
+	std::vector<::REALTAGDEF> infos;
+	std::vector<::TAGVALSTATE> values;
+};
+
+template<typename T>
 struct SIsysResult
 {
 	std::vector<::REALTAGDEF> tagInfos;
 	std::vector<::HRESULT> results;
-	std::vector<::TAGVALSTATE> tagValues;
-
-
-	void Release()
-	{
-	}
+	T tagValues;
 };
 
 class CIsysTable
