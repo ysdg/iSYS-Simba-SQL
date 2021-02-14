@@ -4,13 +4,31 @@
  * @Email: yuanquan@supcon.com
  * @Date: 2021-02-19 16:47:25
  * @LastEditors: yuanquan
- * @LastEditTime: 2021-02-19 17:23:48
+ * @LastEditTime: 2021-02-14 00:46:29
  * @copyright: Copyright (c) SUPCON
  *************************************************/
+#pragma once
 #include "IsysCommon.h"
+#include "IsysConn.h"
 #include "Quickstart.h"
 
 ISYS_SQL_NAMESPACE_BEGIN
+
+enum class RtdHisColIndex : simba_uint16 {
+	TAG_NAME = 0,
+	TIME_STAMP,
+	QUALITY,
+	ALARM_STATE,
+	VALUE
+};
+
+enum class TagColIndex : simba_uint16 {
+	TAG_NAME = 0,
+	TIME_STAMP,
+	QUALITY,
+	ALARM_STATE,
+	VALUE
+};
 
 struct ColumnData
 {
@@ -22,6 +40,18 @@ struct ColumnData
 	ColumnData(const simba_wstring& inName, const simba_int16& inType): name(inName), type(inType)
 	{
 
+	}
+};
+
+struct SIsysResult
+{
+	std::vector<::REALTAGDEF> tagInfos;
+	std::vector<::HRESULT> results;
+	std::vector<::TAGVALSTATE> tagValues;
+
+
+	void Release()
+	{
 	}
 };
 

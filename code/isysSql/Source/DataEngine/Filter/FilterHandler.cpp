@@ -16,6 +16,8 @@
 #include "SqlDataTypeUtilities.h"
 #include "SqlTypeMetadata.h"
 
+#include "IsysTable.h"
+
 using namespace Simba::Quickstart;
 using namespace Simba::SQLEngine;
 using namespace ISYS::SQL;
@@ -120,11 +122,12 @@ simba_wstring GetParameterValue(AEParameter* in_parameter)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 CFilterHandler::CFilterHandler(
     SharedPtr<CAbstractResultSet> in_table,
-    QuickstartSettings* in_codeBaseSettings)
-    :
-    m_table(in_table),
-    m_codeBaseSettings(in_codeBaseSettings),
-    m_isPassedDown(false)
+    QuickstartSettings* in_codeBaseSettings,
+    CIsysResult* result)
+    : m_table(in_table)
+    , m_codeBaseSettings(in_codeBaseSettings)
+    , m_isPassedDown(false)
+    , m_result(result)
 {
     assert(!in_table.IsNull());
     assert(in_codeBaseSettings);
@@ -147,7 +150,7 @@ SharedPtr<DSIExtResultSet> CFilterHandler::TakeResult()
         return SharedPtr<DSIExtResultSet>();
     }
     // Return filter result.
-    return SharedPtr<DSIExtResultSet>(new CFilterResult(m_table, m_filter));
+    return SharedPtr<DSIExtResultSet>(new CFilterResult(m_table, m_filter, m_isysPara, m_result));
 }
 
 // Protected =======================================================================================
@@ -438,5 +441,55 @@ bool CFilterHandler::PassdownOr(AEOr* in_node)
         CheckNodeExpr(compNode);
     }
 
+    return true;
+}
+
+bool CFilterHandler::Convert2Filter(
+    SEComparisonType compOp, 
+    const DSIExtColumnRef& colRef,
+    const simba_wstring& literalStr, 
+    bool& isLeftCol)
+{
+    if (static_cast<simba_uint16>(RtdHisColIndex::TAG_NAME) == colRef.m_colIndex && SE_COMP_EQ == compOp)
+    {
+        m_isysPara.tagNames.push_back(literalStr);
+        CIsysParameter::Instance()->AddTag(literalStr);
+    }
+    else if (static_cast<simba_uint16>(RtdHisColIndex::TIME_STAMP) == colRef.m_colIndex)
+    {
+        SBoundary<simba_wstring>* left = &m_isysPara.timeLeft;
+        SBoundary<simba_wstring>* right = &m_isysPara.timeRight;
+        if (!isLeftCol)
+        {
+            left = &m_isysPara.timeRight;
+            right = &m_isysPara.timeLeft;
+        }
+        switch (compOp)
+        {
+        case Simba::SQLEngine::SE_COMP_EQ:
+            break;
+        case Simba::SQLEngine::SE_COMP_NE:
+            break;
+        case Simba::SQLEngine::SE_COMP_GT:
+            left->isContain = false;
+            left->value = literalStr;
+            break;
+        case Simba::SQLEngine::SE_COMP_GE:
+            left->isContain = true;
+            left->value = literalStr;
+            break;
+        case Simba::SQLEngine::SE_COMP_LT:
+            right->isContain = false;
+            right->value = literalStr;
+            break;
+        case Simba::SQLEngine::SE_COMP_LE:
+            right->isContain = true;
+            right->value = literalStr;
+            break;
+        default:
+            assert(false);
+            break;
+        }
+    }
     return true;
 }

@@ -1,14 +1,20 @@
 #include "Filter/FilterResult.h"
 #include "IResult.h"
 #include "IsysParameter.h"
+#include "QSTable.h"
 
 using namespace ISYS::SQL;
 
-CFilterResult::CFilterResult(Simba::Support::SharedPtr<CAbstractResultSet> in_table,
-    const simba_wstring& in_filter)
+CFilterResult::CFilterResult(
+    Simba::Support::SharedPtr<CAbstractResultSet> in_table,
+    const simba_wstring& in_filter,
+    SIsysPara& isysPara, 
+    CIsysResult* result)
     : m_table(in_table)
     , m_filter(in_filter)
     , m_hasStartedFetch(false)
+    , m_isysPara(isysPara)
+    , m_result(result)
 {
 
 }
@@ -147,9 +153,8 @@ bool CFilterResult::MoveToNextRow()
         return (!isysPara->IsTagOver());
     }
     m_table->SetCurrentRow(isysPara->GetRowNum());
-    //m_table->MoveToNextRow();
 
-    return CIsysParameter::Instance()->NextTag();
+    return m_result->NextRow();
     
 }
 

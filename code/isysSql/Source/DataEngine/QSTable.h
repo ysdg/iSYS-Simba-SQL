@@ -11,6 +11,8 @@
 
 #include "Quickstart.h"
 #include "IsysConn.h"
+#include "IsysTable.h"
+#include "IsysResult.h"
 
 #include "AutoPtr.h"
 #include "DSIExtSimpleResultSet.h"
@@ -161,6 +163,14 @@ namespace Quickstart
             simba_signed_native in_offset,
             simba_signed_native in_maxSize);
 
+        /// @brief Called from Move() to indicate that the cursor should now be moved to the next
+        /// row.
+        ///
+        /// @return True if there are more rows in the ResultSet; false otherwise.
+        bool MoveToNextRow();
+
+        ISYS::SQL::CIsysResult* GetResult();
+
     // Protected ===================================================================================
     protected:
         /// @brief Destructor.
@@ -178,12 +188,6 @@ namespace Quickstart
         /// After Reset() is called, Move() must be called prior to the first call to
         /// RetrieveData() to position the cursor on the first row.
         void MoveToBeforeFirstRow();
-
-        /// @brief Called from Move() to indicate that the cursor should now be moved to the next
-        /// row.
-        ///
-        /// @return True if there are more rows in the ResultSet; false otherwise.
-        bool MoveToNextRow();
 
     // Private =====================================================================================
     private:
@@ -212,7 +216,7 @@ namespace Quickstart
         /// @param in_column   A column index. The first column uses index 0.
         ///
         /// @return the value of the column
-        simba_wstring ReadWholeColumnAsString(simba_uint16 in_column) const;
+        simba_wstring ReadWholeColumnAsString(simba_uint16 in_column);
 
         // Reference to the ILogger. (NOT OWN)
         ILogger* m_log;
@@ -236,6 +240,8 @@ namespace Quickstart
         bool m_hasStartedFetch;
 
         ISYS::SQL::CIsysConn* m_isysConn;
+
+        ISYS::SQL::CIsysResult m_result;
     };
 }
 }

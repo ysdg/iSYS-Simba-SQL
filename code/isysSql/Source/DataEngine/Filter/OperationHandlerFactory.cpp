@@ -10,8 +10,9 @@ using namespace ISYS::SQL;
 
 // Public ==========================================================================================
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-COperationHandlerFactory::COperationHandlerFactory(QuickstartSettings* in_Settings) :
-    m_settings(in_Settings)
+COperationHandlerFactory::COperationHandlerFactory(QuickstartSettings* in_Settings, CIsysResult* result) 
+    : m_settings(in_Settings)
+    , m_result(result)
 {
     assert(in_Settings);
 }
@@ -30,5 +31,5 @@ AutoPtr<Simba::SQLEngine::IBooleanExprHandler> COperationHandlerFactory::CreateF
 {
     SharedPtr<CAbstractResultSet> temp(static_cast<CAbstractResultSet*> (in_table.Get()));
 
-    return AutoPtr<IBooleanExprHandler>(new CFilterHandler(temp, m_settings));
+    return AutoPtr<IBooleanExprHandler>(new CFilterHandler(temp, m_settings, m_result));
 }

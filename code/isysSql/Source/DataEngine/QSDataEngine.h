@@ -11,6 +11,7 @@
 
 #include "Quickstart.h"
 #include "IsysConn.h"
+#include "IsysResult.h"
 
 #include "DSIExtSqlDataEngine.h"
 
@@ -115,6 +116,7 @@ namespace Quickstart
         // Struct containing connection settings and error codes. (NOT OWN)
         QuickstartSettings* m_settings;
         ISYS::SQL::CIsysConn* m_isysConn;
+        ISYS::SQL::CIsysResult* m_result;
     };
 }
 }

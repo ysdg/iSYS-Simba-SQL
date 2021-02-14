@@ -134,7 +134,6 @@ SharedPtr<DSIExtResultSet> QSDataEngine::OpenTable(
     // QuickstartDSII does not support schemas, so in_schemaName should always be empty.
     assert(in_schemaName.IsEmpty());
 
-    SharedPtr<DSIExtResultSet> table;
     QSUtilities utilities(m_settings);
 
     // Linux is case-sensitive, therefore change the table name to upper case for comparison. Don't
@@ -166,14 +165,17 @@ SharedPtr<DSIExtResultSet> QSDataEngine::OpenTable(
     if (CIsysTable::IsContainTbName(in_tableName))
     {
 		CIsysParameter::Instance()->AddTbName(in_tableName);
-        table = new QSTable(
+        
+        auto table = new QSTable(
             m_settings,
             GetLog(),
             in_tableName,
             m_statement->GetWarningListener(),
             IsODBCVersion3(),
             m_isysConn);
-        return table;
+        m_result = table->GetResult();
+        SharedPtr<DSIExtResultSet> tableResult{ table };
+        return tableResult;
     }
     else
     {
@@ -224,5 +226,5 @@ Simba::Support::AutoPtr<Simba::SQLEngine::DSIExtOperationHandlerFactory> QSDataE
         "CBDataEngine",
         "CreateOperationHandlerFactory");
 
-    return AutoPtr<DSIExtOperationHandlerFactory>(new COperationHandlerFactory(m_settings));
+    return AutoPtr<DSIExtOperationHandlerFactory>(new COperationHandlerFactory(m_settings, m_result));
 }

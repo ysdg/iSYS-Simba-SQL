@@ -22,6 +22,13 @@ struct SBoundary
 	bool isContain = false;
 };
 
+struct SIsysPara
+{
+	std::vector<simba_wstring> tagNames;
+	SBoundary<simba_wstring> timeLeft;
+	SBoundary<simba_wstring> timeRight;
+};
+
 enum class DataType : simba_uint32
 {
 	HIS = 0,
@@ -46,6 +53,7 @@ public:
 	simba_wstring GetFrontTag();
 	bool NextTag();
 	bool IsTagOver();
+	std::deque<simba_wstring> GetTags();
 	simba_signed_native GetRowNum();
 
 private:
@@ -100,6 +108,11 @@ inline simba_signed_native CIsysParameter::GetRowNum()
 inline bool CIsysParameter::IsTagOver()
 {
 	return m_tags.empty();
+}
+
+inline std::deque<simba_wstring> CIsysParameter::GetTags()
+{
+	return m_tags;
 }
 
 ISYS_SQL_NAMESPACE_END

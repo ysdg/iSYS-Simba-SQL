@@ -1723,6 +1723,7 @@ xcopy /Y /D "$(SIMBAENGINE_DIR)\ErrorMessages\en-US\ServerMessages.xml" ..\Error
     <ClCompile Include="DataEngine\QSTypeInfoMetadataSource.cpp" />
     <ClCompile Include="Common\QSUtilities_Windows.cpp" />
     <ClCompile Include="Common\TabbedUnicodeFileReader.cpp" />
+    <ClCompile Include="IsysResult.cpp" />
     <ClCompile Include="Main_Windows.cpp" />
     <ClCompile Include="Setup\ConfigDSN.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='debug_MTDLL_OLEDB|Win32'">true</ExcludedFromBuild>
@@ -1759,6 +1760,7 @@ xcopy /Y /D "$(SIMBAENGINE_DIR)\ErrorMessages\en-US\ServerMessages.xml" ..\Error
     <ClInclude Include="DataEngine\Filter\OperationHandlerFactory.h" />
     <ClInclude Include="DataEngine\QSDataEngine.h" />
     <ClInclude Include="DataEngine\QSMetadataHelper.h" />
+    <ClInclude Include="IsysResult.h" />
     <ClInclude Include="Resources\resource.h" />
     <ClInclude Include="Resources\VersionResource.h" />
     <ClInclude Include="Setup\QSBaseDialog.h" />

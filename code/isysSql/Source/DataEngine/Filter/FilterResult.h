@@ -1,6 +1,8 @@
 #pragma once
 #include "AbStractResultSet.h"
 #include "Quickstart.h"
+#include "IsysParameter.h"
+#include "IsysResult.h"
 
 ISYS_SQL_NAMESPACE_BEGIN
 
@@ -9,7 +11,9 @@ class CFilterResult : public CAbstractResultSet
 public:
     CFilterResult(
         Simba::Support::SharedPtr<CAbstractResultSet> in_table,
-        const simba_wstring& in_filter);
+        const simba_wstring& in_filter, 
+        SIsysPara& isysPara, 
+        CIsysResult* result);
 
     virtual void DeleteRow();
 
@@ -71,8 +75,12 @@ private:
     simba_wstring m_filter;
     Simba::Support::SharedPtr<CAbstractResultSet> m_table;
 
+    SIsysPara m_isysPara;
+
     /// Flag indicating if Move() has been called yet.
     bool m_hasStartedFetch;
+
+    CIsysResult* m_result;
 };
 
 ISYS_SQL_NAMESPACE_END

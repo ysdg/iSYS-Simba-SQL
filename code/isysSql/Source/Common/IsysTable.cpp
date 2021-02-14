@@ -25,7 +25,6 @@ CIsysTable::Columns CIsysTable::RtdColumns{
 	ColumnData{"quality", 		SQL_INTEGER},
 	ColumnData{"alarm_state", 	SQL_INTEGER},
 	ColumnData{"value", 		SQL_DOUBLE},
-
 };
 
 CIsysTable::Columns CIsysTable::TagColumns{

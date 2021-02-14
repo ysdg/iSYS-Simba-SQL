@@ -2,9 +2,11 @@
 
 #include "AEOr.h"
 #include "IsysCommon.h"
+#include "IsysParameter.h"
 #include "Quickstart.h"
 #include "Filter/AbStractResultSet.h"
 #include "DSIExtSimpleBooleanExprHandler.h"
+#include "IsysResult.h"
 
 ISYS_SQL_NAMESPACE_BEGIN
 
@@ -13,7 +15,8 @@ class CFilterHandler : public Simba::SQLEngine::DSIExtSimpleBooleanExprHandler
 public:
 	CFilterHandler(
 		Simba::Support::SharedPtr<CAbstractResultSet> in_table,
-        Simba::Quickstart::QuickstartSettings* in_codeBaseSettingss);
+        Simba::Quickstart::QuickstartSettings* in_codeBaseSettingss, 
+        CIsysResult* result);
 
 	virtual bool CanHandleMoreClauses();
 
@@ -57,6 +60,12 @@ private:
         const simba_wstring& in_exprValue,
         Simba::SQLEngine::SEComparisonType in_compOp);
 
+    bool Convert2Filter(
+        Simba::SQLEngine::SEComparisonType compOp, 
+        const Simba::SQLEngine::DSIExtColumnRef& colRef,
+        const simba_wstring& literalStr, 
+        bool& isLeftCol);
+
     template<typename AET>
     bool CheckNodeExpr(AET* in_node);
 
@@ -70,7 +79,7 @@ private:
     //    Simba::SQLEngine::AEValueList* right);
 
     template<typename AET, typename AEExpr>
-    bool SortAENode(AET* in_node, AEExpr** columnExpr, AEExpr** literalExpr);
+    bool SortAENode(AET* in_node, AEExpr** columnExpr, AEExpr** literalExpr, bool& isLeftCol);
 
     template<typename AET, typename AEExpr>
     bool CheckExpr(AET* in_node, AEExpr* columnExpr, AEExpr* literalExpr);
@@ -84,6 +93,9 @@ private:
     Simba::Quickstart::QuickstartSettings* m_codeBaseSettings;
 
     bool m_isPassedDown;
+
+    ISYS::SQL::SIsysPara m_isysPara;
+    CIsysResult* m_result;
 };
 
 template<typename AET, typename AEList>
@@ -107,7 +119,7 @@ void CFilterHandler::GetLeftAndRightList(AET* in_node, AEList** left, AEList** r
 //}
 
 template<typename AET, typename AEExpr>
-bool CFilterHandler::SortAENode(AET* in_node, AEExpr** columnExpr, AEExpr** literalExpr)
+bool CFilterHandler::SortAENode(AET* in_node, AEExpr** columnExpr, AEExpr** literalExpr, bool& isLeftCol)
 {
     AEValueList* left = nullptr;
     AEValueList* right = nullptr;
@@ -134,11 +146,13 @@ bool CFilterHandler::SortAENode(AET* in_node, AEExpr** columnExpr, AEExpr** lite
     {
         if (AE_NT_VX_COLUMN == lExpr->GetNodeType())
         {
+            isLeftCol = true;
             *columnExpr = lExpr;
             *literalExpr = rExpr;
         }
         else
         {
+            isLeftCol = false;
             *columnExpr = rExpr;
             *literalExpr = lExpr;
         }
@@ -182,10 +196,10 @@ bool CFilterHandler::CheckExpr(AET* in_node, AEExpr* columnExpr, AEExpr* literal
             return false;
         }
 
-        if (SE_COMP_EQ != compOp)
-        {
-            return false;
-        }
+        //if (SE_COMP_EQ != compOp)
+        //{
+        //    return false;
+        //}
         
     }
 
@@ -197,7 +211,8 @@ bool CFilterHandler::CheckNodeExpr(AET* in_node)
 {
     AEValueExpr* columnExpr = nullptr;
     AEValueExpr* literalExpr = nullptr;
-    if (!SortAENode(in_node, &columnExpr, &literalExpr))
+    bool isLeftCol = true;
+    if (!SortAENode(in_node, &columnExpr, &literalExpr, isLeftCol))
     {
         return false;
     }
@@ -210,7 +225,14 @@ bool CFilterHandler::CheckNodeExpr(AET* in_node)
     // Construct the filter string for input to CodeBase.
     //ConstructFilter(columnName, columnSqlType, paramSqlType, literalValue, compOp);
 
-    CIsysParameter::Instance()->AddTag(literalExpr->GetAsLiteral()->GetLiteralValue());
+    DSIExtColumnRef colRef;
+    GetTableColRef(columnExpr, colRef);
+    Convert2Filter(
+        in_node->GetComparisonOp(), 
+        colRef,
+        literalExpr->GetAsLiteral()->GetLiteralValue(), 
+        isLeftCol);
+
     m_isPassedDown = true;
     return true;
 }

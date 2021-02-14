@@ -40,7 +40,8 @@ QSTable::QSTable(
         m_settings(in_settings),
         m_warningListener(in_warningListener),
         m_hasStartedFetch(false), 
-        m_isysConn(isysConn)
+        m_isysConn(isysConn),
+        m_result(in_tableName, isysConn)
 {
     SE_CHK_INVALID_ARG(
         (NULL == in_settings) ||
@@ -150,6 +151,7 @@ void QSTable::DoCloseCursor()
 {
     ENTRANCE_LOG(m_log, "Simba::Quickstart", "QSTable", "DoCloseCursor");
     m_hasStartedFetch = false;
+    m_result.Reset();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -157,6 +159,7 @@ void QSTable::MoveToBeforeFirstRow()
 {
     DEBUG_ENTRANCE_LOG(m_log, "Simba::Quickstart", "QSTable", "MoveToBeforeFirstRow");
     m_hasStartedFetch = false;
+    m_result.Reset();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -167,12 +170,10 @@ bool QSTable::MoveToNextRow()
     if (!m_hasStartedFetch)
     {
         m_hasStartedFetch = true;
-        //return false;
-        return CIsysParameter::Instance()->NextTag();
+        m_result.UpdateTags(CIsysParameter::Instance()->GetTags());
     }
 
-    //return false;
-    return CIsysParameter::Instance()->NextTag();
+    return m_result.NextRow();
 }
 
 // Private =========================================================================================
@@ -457,61 +458,33 @@ void QSTable::InitializeColumns(bool in_isODBCV3)
     m_columns.Attach(columns.Detach());
 }
 
-
-simba_wstring FileTime2Str(const FILETIME& ft)
+ISYS::SQL::CIsysResult* QSTable::GetResult()
 {
-    SYSTEMTIME systemTime;
-    FileTimeToSystemTime(&ft, &systemTime);
-    WCHAR szDate[128];
-    WCHAR szTime[128];
-    GetDateFormat(LOCALE_SYSTEM_DEFAULT, NULL, &systemTime, TEXT("yyyy-MM-dd"), szDate, 12);
-    GetTimeFormat(LOCALE_SYSTEM_DEFAULT, NULL, &systemTime, TEXT("HH:mm:ss"), szTime, 10);
-    return simba_wstring(szDate) + simba_wstring(" ") + simba_wstring(szTime);
-}
-
-simba_wstring GetRtdColStr(const simba_uint16& in_column, const TAGVALSTATE TagValue)
-{
-    simba_wstring valueStr;
-    switch (in_column)
-    {
-    case 0: valueStr = CIsysParameter::Instance()->GetFrontTag(); break;
-    case 1: valueStr = FileTime2Str(TagValue.ftTimeStamp); break;
-    case 2: valueStr = NumberConverter::ConvertUInt64ToWString(TagValue.wQuality);  break;
-    case 3: valueStr = NumberConverter::ConvertUInt64ToWString(TagValue.wAlarmState); break;
-    case 4: valueStr = NumberConverter::ConvertDouble64ToWString(TagValue.vEng_value.dblVal); break;
-    default:
-        break;
-    }
-    return valueStr;
+    return &m_result;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-simba_wstring QSTable::ReadWholeColumnAsString(simba_uint16 in_column) const
+simba_wstring QSTable::ReadWholeColumnAsString(simba_uint16 in_column)
 {
-    static const simba_int32 bufferSize = QS_MAX_STRING_COLUMN_SIZE * sizeof(wchar_t);
-    std::vector<simba_int8> buffer(bufferSize);
-
-    std::vector<simba_int8>::size_type offset = 0;
-    simba_int64 bytesRead = 0;
-
-    bool hasMoreData = true;
-    ::HTAG tag[1] = { 0 };
-    const auto& tagName = CIsysParameter::Instance()->GetFrontTag();
-    auto result = ::GetTagIDByName(m_isysConn->conn, tagName.GetAsPlatformWString().c_str(), tag[0]);
-
-    HRESULT* ppResult = NULL;
-    TAGVALSTATE* ppTagValues = NULL;
-    result = ::ReadTagsValue(m_isysConn->conn, sizeof(tag) / sizeof(HTAG), tag, &ppResult, &ppTagValues);
-
-    if (!ISYS_SUCCESS(result))
+    if (!m_hasStartedFetch)
     {
-        QSTHROW2(QS_DATAENGINE_STATE, L"ReadTagValueError", tagName, NumberConverter::ConvertInt32ToWString(result));
+        m_hasStartedFetch = true;
+        m_result.UpdateTags(CIsysParameter::Instance()->GetTags());
     }
+    //::HTAG tag[1] = { 0 };
+    //const auto& tagName = CIsysParameter::Instance()->GetFrontTag();
+    //auto result = ::GetTagIDByName(m_isysConn->conn, tagName.GetAsPlatformWString().c_str(), tag[0]);
+
+    //HRESULT* ppResult = NULL;
+    //TAGVALSTATE* ppTagValues = NULL;
+    //result = ::ReadTagsValue(m_isysConn->conn, sizeof(tag) / sizeof(HTAG), tag, &ppResult, &ppTagValues);
+
+    //if (!ISYS_SUCCESS(result))
+    //{
+    //    QSTHROW2(QS_DATAENGINE_STATE, L"ReadTagValueError", tagName, NumberConverter::ConvertInt32ToWString(result));
+    //}
     
     //ISYS::SQL::CIsysParameter::Instance()->IsHis()
-    return GetRtdColStr(in_column, ppTagValues[0]);
-
-    // It shouldn't be possible to reach this point.
-    assert(false);
-    return simba_wstring();
+    return m_result.GetColStr(in_column);
+    //return GetRtdColStr(in_column, ppTagValues[0]);
 }

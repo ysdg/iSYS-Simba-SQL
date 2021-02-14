@@ -121,6 +121,9 @@
     <ClCompile Include="Common\IsysTable.cpp">
       <Filter>Common</Filter>
     </ClCompile>
+    <ClCompile Include="IsysResult.cpp">
+      <Filter>DataEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\QSConnection.h">
@@ -213,6 +216,9 @@
     </ClInclude>
     <ClInclude Include="DataEngine\Filter\ColumnHolder.h">
       <Filter>DataEngine\Filter\include</Filter>
+    </ClInclude>
+    <ClInclude Include="IsysResult.h">
+      <Filter>DataEngine\Include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -4,6 +4,7 @@
 #include "DSIExtOperationHandlerFactory.h"
 #include "DSIExtResultSet.h"
 #include "Quickstart.h"
+#include "IsysResult.h"
 
 ISYS_SQL_NAMESPACE_BEGIN
 
@@ -11,7 +12,7 @@ class COperationHandlerFactory : public Simba::SQLEngine::DSIExtOperationHandler
 {
 public:
     /// @brief Constructor.
-    COperationHandlerFactory(Simba::Quickstart::QuickstartSettings* in_Settings);
+    COperationHandlerFactory(Simba::Quickstart::QuickstartSettings* in_Settings, CIsysResult* result);
 
     /// @brief Destructor.
     virtual ~COperationHandlerFactory() {}
@@ -52,6 +53,8 @@ public:
 private:
     /// Struct containing CodeBase settings and error codes. (NOT OWN)
     Simba::Quickstart::QuickstartSettings* m_settings;
+
+    CIsysResult* m_result;
 };
 
 ISYS_SQL_NAMESPACE_END
