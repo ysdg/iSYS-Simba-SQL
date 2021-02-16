@@ -87,8 +87,11 @@ void QSConnection::Connect(const DSIConnSettingRequestMap& in_connectionSettings
     m_connectionSettingsMap = in_connectionSettings;
 
     // Look up the DBF path for Quickstart tables in the connection string.
-    m_settings.m_dbfPath =
-        GetRequiredSetting(QS_DBF_KEY, in_connectionSettings).GetStringValue();
+
+    #ifndef OLEDBTARGET
+        m_settings.m_dbfPath =
+            GetRequiredSetting(QS_DBF_KEY, in_connectionSettings).GetStringValue();
+    #endif // !OLEDBTARGET
 
     // Look up optional settings for the driver, substitute default values if the key is not present
     // in the connection string.
@@ -313,7 +316,7 @@ void QSConnection::UpdateConnectionSettings(
     //                                         table is opened that doesn't exist.
     //      Optional Key: ENABLECACHING - flag indicating table caching should be enabled.
     //      Optional Key: LOCALE - key for changing the connection locale.
-    VerifyRequiredSetting(QS_DBF_KEY, in_connectionSettings, out_connectionSettings);
+    VerifyOptionalSetting(QS_DBF_KEY, in_connectionSettings, out_connectionSettings);
     VerifyOptionalSetting(QS_DEFAULT_MAX_COLUMN_SIZE_KEY, in_connectionSettings, out_connectionSettings);
     VerifyOptionalSetting(QS_USE_CUSTOM_STATES_KEY, in_connectionSettings, out_connectionSettings);
     VerifyOptionalSetting(QS_USE_CACHING_KEY, in_connectionSettings, out_connectionSettings);

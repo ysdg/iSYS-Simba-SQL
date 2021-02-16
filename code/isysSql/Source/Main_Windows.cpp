@@ -79,17 +79,17 @@ simba_wstring Simba::OLEDB::GetOLEDBBranding(
 	ComBrandingInformation& out_providerBranding,
 	ComBrandingInformation& out_errorLookupServiceBranding)
 {
-	out_providerBranding.m_name = L"Simba Quickstart OLE DB Provider";
+	out_providerBranding.m_name = L"ISYS SQL OLE DB Provider";
 	out_providerBranding.m_classID = "{6FDF2253-DD6F-4692-B8AD-D8AD4E747D90}";
-	out_providerBranding.m_description = L"Simba Quickstart OLE DB Provider";
-	out_providerBranding.m_progID = L"SimbaQuickstartProvider";
-	out_providerBranding.m_versionIndependentProgID = "SimbaQuickstartProvider";
+	out_providerBranding.m_description = L"ISYS SQL Quickstart OLE DB Provider";
+	out_providerBranding.m_progID = L"isysSqlProvider";
+	out_providerBranding.m_versionIndependentProgID = "isysSqlProvider v1.0";
 
-	out_errorLookupServiceBranding.m_name = L"Simba Quickstart Error Lookup Service";
+	out_errorLookupServiceBranding.m_name = L"ISYS SQL Error Lookup Service";
 	out_errorLookupServiceBranding.m_classID = "{FD6B9B53-F83B-4477-9969-0D9C95F9A255}";
-	out_errorLookupServiceBranding.m_description = L"Error Lookup Service for the Simba Quickstart OLE DB Provider";
-	out_errorLookupServiceBranding.m_progID = L"SimbaQuickstartProvider";
-	out_errorLookupServiceBranding.m_versionIndependentProgID = L"SimbaQuickstartProvider";
+	out_errorLookupServiceBranding.m_description = L"Error Lookup Service for the isys sql OLE DB Provider";
+	out_errorLookupServiceBranding.m_progID = L"isysSqlProvider";
+	out_errorLookupServiceBranding.m_versionIndependentProgID = L"isysSqlProvider v1.0";
 
 	wchar_t filenameBuff[MAX_PATH + 1];
     if (!GetModuleFileNameW((HMODULE)s_quickstartModuleId, filenameBuff, sizeof(filenameBuff) / sizeof(filenameBuff[0])))

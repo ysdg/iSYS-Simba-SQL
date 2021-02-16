@@ -858,8 +858,8 @@ xcopy /Y /D "$(SIMBAENGINE_DIR)\ErrorMessages\en-US\SQLEngineMessages.xml" ..\Er
     <ClCompile>
       <AdditionalOptions>/Gs %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.;.\Common;.\Core;.\DataEngine;.\DataEngine\Metadata;.\Resources;.\Setup;$(SIMBAENGINE_DIR)\Include;$(SIMBAENGINE_DIR)\Include\DSI;$(SIMBAENGINE_DIR)\Include\DSI\Client;$(SIMBAENGINE_DIR)\Include\Support;$(SIMBAENGINE_DIR)\Include\Support\Exceptions;$(SIMBAENGINE_DIR)\Include\Support\TypedDataWrapper;$(SIMBAENGINE_DIR)\Include\SQLEngine;$(SIMBAENGINE_DIR)\Include\SQLEngine\AETree;$(SIMBAENGINE_DIR)\Include\SQLEngine\DSIExt;$(SIMBAENGINE_DIR)\Include\Server;$(SIMBAENGINE_THIRDPARTY_DIR)\Expat\$(S_EXPAT_V)\</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>UNICODE;_UNICODE;OLEDBTARGET;WIN32;_DEBUG;_LIB;SIMBA;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;.\Common;.\Core;.\DataEngine;.\DataEngine\Metadata;.\Resources;.\Setup;$(SIMBAENGINE_DIR)\Include;$(SIMBAENGINE_DIR)\Include\DSI;$(SIMBAENGINE_DIR)\Include\DSI\Client;$(SIMBAENGINE_DIR)\Include\Support;$(SIMBAENGINE_DIR)\Include\Support\Exceptions;$(SIMBAENGINE_DIR)\Include\Support\TypedDataWrapper;$(SIMBAENGINE_DIR)\Include\SQLEngine\Parser;$(SIMBAENGINE_DIR)\Include\SQLEngine;$(SIMBAENGINE_DIR)\Include\SQLEngine\AETree;$(SIMBAENGINE_DIR)\Include\SQLEngine\DSIExt;$(SIMBAENGINE_DIR)\Include\Server;$(SIMBAENGINE_THIRDPARTY_DIR)\Expat\$(S_EXPAT_V)\;$(SolutionDir)..\..\..\SDK\iSYS\C\inc;$(SolutionDir)..\..\..\..\..\SDK\iSYS\C\inc</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>UNICODE;_UNICODE;OLEDBTARGET;WIN32;_DEBUG;_LIB;SIMBA;_CRT_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -887,9 +887,9 @@ xcopy /Y /D "$(SIMBAENGINE_DIR)\ErrorMessages\en-US\SQLEngineMessages.xml" ..\Er
     </ProjectReference>
     <Link>
       <AdditionalOptions>/DEF:"exports-oledb.def" %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>User32.lib;AEProcessor.lib;Core.lib;DSIExt.lib;Executor.lib;Parser.lib;SimbaDSI.lib;SimbaOLEDB.lib;SimbaSupport.lib;shell32.lib;odbccp32.lib;secur32.lib</AdditionalDependencies>
+      <AdditionalDependencies>User32.lib;AEProcessor.lib;Core.lib;DSIExt.lib;Executor.lib;Parser.lib;SimbaDSI.lib;SimbaOLEDB.lib;SimbaSupport.lib;shell32.lib;odbccp32.lib;secur32.lib;iSYSNetAPI53.lib</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>$(SIMBAENGINE_DIR)\Lib\$(C_BLD_DIR);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\..\SDK\iSYS\C\bin\$(PlatformShortName);$(SolutionDir)..\..\..\..\..\SDK\iSYS\C\bin\$(PlatformShortName);$(SIMBAENGINE_DIR)\Lib\$(C_BLD_DIR);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>LIBCMT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ModuleDefinitionFile>exports-oledb.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -974,8 +974,8 @@ xcopy /Y /D "$(SIMBAENGINE_DIR)\ErrorMessages\en-US\SQLEngineMessages.xml" ..\Er
     <ClCompile>
       <AdditionalOptions>/Gs %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.;.\Common;.\Core;.\DataEngine;.\DataEngine\Metadata;.\Resources;.\Setup;$(SIMBAENGINE_DIR)\Include;$(SIMBAENGINE_DIR)\Include\DSI;$(SIMBAENGINE_DIR)\Include\DSI\Client;$(SIMBAENGINE_DIR)\Include\Support;$(SIMBAENGINE_DIR)\Include\Support\Exceptions;$(SIMBAENGINE_DIR)\Include\Support\TypedDataWrapper;$(SIMBAENGINE_DIR)\Include\SQLEngine;$(SIMBAENGINE_DIR)\Include\SQLEngine\AETree;$(SIMBAENGINE_DIR)\Include\SQLEngine\DSIExt;$(SIMBAENGINE_DIR)\Include\Server;$(SIMBAENGINE_THIRDPARTY_DIR)\Expat\$(S_EXPAT_V)\</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>UNICODE;_UNICODE;OLEDBTARGET;WIN64;_WIN64;_DEBUG;_LIB;SIMBA;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;.\Common;.\Core;.\DataEngine;.\DataEngine\Metadata;.\Resources;.\Setup;$(SIMBAENGINE_DIR)\Include;$(SIMBAENGINE_DIR)\Include\DSI;$(SIMBAENGINE_DIR)\Include\DSI\Client;$(SIMBAENGINE_DIR)\Include\Support;$(SIMBAENGINE_DIR)\Include\Support\Exceptions;$(SIMBAENGINE_DIR)\Include\Support\TypedDataWrapper;$(SIMBAENGINE_DIR)\Include\SQLEngine\Parser;$(SIMBAENGINE_DIR)\Include\SQLEngine;$(SIMBAENGINE_DIR)\Include\SQLEngine\AETree;$(SIMBAENGINE_DIR)\Include\SQLEngine\DSIExt;$(SIMBAENGINE_DIR)\Include\Server;$(SIMBAENGINE_THIRDPARTY_DIR)\Expat\$(S_EXPAT_V)\;$(SolutionDir)..\..\..\SDK\iSYS\C\inc;$(SolutionDir)..\..\..\..\..\SDK\iSYS\C\inc</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>UNICODE;_UNICODE;OLEDBTARGET;WIN64;_WIN64;_DEBUG;_LIB;SIMBA;_CRT_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -1003,9 +1003,9 @@ xcopy /Y /D "$(SIMBAENGINE_DIR)\ErrorMessages\en-US\SQLEngineMessages.xml" ..\Er
     </ProjectReference>
     <Link>
       <AdditionalOptions>/DEF:"exports-oledb.def" %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>User32.lib;AEProcessor.lib;Core.lib;DSIExt.lib;Executor.lib;Parser.lib;SimbaDSI.lib;SimbaOLEDB.lib;SimbaSupport.lib;shell32.lib;odbccp32.lib;secur32.lib</AdditionalDependencies>
+      <AdditionalDependencies>User32.lib;AEProcessor.lib;Core.lib;DSIExt.lib;Executor.lib;Parser.lib;SimbaDSI.lib;SimbaOLEDB.lib;SimbaSupport.lib;shell32.lib;odbccp32.lib;secur32.lib;iSYSNetAPI53.lib</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>$(SIMBAENGINE_DIR)\Lib\$(C_BLD_DIR);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\..\..\..\SDK\iSYS\C\bin\x64;$(SolutionDir)..\..\..\SDK\iSYS\C\bin\x64;$(SIMBAENGINE_DIR)\Lib\$(C_BLD_DIR);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>LIBCMT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ModuleDefinitionFile>exports-oledb.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
