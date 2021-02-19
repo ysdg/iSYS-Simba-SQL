@@ -176,10 +176,6 @@ bool CFilterHandler::PassdownComparison(AEComparison* in_node)
         AEValueExpr* lExpr = lOperand->GetChild(0);
         AEValueExpr* rExpr = rOperand->GetChild(0);
 
-        simba_wstring lname, rname;
-        lExpr->GetName(lname);
-        rExpr->GetName(rname);
-        SEComparisonType compOp = in_node->GetComparisonOp();
         //  Only handle two cases: 
         //   - <column_reference> <compOp> <parameter>
         //   - <parameter> <compOp> <column_reference>
@@ -206,6 +202,11 @@ bool CFilterHandler::PassdownComparison(AEComparison* in_node)
             // Column not found.
             return false;
         }
+
+        simba_wstring lname, rname;
+        lExpr->GetName(lname);
+        rExpr->GetName(rname);
+        SEComparisonType compOp = in_node->GetComparisonOp();
 
         // Get information about the column in the table that the filter is applied to.
         IColumns* tableColumns = colRef.m_table->GetSelectColumns();

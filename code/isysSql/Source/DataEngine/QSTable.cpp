@@ -504,7 +504,7 @@ simba_wstring QSTable::ReadWholeColumnAsString(simba_uint16 in_column) const
 
     if (!ISYS_SUCCESS(result))
     {
-        QSTHROW2(QS_DATAENGINE_STATE, L"ReadRealTagValueError", m_tableName, NumberConverter::ConvertInt32ToWString(result));
+        QSTHROW2(QS_DATAENGINE_STATE, L"ReadTagValueError", m_tableName, NumberConverter::ConvertInt32ToWString(result));
     }
     
     //ISYS::SQL::CIsysParameter::Instance()->IsHis()
