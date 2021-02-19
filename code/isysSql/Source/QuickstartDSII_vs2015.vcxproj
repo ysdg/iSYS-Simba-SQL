@@ -1704,6 +1704,7 @@ xcopy /Y /D "$(SIMBAENGINE_DIR)\ErrorMessages\en-US\ServerMessages.xml" ..\Error
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Common\IsysTable.cpp" />
     <ClCompile Include="Common\QSTableMetadataFile.cpp" />
     <ClCompile Include="Core\IsysConn.cpp" />
     <ClCompile Include="Core\QSConnection.cpp" />
@@ -1742,6 +1743,7 @@ xcopy /Y /D "$(SIMBAENGINE_DIR)\ErrorMessages\en-US\ServerMessages.xml" ..\Error
     <ClCompile Include="Setup\QSTestResultDialog.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Common\IsysTable.h" />
     <ClInclude Include="Core\IsysConn.h" />
     <ClInclude Include="Core\QSConnection.h" />
     <ClInclude Include="Core\QSConnectionDialog.h" />

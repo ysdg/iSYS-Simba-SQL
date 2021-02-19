@@ -1,3 +1,12 @@
+/*************************************************
+ * @Description: file content
+ * @Author: yuanquan
+ * @Email: yuanquan@supcon.com
+ * @Date: 2021-02-19 09:31:57
+ * @LastEditors: yuanquan
+ * @LastEditTime: 2021-02-19 17:55:48
+ * @copyright: Copyright (c) SUPCON
+ *************************************************/
 #pragma once
 
 #include "IsysCommon.h"
@@ -15,7 +24,8 @@ struct SBoundary
 enum class DataType : simba_uint32
 {
 	HIS = 0,
-	RTD = 1
+	RTD, 
+	TAG,
 };
 
 enum class Column: simba_uint32
@@ -30,23 +40,21 @@ private:
 
 public:
 	static CIsysParameter* Instance();
-
-	std::vector<simba_wstring> tagsName;
-	std::vector<simba_wstring> columns;
-
-	SBoundary<simba_wstring> timeLeft;
-	SBoundary<simba_wstring> timeRight;
-
-	bool IsHis();
+	void AddTbName(const simba_wstring& tbName);
 
 private:
+	std::vector<simba_wstring> m_tbName;
+	std::vector<simba_wstring> m_columns;
+	std::vector<simba_wstring> m_tags;
+	SBoundary<simba_wstring> m_timeLeft;
+	SBoundary<simba_wstring> m_timeRight;
 	DataType m_type;
 	static CIsysParameter* m_pInstance;
 };
 
-inline bool CIsysParameter::IsHis()
+inline void CIsysParameter::AddTbName(const simba_wstring& tbName)
 {
-	return m_type == DataType::HIS;
+	m_tbName.push_back(tbName);
 }
 
 ISYS_SQL_NAMESPACE_END

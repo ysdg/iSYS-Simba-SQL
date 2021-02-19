@@ -18,6 +18,7 @@
 #include "QSTable.h"
 #include "QSTypeInfoMetadataSource.h"
 #include "QSUtilities.h"
+#include "Filter/IsysParameter.h"
 
 using namespace Simba::Quickstart;
 using namespace Simba::DSI;
@@ -165,6 +166,7 @@ SharedPtr<DSIExtResultSet> QSDataEngine::OpenTable(
 
     if (ISYS_SUCCESS(result))
     {
+		CIsysParameter::Instance()->AddTbName(in_tableName);
         table = new QSTable(
             m_settings,
             GetLog(),
