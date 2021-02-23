@@ -4,7 +4,7 @@ Author: yuanquan
 Email: yuanquan2011@qq.com
 Date: 2021-02-15 20:42:55
 LastEditors: yuanquan
-LastEditTime: 2021-02-15 21:17:51
+LastEditTime: 2021-02-15 21:49:13
 copyright: Copyright (c) yuanquan
 '''
 import adodbapi
@@ -13,7 +13,7 @@ import adodbapi.ado_consts as adc
 
 
 Cfg={'server':'127.0.0.1','password':'xxxx','db':'pscitemp'}
-constr = "Provider=isysSqlProvider;Integrated Security=SSPI;"
+constr = "Provider=isysSqlProvider;"
 conn=adodbapi.connect(constr)
 
 cur=conn.cursor()
