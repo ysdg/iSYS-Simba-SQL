@@ -851,6 +851,7 @@ xcopy /Y /D "$(SIMBAENGINE_THIRDPARTY_DIR)\icu\$(S_ICU_V)\$(C_BLD_RELDIR)\lib\sb
 xcopy /Y /D "$(SIMBAENGINE_THIRDPARTY_DIR)\openssl\$(S_OPENSSL_V)\$(C_BLD_RELDIR)\bin\lib*.dll" "$(TargetDir)"
 xcopy /Y /D "$(SIMBAENGINE_DIR)\ErrorMessages\en-US\ODBCMessages.xml" ..\ErrorMessages\en-US
 xcopy /Y /D "$(SIMBAENGINE_DIR)\ErrorMessages\en-US\SQLEngineMessages.xml" ..\ErrorMessages\en-US
+xcopy /Y /D "$(TargetPath)" "C:\SUPCON\RTDB\v5.3\ESP-iSYS\DBDriver\$(PlatformShortName)"
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -906,7 +907,7 @@ xcopy /Y /D "$(SIMBAENGINE_THIRDPARTY_DIR)\icu\$(S_ICU_V)\$(C_BLD_RELDIR)\lib\sb
 xcopy /Y /D "$(SIMBAENGINE_THIRDPARTY_DIR)\openssl\$(S_OPENSSL_V)\$(C_BLD_RELDIR)\bin\lib*.dll" "$(TargetDir)"
 xcopy /Y /D "$(SIMBAENGINE_DIR)\ErrorMessages\en-US\ODBCMessages.xml" ..\ErrorMessages\en-US
 xcopy /Y /D "$(SIMBAENGINE_DIR)\ErrorMessages\en-US\SQLEngineMessages.xml" ..\ErrorMessages\en-US
-</Command>
+xcopy /Y /D "$(TargetPath)" "C:\SUPCON\RTDB\v5.3\ESP-iSYS\DBDriver\$(PlatformShortName)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='debug_MTDLL|x64'">
@@ -964,6 +965,7 @@ xcopy /Y /D "$(SIMBAENGINE_THIRDPARTY_DIR)\icu\$(S_ICU_V)\$(C_BLD_RELDIR)\lib\sb
 xcopy /Y /D "$(SIMBAENGINE_THIRDPARTY_DIR)\openssl\$(S_OPENSSL_V)\$(C_BLD_RELDIR)\bin\lib*.dll" "$(TargetDir)"
 xcopy /Y /D "$(SIMBAENGINE_DIR)\ErrorMessages\en-US\ODBCMessages.xml" ..\ErrorMessages\en-US
 xcopy /Y /D "$(SIMBAENGINE_DIR)\ErrorMessages\en-US\SQLEngineMessages.xml" ..\ErrorMessages\en-US
+xcopy /Y /D "$(TargetPath)" "C:\SUPCON\RTDB\v5.3\ESP-iSYS\DBDriver\$(PlatformShortName)"
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -1022,6 +1024,7 @@ xcopy /Y /D "$(SIMBAENGINE_THIRDPARTY_DIR)\icu\$(S_ICU_V)\$(C_BLD_RELDIR)\lib\sb
 xcopy /Y /D "$(SIMBAENGINE_THIRDPARTY_DIR)\openssl\$(S_OPENSSL_V)\$(C_BLD_RELDIR)\bin\lib*.dll" "$(TargetDir)"
 xcopy /Y /D "$(SIMBAENGINE_DIR)\ErrorMessages\en-US\ODBCMessages.xml" ..\ErrorMessages\en-US
 xcopy /Y /D "$(SIMBAENGINE_DIR)\ErrorMessages\en-US\SQLEngineMessages.xml" ..\ErrorMessages\en-US
+xcopy /Y /D "$(TargetPath)" "C:\SUPCON\RTDB\v5.3\ESP-iSYS\DBDriver\$(PlatformShortName)"
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
