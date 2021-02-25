@@ -1,0 +1,20 @@
+REGEDIT4
+
+; This registry file is for 64-bit data sources on 64-bit Windows.
+; Make sure to replace all instances of [INSTALL_DIRECTORY] with the installation directory for SimbaEngine before merging with Windows Registry.
+; Notice the double backslashes in the following example: 
+;   "C:\\Simba Technologies"
+
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\ODBC\ODBC.INI\ODBC Data Sources]
+"isysSqlDSII"=-
+
+[-HKEY_LOCAL_MACHINE\SOFTWARE\ODBC\ODBC.INI\isysSqlDSII]
+
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\ODBC\ODBCINST.INI\ODBC Drivers]
+"isysSqlDSIIDriver"=-
+
+[-HKEY_LOCAL_MACHINE\SOFTWARE\ODBC\ODBCINST.INI\isysSqlDSIIDriver]
+
+[-HKEY_LOCAL_MACHINE\SOFTWARE\Simba\isysSql]

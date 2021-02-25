@@ -16,7 +16,7 @@ REGEDIT4
 @="Error Lookup Service for the isys sql OLE DB Provider"
 
 [HKEY_CLASSES_ROOT\CLSID\{6FDF2253-DD6F-4692-B8AD-D8AD4E747D90}\InprocServer32]
-@="C:\\SUPCON\\RTDB\\v5.3\\ESP-iSYS\\OLEDBCDriver\\isysSqlDSIIOLEDB64.dll"
+@="C:\\SUPCON\\RTDB\\v5.3\\ESP-iSYS\\DBDriver\\x64\\isysSqlDSIIOLEDB64.dll"
 "ThreadingModel"="Both"
 
 [HKEY_CLASSES_ROOT\CLSID\{6FDF2253-DD6F-4692-B8AD-D8AD4E747D90}\OLE DB Provider]
@@ -32,7 +32,7 @@ REGEDIT4
 @="Error Lookup Service for the isys sql OLE DB Provider"
 
 [HKEY_CLASSES_ROOT\CLSID\{FD6B9B53-F83B-4477-9969-0D9C95F9A255}\InprocServer32]
-@="C:\\SUPCON\\RTDB\\v5.3\\ESP-iSYS\\OLEDBCDriver\\isysSqlDSIIOLEDB64.dll"
+@="C:\\SUPCON\\RTDB\\v5.3\\ESP-iSYS\\DBDriver\\x64\\isysSqlDSIIOLEDB64.dll"
 
 [HKEY_CLASSES_ROOT\CLSID\{FD6B9B53-F83B-4477-9969-0D9C95F9A255}\InprocServer32\ThreadingModel]
 @="Both"
