@@ -41,7 +41,7 @@ QSTable::QSTable(
         m_warningListener(in_warningListener),
         m_hasStartedFetch(false), 
         m_isysConn(isysConn),
-        m_result(in_tableName, isysConn)
+        m_result(in_tableName, isysConn, in_log)
 {
     SE_CHK_INVALID_ARG(
         (NULL == in_settings) ||

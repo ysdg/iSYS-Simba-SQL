@@ -7,10 +7,11 @@
 using namespace Simba::Quickstart;
 using namespace ISYS::SQL;
 
-CIsysResult::CIsysResult(const simba_wstring& tableName, ISYS::SQL::CIsysConn* isysConn)
+CIsysResult::CIsysResult(const simba_wstring& tableName, ISYS::SQL::CIsysConn* isysConn, ILogger* log)
 	: m_tableName(tableName)
 	, m_isysConn(isysConn)
 	, m_rowNow(0)
+	, m_log(log)
 {
 	m_tbName2Get[simba_wstring("isys_tag")] = std::bind(&CIsysResult::GetTagColStr, this, std::placeholders::_1);
 	m_tbName2Get[simba_wstring("isys_rtd")] = std::bind(&CIsysResult::GetRtdColStr, this, std::placeholders::_1);
@@ -307,7 +308,18 @@ bool CIsysResult::Read()
 
 	for (std::size_t i = 0; i < size; i++)
 	{
-		m_result.tagInfos.push_back(tagInfos[i]);
+		if (ISYS_SUCCESS(results[i]))
+		{
+			m_result.tagInfos.push_back(tagInfos[i]);
+		}
+		else
+		{
+			simba_wstring errstr = simba_wstring("Tag: ") + simba_wstring(tagInfos[i].baseDef.szTagName) + simba_wstring(" is not existed");
+			ISYS_LOG_WARNING(
+				m_log, 
+				simba_wstring("Tag: ") + simba_wstring(tagInfos[i].baseDef.szTagName) + simba_wstring(" is not existed")
+			);
+		}
 	}
 
 	realloc(tagIds, size * sizeof(::HTAG));

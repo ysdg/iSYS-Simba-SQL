@@ -139,14 +139,13 @@ void QSConnection::Connect(const DSIConnSettingRequestMap& in_connectionSettings
 	{
 		m_isConnected = false;
 		HRESULT hr = GetLastException();
+
 		QSTHROWGEN1("Isys connect error: ", NumberConverter::ConvertUInt32ToWString(hr));
-		ERROR_LOG(	m_log, 
-					"Simba::Quickstart", 
-					"QSConnection", 
-					"Connect", 
-					(m_isysConn.Dump() + simba_wstring("Connet to isys error") + NumberConverter::ConvertInt32ToWString(hr)).GetAsPlatformString().c_str()
-					);
-		return;
+        ISYS_LOG_ERROR(
+            m_log,
+            m_isysConn.Dump() + simba_wstring("Connet to isys error") + NumberConverter::ConvertInt32ToWString(hr)
+        );
+        return;
 	}
     auto result = ::LogIn(m_isysConn.conn, m_isysConn.user.GetAsPlatformWString().c_str(), m_isysConn.password.GetAsPlatformWString().c_str());
     if (!ISYS_SUCCESS(result))

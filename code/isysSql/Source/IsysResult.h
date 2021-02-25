@@ -16,10 +16,11 @@ enum class IsysBound : simba_uint32 {
 class CIsysResult
 {
 public:
-	CIsysResult(const simba_wstring& tableName, ISYS::SQL::CIsysConn* isysConn);
+	CIsysResult(const simba_wstring& tableName, ISYS::SQL::CIsysConn* isysConn, ILogger* log);
 	~CIsysResult();
 
 	simba_wstring GetColStr(simba_uint16 columnNum);
+	ILogger* GetLog();
 
 	bool NextRow();
 	bool IsOver();
@@ -59,8 +60,15 @@ private:
 	simba_uint32 m_rowNow;
 	CIsysConn* m_isysConn;
 	SIsysPara* m_isysPara;
+
+	ILogger* m_log;
 };
 
+
+inline ILogger* CIsysResult::GetLog()
+{
+	return m_log;
+}
 
 inline ::HTAG* CIsysResult::ConvertTagIds()
 {
