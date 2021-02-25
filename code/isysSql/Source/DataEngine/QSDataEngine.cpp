@@ -139,46 +139,23 @@ SharedPtr<DSIExtResultSet> QSDataEngine::OpenTable(
     // Linux is case-sensitive, therefore change the table name to upper case for comparison. Don't
     // do it on a per-platform basis so that metadata is consistent (ie table name is all caps).
     simba_wstring tableName(in_tableName);
-    tableName.ToUpper();
+    tableName.ToLower();
 
-    //if (utilities.DoesTableDataExist(tableName) && utilities.DoesTableMetadataExist(tableName))
-    //{
-    //    table = new QSTable(
-    //        m_settings,
-    //        GetLog(),
-    //        tableName,
-    //        m_statement->GetWarningListener(),
-    //        IsODBCVersion3());
-    //}
-    //else if (m_settings->m_useCustomSQLStates)
-    //{
-    //    // This is an example of throwing an error with a custom SQL state. If a query involving
-    //    // a non-existent table is executed, the driver will return SQL_ERROR, a SQL state of
-    //    // QS_DATAENGINE_STATE (QS001) and an error message that the table does not exist.
-    //    //
-    //    // NOTE: This is only an example of throwing a custom SQL State, to indicate a table does
-    //    // not exist to the SDK this function should return an empty SharedPtr in a production
-    //    // driver.
-    //    QSTHROW1(QS_DATAENGINE_STATE, L"QSTableDoesNotExist", in_tableName);
-    //}
-
-    if (CIsysTable::IsContainTbName(in_tableName))
+    if (!CIsysTable::IsContainTbName(tableName))
     {   
-        auto table = new QSTable(
-            m_settings,
-            GetLog(),
-            in_tableName,
-            m_statement->GetWarningListener(),
-            IsODBCVersion3(),
-            m_isysConn);
-        m_result = table->GetResult();
-        SharedPtr<DSIExtResultSet> tableResult{ table };
-        return tableResult;
+        QSTHROW1(QS_DATAENGINE_STATE, L"ISYSTableDoesNotExist", in_tableName);
     }
-    else
-    {
-        QSTHROW1(QS_DATAENGINE_STATE, L"ISYSTagDoesNotExist", in_tableName);
-    }
+    auto table = new QSTable(
+        m_settings,
+        GetLog(),
+        tableName,
+        m_statement->GetWarningListener(),
+        IsODBCVersion3(),
+        m_isysConn);
+    m_result = table->GetResult();
+    SharedPtr<DSIExtResultSet> tableResult{ table };
+
+    return tableResult;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
