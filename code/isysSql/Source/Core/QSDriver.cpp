@@ -20,9 +20,28 @@ using namespace std;
 // Public ==========================================================================================
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma message (__FILE__ "(" MACRO_TO_STRING(__LINE__) ") : TODO #3: Set the driver-wide logging details.")
-QSDriver::QSDriver() : DSIDriver(), m_driverLog(new DSIFileLogger("isysSql_driver.log"))
+QSDriver::QSDriver() 
+    : DSIDriver()
+#ifdef OLEDBTARGET
+    , m_driverLog(new DSIFileLogger("isysOLEDB_provider.log"))
+#elif
+    , m_driverLog(new DSIFileLogger("isysODBC_driver.log"))
+#endif
+    
 {
     ENTRANCE_LOG(m_driverLog, "isys::SQL", "QSDriver", "QSDriver");
+
+#ifdef OLEDBTARGET
+    simba_string platform = "\\x64";
+#ifndef _WIN64
+    platform = "\\x86";
+#endif // WIN64
+
+    simba_string logPath = simba_string("C:\\SUPCON\\RTDB\\v5.3\\ESP-iSYS\\DBDriver") + platform + simba_string("\\Log");
+    m_driverLog.Get()->SetLocale(logPath);
+#endif // OLEDBTARGET
+
+
     SetDriverPropertyValues();
 
 #pragma message (__FILE__ "(" MACRO_TO_STRING(__LINE__) ") : TODO #9: Register Messages xml file for handling by DSIMessageSource.")
