@@ -45,8 +45,8 @@ REGEDIT4
 "MaxWorkerThreads"="0"
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\Simba\isysSql\Driver]
-"LogLevel"="0"
-"LogPath"=""
+"LogLevel"="4"
+"LogPath"="C:\\SUPCON\\RTDB\\v5.3\\ESP-iSYS\\DBDriver\\x64\\Log"
 "LogNamespace"=""
 "DriverManagerEncoding"="UTF-16"
 "DriverLocale"="en-US"
