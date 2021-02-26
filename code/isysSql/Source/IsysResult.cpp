@@ -206,18 +206,11 @@ bool CIsysResult::ReadRtdDataFromIsys()
 		QSTHROW2(QS_DATAENGINE_STATE, L"ReadTagValueError", m_tableName, NumberConverter::ConvertInt32ToWString(result));
 	}
 
-	m_result.tagValues.infos.reserve(size);
-	m_result.tagValues.values.reserve(size);
-	for (std::size_t i = 0; i < size; i++)
-	{
-		m_result.results.push_back(results[i]);
-		m_result.tagValues.infos.push_back(m_result.tagInfos[i]);
-		m_result.tagValues.values.push_back(tagValues[i]);
-	}
+	SaveData(tagValues, results, size);
+	::CoTaskMemFree(tagValues);
+	::CoTaskMemFree(results);
 
 	realloc(tagIds, size * sizeof(::HTAG));
-	::CoTaskMemFree(results);
-	::CoTaskMemFree(tagValues);
 	return true;
 }
 
@@ -257,11 +250,42 @@ bool CIsysResult::ConvertHisPara(DWORD& boundStrategy, FILETIME& timeBegin, FILE
 	return true;
 }
 
-bool CIsysResult::ReadHisDataFromIsys()
+bool CIsysResult::SaveHisData(::TAGVALSTATE* tagValues, DWORD resultLen, const ::REALTAGDEF& tag)
 {
-	auto size = m_result.tagInfos.size();
-	::HTAG* tagIds = ConvertTagIds();
+	m_result.tagValues.infos.reserve(m_result.tagValues.infos.size() + resultLen);
+	m_result.tagValues.values.reserve(m_result.tagValues.infos.size() + resultLen);
+	for (std::size_t j = 0; j < resultLen; j++)
+	{
+		m_result.tagValues.infos.push_back(tag);
+		m_result.tagValues.values.push_back(tagValues[j]);
+	}
 
+	return true;
+}
+
+bool CIsysResult::SaveData(::TAGVALSTATE* tagValues, ::HRESULT* results, DWORD resultLen)
+{
+	bool result = true;
+	m_result.tagValues.infos.reserve(m_result.tagValues.infos.size() + resultLen);
+	m_result.tagValues.values.reserve(m_result.tagValues.infos.size() + resultLen);
+	for (std::size_t i = 0; i < resultLen; i++)
+	{
+		if (ISYS_SUCCESS(results[i]))
+		{
+			m_result.tagValues.infos.push_back(m_result.tagInfos[i]);
+			m_result.tagValues.values.push_back(tagValues[i]);
+		}
+		else
+		{
+			ISYS_LOG_WARNING(m_log, simba_wstring("Tag: ") + m_result.tagInfos[i].baseDef.szTagName + simba_wstring(" data error!"));
+			result = false;
+		}
+	}
+	return result;
+}
+
+bool CIsysResult::SavePeriodHisData(::HTAG* tagIds, std::size_t len)
+{
 	::TAGVALSTATE* tagValues = nullptr;
 
 	FILETIME timeBegin;
@@ -269,20 +293,67 @@ bool CIsysResult::ReadHisDataFromIsys()
 	DWORD boundStrategy;
 	DWORD resultLen = 0;
 	ConvertHisPara(boundStrategy, timeBegin, timeEnd);
-	for (std::size_t i = 0; i < size; i++)
+	for (const auto& tag : m_result.tagInfos)
 	{
-		auto result = ::ReadTagDiskHisInTime(m_isysConn->GetConn(), tagIds[i], timeBegin, timeEnd, boundStrategy, resultLen, &tagValues);
+		auto result = ::ReadTagHisInTime(
+			m_isysConn->GetConn(),
+			tag.baseDef.hTag,
+			timeBegin,
+			timeEnd,
+			boundStrategy,
+			resultLen,
+			&tagValues
+		);
 		if (!ISYS_SUCCESS(result))
 		{
-			QSTHROW2(QS_DATAENGINE_STATE, L"ReadTagValueError", m_tableName, NumberConverter::ConvertInt32ToWString(result));
+			ISYS_LOG_WARNING(m_log, simba_wstring("Read his data eror, tag name: ") + simba_wstring(tag.baseDef.szTagName) + simba_wstring(", time in: ") + m_isysPara->timeLeft.value + simba_wstring(", ") + m_isysPara->timeRight.value);
 		}
-		for (std::size_t j = 0; j < resultLen; j++)
+		else
 		{
-			m_result.tagValues.infos.push_back(m_result.tagInfos[i]);
-			m_result.tagValues.values.push_back(tagValues[j]);
+			SaveHisData(tagValues, resultLen, tag);
+			::CoTaskMemFree(tagValues);
 		}
-		::CoTaskMemFree(tagValues);
 	}
+	return true;
+}
+
+bool CIsysResult::SaveStampHisData(::HTAG* tagIds, std::size_t len)
+{
+	::TAGVALSTATE* tagValues = nullptr;
+	for (const auto& timeStamp : m_isysPara->timeStamps)
+	{
+		::HRESULT* results = nullptr;
+		auto result = ::ReadTagsHisAtTime(
+			m_isysConn->GetConn(),
+			len,
+			tagIds,
+			Str2FileTime(timeStamp),
+			static_cast<DWORD>(SampleStrategy::INTERPLOATE),
+			0,
+			&results,
+			&tagValues
+		);
+		if (!ISYS_SUCCESS(result))
+		{
+			ISYS_LOG_WARNING(m_log, simba_wstring("Read his data eror, time: ") + timeStamp);
+		}
+		else
+		{
+			SaveData(tagValues, results, len);
+			::CoTaskMemFree(tagValues);
+			::CoTaskMemFree(results);
+		}
+	}
+	return true;
+}
+
+bool CIsysResult::ReadHisDataFromIsys()
+{
+	auto size = m_result.tagInfos.size();
+	::HTAG* tagIds = ConvertTagIds();
+	
+	SavePeriodHisData(tagIds, size);
+	SaveStampHisData(tagIds, size);
 
 	realloc(tagIds, size * sizeof(::HTAG));
 

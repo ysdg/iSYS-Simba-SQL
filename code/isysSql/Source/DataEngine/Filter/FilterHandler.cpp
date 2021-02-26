@@ -263,6 +263,14 @@ bool CFilterHandler::PassdownSimpleInPredicate(
             m_isysPara.tagNames.push_back(tagName);
         }
     }
+    if (static_cast<simba_uint16>(RtdHisColIndex::TIME_STAMP) == in_column.m_colIndex)
+    {
+        for (const auto& literal : in_literals)
+        {
+            const auto& timeStamp = literal.first->GetLiteralValue();
+            m_isysPara.timeStamps.insert(timeStamp);
+        }
+    }
     m_isPassedDown = true;
 
     return true;
@@ -447,8 +455,16 @@ bool CFilterHandler::PassdownOr(AEOr* in_node)
     while (nodeIter.HasMore())
     {
         AENode* node = nodeIter.GetNext();
-        auto compNode = node->GetAsBooleanExpr()->GetAsComparison();
-        CheckNodeExpr(compNode);
+        auto childCount = node->GetChildCount();
+        if( childCount == 2 && 
+            node->GetChild(0)->GetChildCount() == 1 && 
+            node->GetChild(0)->GetChildCount() == 1)
+        {
+            auto expr = node->GetAsBooleanExpr();
+            auto compNode = expr->GetAsComparison();
+            CheckNodeExpr(compNode);
+        }
+       
     }
 
     return true;
@@ -476,6 +492,7 @@ bool CFilterHandler::Convert2Filter(
         switch (compOp)
         {
         case Simba::SQLEngine::SE_COMP_EQ:
+            m_isysPara.timeStamps.insert(literalStr);
             break;
         case Simba::SQLEngine::SE_COMP_NE:
             break;

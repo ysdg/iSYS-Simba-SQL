@@ -13,6 +13,12 @@ enum class IsysBound : simba_uint32 {
 	BOTH
 };
 
+enum class SampleStrategy : simba_uint32 {
+	BEFORE = 0,
+	AFTER, 
+	INTERPLOATE
+};
+
 class CIsysResult
 {
 public:
@@ -42,6 +48,11 @@ private:
 	bool ReadTagDataFromIsys();
 	bool ReadRtdDataFromIsys();
 	bool ReadHisDataFromIsys();
+	
+	bool SavePeriodHisData(::HTAG* tagIds, std::size_t len);
+	bool SaveStampHisData(::HTAG* tagIds, std::size_t len);
+	bool SaveHisData(::TAGVALSTATE* tagValues, DWORD resultLen, const ::REALTAGDEF& tag);
+	bool SaveData(::TAGVALSTATE* tagValues, ::HRESULT* results, DWORD resultLen);
 
 	static simba_wstring FileTime2Str(const FILETIME& ft);
 	static FILETIME Str2FileTime(const simba_wstring& timeStr);
