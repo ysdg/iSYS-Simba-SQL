@@ -10,7 +10,7 @@ REGEDIT4
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\ODBC\ODBC.INI\isysSqlDSII]
 "Driver"="isysSqlDSIIDriver"
-"DBF"="C:\\Simba Technologies\\SimbaEngineSDK\\10.1\\Examples\\Databases\\Quickstart"
+"DBF"="C:\\SUPCON\\RTDB\\v5.3\\ESP-iSYS\\DBDriver\\DNF"
 "Description"="My 64-bit SimbaEngine isys SQL DSII"
 "Locale"="en-US"
 
@@ -30,17 +30,17 @@ REGEDIT4
 "LogLevel"="0"
 "LogNamespace"=""
 "LogPath"=""
-"DBF"="C:\\Simba Technologies\\SimbaEngineSDK\\10.1\\Examples\\Databases\\Quickstart"
+"DBF"="C:\\SUPCON\\RTDB\\v5.3\\ESP-iSYS\\DBDriver\\DNF"
 "DriverManagerEncoding"="UTF-16"
 "DriverLocale"="en-US"
-"ErrorMessagesPath"="C:\\SUPCON\\RTDB\\v5.3\\ESP-iSYS\\DBDriver\\x64\\ErrorMessages"
+"ErrorMessagesPath"="C:\\SUPCON\\RTDB\\v5.3\\ESP-iSYS\\DBDriver\\ErrorMessages"
 "MaxConnections"="64"
 "ListenAddress"=""
 "IdleTimeout"="86400"
 "ListenPort"="1543"
 "UseSsl"="0"
-"SslCertfile"="C:\\SUPCON\\RTDB\\v5.3\\ESP-iSYS\\DBDriver\\x64\\x64\\SSLCertificates\\SampleServerCertificate.pem"
-"SslKeyFile"="C:\\SUPCON\\RTDB\\v5.3\\ESP-iSYS\\DBDriver\\x64\\x64\\SSLCertificates\\SampleServerKey.pem"
+"SslCertfile"="C:\\SUPCON\\RTDB\\v5.3\\ESP-iSYS\\DBDriver\\SSLCertificates\\SampleServerCertificate.pem"
+"SslKeyFile"="C:\\SUPCON\\RTDB\\v5.3\\ESP-iSYS\\DBDriver\\SSLCertificates\\SampleServerKey.pem"
 "MinWorkerThreads"="10"
 "MaxWorkerThreads"="0"
 
@@ -50,7 +50,7 @@ REGEDIT4
 "LogNamespace"=""
 "DriverManagerEncoding"="UTF-16"
 "DriverLocale"="en-US"
-"ErrorMessagesPath"="C:\\SUPCON\\RTDB\\v5.3\\ESP-iSYS\\DBDriver\\x64\\ErrorMessages"
+"ErrorMessagesPath"="C:\\SUPCON\\RTDB\\v5.3\\ESP-iSYS\\DBDriver\\ErrorMessages"
 
 
 ; OLE DB Driver

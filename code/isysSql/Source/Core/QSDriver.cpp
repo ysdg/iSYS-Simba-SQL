@@ -24,7 +24,7 @@ QSDriver::QSDriver()
     : DSIDriver()
 #ifdef OLEDBTARGET
     , m_driverLog(new DSIFileLogger("isysOLEDB_provider.log"))
-#elif
+#else
     , m_driverLog(new DSIFileLogger("isysODBC_driver.log"))
 #endif
     
