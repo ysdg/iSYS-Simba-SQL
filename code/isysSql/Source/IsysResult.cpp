@@ -200,7 +200,7 @@ bool CIsysResult::ReadRtdDataFromIsys()
 	::HRESULT* results = nullptr;
 	::TAGVALSTATE* tagValues = nullptr;
 
-	auto result = ::ReadTagsValue(m_isysConn->conn, size, tagIds, &results, &tagValues);
+	auto result = ::ReadTagsValue(m_isysConn->GetConn(), size, tagIds, &results, &tagValues);
 	if (!ISYS_SUCCESS(result))
 	{
 		QSTHROW2(QS_DATAENGINE_STATE, L"ReadTagValueError", m_tableName, NumberConverter::ConvertInt32ToWString(result));
@@ -271,7 +271,7 @@ bool CIsysResult::ReadHisDataFromIsys()
 	ConvertHisPara(boundStrategy, timeBegin, timeEnd);
 	for (std::size_t i = 0; i < size; i++)
 	{
-		auto result = ::ReadTagDiskHisInTime(m_isysConn->conn, tagIds[i], timeBegin, timeEnd, boundStrategy, resultLen, &tagValues);
+		auto result = ::ReadTagDiskHisInTime(m_isysConn->GetConn(), tagIds[i], timeBegin, timeEnd, boundStrategy, resultLen, &tagValues);
 		if (!ISYS_SUCCESS(result))
 		{
 			QSTHROW2(QS_DATAENGINE_STATE, L"ReadTagValueError", m_tableName, NumberConverter::ConvertInt32ToWString(result));
@@ -299,12 +299,19 @@ bool CIsysResult::Read()
 
 	for (std::size_t i = 0; i < size; i++)
 	{
-		auto result = ::GetTagIDByName(m_isysConn->conn, tags[i].GetAsPlatformWString().c_str(), tagIds[i]);
+		auto result = ::GetTagIDByName(m_isysConn->GetConn(), tags[i].GetAsPlatformWString().c_str(), tagIds[i]);
+		if (!ISYS_SUCCESS(result))
+		{
+			ISYS_LOG_WARNING(
+				m_log,
+				simba_wstring("Tag: ") + tags[i] + simba_wstring(" is not existed")
+			);
+		}
 	}
 
 	::HRESULT* results = nullptr;
 	::REALTAGDEF* tagInfos = nullptr;
-	auto result = ::GetRealTagInfo(m_isysConn->conn, size, tagIds, &results, &tagInfos);
+	auto result = ::GetRealTagInfo(m_isysConn->GetConn(), size, tagIds, &results, &tagInfos);
 
 	for (std::size_t i = 0; i < size; i++)
 	{
@@ -314,8 +321,7 @@ bool CIsysResult::Read()
 		}
 		else
 		{
-			simba_wstring errstr = simba_wstring("Tag: ") + simba_wstring(tagInfos[i].baseDef.szTagName) + simba_wstring(" is not existed");
-			ISYS_LOG_WARNING(
+			ISYS_LOG_DEBUG(
 				m_log, 
 				simba_wstring("Tag: ") + simba_wstring(tagInfos[i].baseDef.szTagName) + simba_wstring(" is not existed")
 			);

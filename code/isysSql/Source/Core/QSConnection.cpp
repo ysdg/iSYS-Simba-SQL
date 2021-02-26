@@ -35,7 +35,8 @@ QSCustomPropertyKeyMap QSConnection::s_customConnPropertyKeys = InitializeCustom
 QSConnection::QSConnection(IEnvironment* in_environment) :
     DSIConnection(in_environment),
     m_log(in_environment->GetLog()),
-    m_isConnected(false)
+    m_isConnected(false),
+    m_isysConn(in_environment->GetLog())
 {
     ENTRANCE_LOG(m_log, "Simba::Quickstart", "QSConnection", "QSConnection");
 
@@ -133,33 +134,12 @@ void QSConnection::Connect(const DSIConnSettingRequestMap& in_connectionSettings
 	m_isysConn.user = GetOptionalSetting(USER_ID, in_connectionSettings, &data) ? data->GetWStringValue() : L"Administrator";
 	m_isysConn.password = GetOptionalSetting(PASSWORD, in_connectionSettings, &data) ? data->GetWStringValue() : L"supcon";
 
-	m_isysConn.conn = ::Connect(m_isysConn.addr.GetAsPlatformWString().c_str(), m_isysConn.port);
-
-	if(!m_isysConn.conn)
-	{
-		m_isConnected = false;
-		HRESULT hr = GetLastException();
-
-		QSTHROWGEN1("Isys connect error: ", NumberConverter::ConvertUInt32ToWString(hr));
-        ISYS_LOG_ERROR(
-            m_log,
-            m_isysConn.Dump() + simba_wstring("Connet to isys error") + NumberConverter::ConvertInt32ToWString(hr)
-        );
-        return;
-	}
-    auto result = ::LogIn(m_isysConn.conn, m_isysConn.user.GetAsPlatformWString().c_str(), m_isysConn.password.GetAsPlatformWString().c_str());
-    if (!ISYS_SUCCESS(result))
+    if (m_isysConn.Connect())
     {
-        HRESULT hr = GetLastException();
-        QSTHROWGEN1("Isys connect error: ", NumberConverter::ConvertUInt32ToWString(hr));
+        m_isConnected = true;
     }
 
-
 #endif
-
-    // This flag is simply to fake a connected status, there is no real connection to a data-source
-    // as all of the data is in flat files. Keep or remove this flag as needed.
-    m_isConnected = true;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -173,16 +153,7 @@ IStatement* QSConnection::CreateStatement()
 void QSConnection::Disconnect()
 {
     ENTRANCE_LOG(m_log, "Simba::Quickstart", "QSConnection", "Disconnect");
-    if (m_isConnected && m_isysConn.conn)
-    {
-        bool isConnected = false;
-        auto result = ::IsConnected(m_isysConn.conn, isConnected);
-        if (isConnected)
-        {
-            ::LogOut(m_isysConn.conn);
-            ::DisConnect(m_isysConn.conn);
-        }
-    }
+    m_isysConn.DisConnect();
     m_isConnected = false;
 }
 
