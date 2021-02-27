@@ -803,7 +803,7 @@ xcopy /Y /D "$(SIMBAENGINE_DIR)\ErrorMessages\en-US\SQLEngineMessages.xml" ..\Er
     <ClCompile>
       <AdditionalOptions>/Gs %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.;.\Common;.\Core;.\DataEngine;.\DataEngine\Metadata;.\Resources;.\Setup;$(SIMBAENGINE_DIR)\Include;$(SIMBAENGINE_DIR)\Include\DSI;$(SIMBAENGINE_DIR)\Include\DSI\Client;$(SIMBAENGINE_DIR)\Include\Support;$(SIMBAENGINE_DIR)\Include\Support\Exceptions;$(SIMBAENGINE_DIR)\Include\Support\TypedDataWrapper;$(SIMBAENGINE_DIR)\Include\SQLEngine;$(SIMBAENGINE_DIR)\Include\SQLEngine\AETree;$(SIMBAENGINE_DIR)\Include\SQLEngine\DSIExt;$(SIMBAENGINE_DIR)\Include\Server;$(SIMBAENGINE_THIRDPARTY_DIR)\Expat\$(S_EXPAT_V)\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;.\Common;.\Core;.\DataEngine;.\DataEngine\Metadata;.\Resources;.\Setup;$(SIMBAENGINE_DIR)\Include;$(SIMBAENGINE_DIR)\Include\DSI;$(SIMBAENGINE_DIR)\Include\DSI\Client;$(SIMBAENGINE_DIR)\Include\Support;$(SIMBAENGINE_DIR)\Include\Support\Exceptions;$(SIMBAENGINE_DIR)\Include\Support\TypedDataWrapper;$(SIMBAENGINE_DIR)\Include\SQLEngine\Parser;$(SIMBAENGINE_DIR)\Include\SQLEngine;$(SIMBAENGINE_DIR)\Include\SQLEngine\AETree;$(SIMBAENGINE_DIR)\Include\SQLEngine\Executor\ETree;$(SIMBAENGINE_DIR)\Include\SQLEngine\DSIExt;$(SIMBAENGINE_DIR)\Include\Server;$(SIMBAENGINE_THIRDPARTY_DIR)\Expat\$(S_EXPAT_V)\;$(SolutionDir)..\..\..\SDK\iSYS\C\inc;$(SolutionDir)..\..\..\..\..\SDK\iSYS\C\inc</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>UNICODE;_UNICODE;WIN32;_DEBUG;_LIB;SIMBA;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -832,9 +832,9 @@ xcopy /Y /D "$(SIMBAENGINE_DIR)\ErrorMessages\en-US\SQLEngineMessages.xml" ..\Er
     </ProjectReference>
     <Link>
       <AdditionalOptions>/DEF:"exports.def" %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>User32.lib;AEProcessor.lib;Core.lib;DSIExt.lib;Executor.lib;Parser.lib;SimbaDSI.lib;SimbaODBC.lib;SimbaSupport.lib;shell32.lib;odbccp32.lib</AdditionalDependencies>
+      <AdditionalDependencies>User32.lib;AEProcessor.lib;Core.lib;DSIExt.lib;Executor.lib;Parser.lib;SimbaDSI.lib;SimbaODBC.lib;SimbaSupport.lib;shell32.lib;odbccp32.lib;iSYSNetAPI53.lib</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>$(SIMBAENGINE_DIR)\Lib\$(C_BLD_DIR);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\..\..\..\SDK\iSYS\C\bin\$(PlatformShortName);$(SolutionDir)..\..\..\SDK\iSYS\C\bin\$(PlatformShortName);$(SIMBAENGINE_DIR)\Lib\$(C_BLD_DIR);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>LIBCMT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ModuleDefinitionFile>Exports.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -948,7 +948,7 @@ xcopy /Y /D "$(TargetPath)" "C:\SUPCON\RTDB\v5.3\ESP-iSYS\DBDriver\$(PlatformSho
       <AdditionalOptions>/DEF:"exports.def" %(AdditionalOptions)</AdditionalOptions>
       <AdditionalDependencies>User32.lib;AEProcessor.lib;Core.lib;DSIExt.lib;Executor.lib;Parser.lib;SimbaDSI.lib;SimbaODBC.lib;SimbaSupport.lib;shell32.lib;odbccp32.lib;iSYSNetAPI53.lib</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\..\..\SDK\iSYS\C\bin\x64;$(SolutionDir)..\..\..\..\..\SDK\iSYS\C\bin\x64;$(SIMBAENGINE_DIR)\Lib\$(C_BLD_DIR);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\..\SDK\iSYS\C\bin\$(PlatformShortName);$(SolutionDir)..\..\..\..\..\SDK\iSYS\C\bin\$(PlatformShortName);$(SIMBAENGINE_DIR)\Lib\$(C_BLD_DIR);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>LIBCMT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ModuleDefinitionFile>Exports.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
