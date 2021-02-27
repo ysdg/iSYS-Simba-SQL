@@ -37,10 +37,11 @@ QSDriver::QSDriver()
     platform = "\\x86";
 #endif // WIN64
 
-    simba_string logPath = simba_string("C:\\SUPCON\\RTDB\\v5.3\\ESP-iSYS\\DBDriver") + platform + simba_string("\\Log");
+    simba_string logPath = simba_string("C:\\SUPCON\\RTDB\\v5.3\\ESP-iSYS\\DBDriver") + platform;
     m_driverLog.Get()->SetLocale(logPath);
 #endif // OLEDBTARGET
 
+    simba_string logLocale = m_driverLog.Get()->GetLocale();
 
     SetDriverPropertyValues();
 

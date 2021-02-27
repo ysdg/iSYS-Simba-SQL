@@ -29,7 +29,7 @@ REGEDIT4
 [HKEY_LOCAL_MACHINE\SOFTWARE\Simba\isysSql\Server]
 "LogLevel"="0"
 "LogNamespace"=""
-"LogPath"=""
+"LogPath"="C:\\SUPCON\\RTDB\\v5.3\\ESP-iSYS\\DBDriver\\x64"
 "DBF"="C:\\SUPCON\\RTDB\\v5.3\\ESP-iSYS\\DBDriver\\DNF"
 "DriverManagerEncoding"="UTF-16"
 "DriverLocale"="en-US"
@@ -46,7 +46,7 @@ REGEDIT4
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\Simba\isysSql\Driver]
 "LogLevel"="4"
-"LogPath"="C:\\SUPCON\\RTDB\\v5.3\\ESP-iSYS\\DBDriver\\x64\\Log"
+"LogPath"="C:\\SUPCON\\RTDB\\v5.3\\ESP-iSYS\\DBDriver\\x64"
 "LogNamespace"=""
 "DriverManagerEncoding"="UTF-16"
 "DriverLocale"="en-US"
@@ -81,8 +81,7 @@ REGEDIT4
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Simba\isysSql\Server]
 "LogLevel"="4"
-"LogPath"="C:\\SUPCON\\RTDB\\v5.3\\ESP-iSYS\\DBDriver\\x86\\Log"
-"LogPath"=""
+"LogPath"="C:\\SUPCON\\RTDB\\v5.3\\ESP-iSYS\\DBDriver\\x86"
 "DBF"="C:\\SUPCON\\RTDB\\v5.3\\ESP-iSYS\\DBDriver\\DNF"
 "DriverManagerEncoding"="UTF-16"
 "DriverLocale"="en-US"
@@ -99,7 +98,7 @@ REGEDIT4
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Simba\isysSql\Driver]
 "LogLevel"="4"
-"LogPath"="C:\\SUPCON\\RTDB\\v5.3\\ESP-iSYS\\DBDriver\\x86\\Log"
+"LogPath"="C:\\SUPCON\\RTDB\\v5.3\\ESP-iSYS\\DBDriver\\x86"
 "LogNamespace"=""
 "DriverManagerEncoding"="UTF-16"
 "DriverLocale"="en-US"
