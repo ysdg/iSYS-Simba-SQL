@@ -28,6 +28,7 @@ struct SIsysPara
 	SBoundary<simba_wstring> timeLeft;
 	SBoundary<simba_wstring> timeRight;
 	std::set<simba_wstring> timeStamps;
+	simba_uint32 period;
 };
 
 enum class DataType : simba_uint32

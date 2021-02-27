@@ -50,6 +50,15 @@ enum class TagColIndex : simba_uint16 {
 	PRECISION, 
 };
 
+enum class SampleColIndex : simba_uint16 {
+	TAG_NAME = 0,
+	TIME_STAMP,
+	QUALITY,
+	ALARM_STATE,
+	VALUE,
+	PERIOD
+};
+
 struct ColumnData
 {
 	simba_wstring name;
@@ -88,6 +97,7 @@ private:
 	static Columns HisColumns;
 	static Columns RtdColumns;
 	static Columns TagColumns;
+	static Columns SampleColumns;
 };
 
 

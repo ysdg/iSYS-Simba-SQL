@@ -19,6 +19,15 @@ CIsysTable::Columns CIsysTable::HisColumns{
 	ColumnData{"value", 		SQL_DOUBLE},
 };
 
+CIsysTable::Columns CIsysTable::SampleColumns {
+	CIsysTable::HisColumns[static_cast<simba_uint16>(RtdHisColIndex::TAG_NAME)],
+	CIsysTable::HisColumns[static_cast<simba_uint16>(RtdHisColIndex::TIME_STAMP)],
+	CIsysTable::HisColumns[static_cast<simba_uint16>(RtdHisColIndex::QUALITY)],
+	CIsysTable::HisColumns[static_cast<simba_uint16>(RtdHisColIndex::ALARM_STATE)],
+	CIsysTable::HisColumns[static_cast<simba_uint16>(RtdHisColIndex::VALUE)],
+	ColumnData{"period", 	SQL_INTEGER},
+};
+
 CIsysTable::Columns CIsysTable::RtdColumns = CIsysTable::HisColumns;
 
 CIsysTable::Columns CIsysTable::TagColumns{
@@ -53,6 +62,7 @@ std::map<simba_wstring, CIsysTable::Columns> CIsysTable::m_tbName2Cols{
 	{simba_wstring("isys_tag"), CIsysTable::TagColumns},
 	{simba_wstring("isys_rtd"), CIsysTable::RtdColumns},
 	{simba_wstring("isys_his"), CIsysTable::HisColumns},
+	{simba_wstring("isys_sample"), CIsysTable::SampleColumns},
 };
 
 const bool CIsysTable::IsContainTbName(const simba_wstring& tbName)

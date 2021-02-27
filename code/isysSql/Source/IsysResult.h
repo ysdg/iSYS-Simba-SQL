@@ -42,12 +42,14 @@ private:
 	simba_wstring GetTagColStr(simba_uint16 columnNum);
 	simba_wstring GetRtdColStr(simba_uint16 columnNum);
 	simba_wstring GetHisColStr(simba_uint16 columnNum);
+	simba_wstring GetSampleColStr(simba_uint16 columnNum);
 	
 	using ReadDataFunc = std::function<bool()>;
 	bool ReadDataFromIsys();
 	bool ReadTagDataFromIsys();
 	bool ReadRtdDataFromIsys();
 	bool ReadHisDataFromIsys();
+	bool ReadSampleDataFromIsys();
 	
 	bool SavePeriodHisData(::HTAG* tagIds, std::size_t len);
 	bool SaveStampHisData(::HTAG* tagIds, std::size_t len);

@@ -449,6 +449,7 @@ bool CFilterHandler::IsNullIncluded(
 }
 
 
+// TODO: ¶à²ãÇ¶Ì×Î´½â¾ö
 bool CFilterHandler::PassdownOr(AEOr* in_node)
 {
     AENodeIterator nodeIter = in_node->GetChildren();
@@ -466,56 +467,8 @@ bool CFilterHandler::PassdownOr(AEOr* in_node)
         }
        
     }
-
+    AEValueExpr* paraExpr = nullptr;
     return true;
 }
 
-bool CFilterHandler::Convert2Filter(
-    SEComparisonType compOp, 
-    const DSIExtColumnRef& colRef,
-    const simba_wstring& literalStr, 
-    bool& isLeftCol)
-{
-    if (IsTagNameCol(colRef) && SE_COMP_EQ == compOp)
-    {
-        m_isysPara.tagNames.push_back(literalStr);
-    }
-    else if (static_cast<simba_uint16>(RtdHisColIndex::TIME_STAMP) == colRef.m_colIndex)
-    {
-        SBoundary<simba_wstring>* left = &m_isysPara.timeLeft;
-        SBoundary<simba_wstring>* right = &m_isysPara.timeRight;
-        if (!isLeftCol)
-        {
-            left = &m_isysPara.timeRight;
-            right = &m_isysPara.timeLeft;
-        }
-        switch (compOp)
-        {
-        case Simba::SQLEngine::SE_COMP_EQ:
-            m_isysPara.timeStamps.insert(literalStr);
-            break;
-        case Simba::SQLEngine::SE_COMP_NE:
-            break;
-        case Simba::SQLEngine::SE_COMP_GT:
-            left->isContain = false;
-            left->value = literalStr;
-            break;
-        case Simba::SQLEngine::SE_COMP_GE:
-            left->isContain = true;
-            left->value = literalStr;
-            break;
-        case Simba::SQLEngine::SE_COMP_LT:
-            right->isContain = false;
-            right->value = literalStr;
-            break;
-        case Simba::SQLEngine::SE_COMP_LE:
-            right->isContain = true;
-            right->value = literalStr;
-            break;
-        default:
-            assert(false);
-            break;
-        }
-    }
-    return true;
-}
+

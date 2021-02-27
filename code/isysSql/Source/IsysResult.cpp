@@ -16,10 +16,12 @@ CIsysResult::CIsysResult(const simba_wstring& tableName, ISYS::SQL::CIsysConn* i
 	m_tbName2Get[simba_wstring("isys_tag")] = std::bind(&CIsysResult::GetTagColStr, this, std::placeholders::_1);
 	m_tbName2Get[simba_wstring("isys_rtd")] = std::bind(&CIsysResult::GetRtdColStr, this, std::placeholders::_1);
 	m_tbName2Get[simba_wstring("isys_his")] = std::bind(&CIsysResult::GetHisColStr, this, std::placeholders::_1);
+	m_tbName2Get[simba_wstring("isys_sample")] = std::bind(&CIsysResult::GetSampleColStr, this, std::placeholders::_1);
 
 	m_tbName2Read[simba_wstring("isys_tag")] = std::bind(&CIsysResult::ReadTagDataFromIsys, this);
 	m_tbName2Read[simba_wstring("isys_rtd")] = std::bind(&CIsysResult::ReadRtdDataFromIsys, this);
 	m_tbName2Read[simba_wstring("isys_his")] = std::bind(&CIsysResult::ReadHisDataFromIsys, this);
+	m_tbName2Read[simba_wstring("isys_sample")] = std::bind(&CIsysResult::ReadSampleDataFromIsys, this);
 }
 
 
@@ -168,6 +170,14 @@ simba_wstring CIsysResult::GetHisColStr(simba_uint16 columnNum)
 	return GetRtdColStr(columnNum);
 }
 
+simba_wstring CIsysResult::GetSampleColStr(simba_uint16 columnNum)
+{
+	if (static_cast<simba_uint16>(SampleColIndex::PERIOD) == columnNum)
+	{
+		return NumberConverter::ConvertUInt32ToWString(m_isysPara->period);
+	}
+	return GetRtdColStr(columnNum);
+}
 
 bool CIsysResult::ReadDataFromIsys()
 {
@@ -209,6 +219,43 @@ bool CIsysResult::ReadRtdDataFromIsys()
 	SaveData(tagValues, results, size);
 	::CoTaskMemFree(tagValues);
 	::CoTaskMemFree(results);
+
+	realloc(tagIds, size * sizeof(::HTAG));
+	return true;
+}
+
+bool CIsysResult::ReadSampleDataFromIsys()
+{
+	auto size = m_result.tagInfos.size();
+	::HTAG* tagIds = ConvertTagIds();
+	
+	FILETIME timeBegin;
+	FILETIME timeEnd;
+	DWORD boundStrategy;
+	DWORD resultLen = 0;
+	ConvertHisPara(boundStrategy, timeBegin, timeEnd);
+
+	::TAGVALSTATE* tagValues = nullptr;
+	for (std::size_t i=0; i < size; i++)
+	{
+		auto result = ::ReadTagHisSampling(
+			m_isysConn->GetConn(),
+			tagIds[i],
+			timeBegin,
+			timeEnd,
+			m_isysPara->period,
+			static_cast<DWORD>(SampleStrategy::INTERPLOATE),
+			0,
+			resultLen,
+			&tagValues
+		);
+		SaveHisData(tagValues, resultLen, m_result.tagInfos[i]);
+		if (!ISYS_SUCCESS(result))
+		{
+			ISYS_LOG_WARNING(m_log, simba_wstring("Read his data eror, tag name: ") + simba_wstring(m_result.tagInfos[i].baseDef.szTagName) + simba_wstring(", time in: ") + m_isysPara->timeLeft.value + simba_wstring(", ") + m_isysPara->timeRight.value);
+		}
+		::CoTaskMemFree(tagValues);
+	}
 
 	realloc(tagIds, size * sizeof(::HTAG));
 	return true;
@@ -335,7 +382,7 @@ bool CIsysResult::SaveStampHisData(::HTAG* tagIds, std::size_t len)
 		);
 		if (!ISYS_SUCCESS(result))
 		{
-			ISYS_LOG_WARNING(m_log, simba_wstring("Read his data eror, time: ") + timeStamp);
+			ISYS_LOG_WARNING(m_log, simba_wstring("Read his data error, time: ") + timeStamp);
 		}
 		else
 		{

@@ -61,11 +61,18 @@ private:
         const simba_wstring& in_exprValue,
         Simba::SQLEngine::SEComparisonType in_compOp);
 
+    template<typename paraT>
     bool Convert2Filter(
         Simba::SQLEngine::SEComparisonType compOp, 
         const Simba::SQLEngine::DSIExtColumnRef& colRef,
-        const simba_wstring& literalStr, 
+        const paraT& paraValue,
         bool& isLeftCol);
+
+    template<typename paraT>
+    bool ConvertPeriod2Filter(
+        Simba::SQLEngine::SEComparisonType compOp,
+        const Simba::SQLEngine::DSIExtColumnRef& colRef,
+        const paraT& paraValue);
 
     template<typename AET>
     bool CheckNodeExpr(AET* in_node);
@@ -194,14 +201,14 @@ template<typename AET>
 bool CFilterHandler::CheckNodeExpr(AET* in_node)
 {
     AEValueExpr* columnExpr = nullptr;
-    AEValueExpr* literalExpr = nullptr;
+    AEValueExpr* paraExpr = nullptr;
     bool isLeftCol = true;
-    if (!SortAENode(in_node, &columnExpr, &literalExpr, isLeftCol))
+    if (!SortAENode(in_node, &columnExpr, &paraExpr, isLeftCol))
     {
         return false;
     }
 
-    if (!CheckExpr(in_node, columnExpr, literalExpr))
+    if (!CheckExpr(in_node, columnExpr, paraExpr))
     {
         return false;
     };
@@ -211,20 +218,98 @@ bool CFilterHandler::CheckNodeExpr(AET* in_node)
 
     DSIExtColumnRef colRef;
     GetTableColRef(columnExpr, colRef);
-    Convert2Filter(
-        in_node->GetComparisonOp(), 
-        colRef,
-        literalExpr->GetAsLiteral()->GetLiteralValue(), 
-        isLeftCol);
+    if (SqlDataTypeUtilitiesSingleton::GetInstance()->IsIntegerType(paraExpr->GetMetadata()->GetSqlType()))
+    {
+        ConvertPeriod2Filter(
+            in_node->GetComparisonOp(),
+            colRef,
+            NumberConverter::ConvertWStringToInt32(paraExpr->GetAsLiteral()->GetLiteralValue()));
+    }
+    else
+    {
+        Convert2Filter(
+            in_node->GetComparisonOp(),
+            colRef,
+            paraExpr->GetAsLiteral()->GetLiteralValue(),
+            isLeftCol);
+    }
 
     m_isPassedDown = true;
     return true;
-}
+};
 
 inline bool CFilterHandler::IsTagNameCol(const Simba::SQLEngine::DSIExtColumnRef& colRef)
 {
     return (static_cast<simba_uint16>(RtdHisColIndex::TAG_NAME) == colRef.m_colIndex) ||
         static_cast<simba_uint16>(TagColIndex::NAME) == colRef.m_colIndex;
+};
+
+template<typename paraT>
+bool CFilterHandler::ConvertPeriod2Filter(
+    Simba::SQLEngine::SEComparisonType compOp,
+    const Simba::SQLEngine::DSIExtColumnRef& colRef,
+    const paraT& paraValue)
+{
+    if (static_cast<simba_uint16>(SampleColIndex::PERIOD) == colRef.m_colIndex)
+    {
+        if (Simba::SQLEngine::SE_COMP_EQ == compOp)
+        {
+            m_isysPara.period = paraValue;
+        }
+    }
+    return true;
+}
+
+template<typename paraT>
+bool CFilterHandler::Convert2Filter(
+    Simba::SQLEngine::SEComparisonType compOp,
+    const Simba::SQLEngine::DSIExtColumnRef& colRef,
+    const paraT& paraValue,
+    bool& isLeftCol)
+{
+    if (IsTagNameCol(colRef) && SE_COMP_EQ == compOp)
+    {
+        m_isysPara.tagNames.push_back(paraValue);
+    }
+    else if (static_cast<simba_uint16>(RtdHisColIndex::TIME_STAMP) == colRef.m_colIndex)
+    {
+        SBoundary<simba_wstring>* left = &m_isysPara.timeLeft;
+        SBoundary<simba_wstring>* right = &m_isysPara.timeRight;
+        if (!isLeftCol)
+        {
+            left = &m_isysPara.timeRight;
+            right = &m_isysPara.timeLeft;
+        }
+        switch (compOp)
+        {
+        case Simba::SQLEngine::SE_COMP_EQ:
+            m_isysPara.timeStamps.insert(paraValue);
+            break;
+        case Simba::SQLEngine::SE_COMP_NE:
+            break;
+        case Simba::SQLEngine::SE_COMP_GT:
+            left->isContain = false;
+            left->value = paraValue;
+            break;
+        case Simba::SQLEngine::SE_COMP_GE:
+            left->isContain = true;
+            left->value = paraValue;
+            break;
+        case Simba::SQLEngine::SE_COMP_LT:
+            right->isContain = false;
+            right->value = paraValue;
+            break;
+        case Simba::SQLEngine::SE_COMP_LE:
+            right->isContain = true;
+            right->value = paraValue;
+            break;
+        default:
+            assert(false);
+            break;
+        }
+    }
+
+    return true;
 }
 
 ISYS_SQL_NAMESPACE_END
