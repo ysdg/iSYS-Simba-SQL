@@ -8,12 +8,10 @@ using namespace ISYS::SQL;
 CFilterResult::CFilterResult(
     Simba::Support::SharedPtr<CAbstractResultSet> in_table,
     const simba_wstring& in_filter,
-    SIsysPara& isysPara, 
     CIsysResult* result)
     : m_table(in_table)
     , m_filter(in_filter)
     , m_hasStartedFetch(false)
-    , m_isysPara(isysPara)
     , m_result(result)
 {
 
@@ -151,7 +149,6 @@ bool CFilterResult::MoveToNextRow()
     if (!m_hasStartedFetch)
     {
         m_hasStartedFetch = true;
-        m_result->SetPara(&m_isysPara);
         m_result->Read();
         return m_result->IsOver();
     }

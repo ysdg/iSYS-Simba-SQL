@@ -98,7 +98,7 @@ private:
 
     bool m_isPassedDown;
 
-    ISYS::SQL::SIsysPara m_isysPara;
+    ISYS::SQL::SIsysPara* m_isysPara;
     CIsysResult* m_result;
 };
 
@@ -254,7 +254,7 @@ bool CFilterHandler::ConvertPeriod2Filter(
     {
         if (Simba::SQLEngine::SE_COMP_EQ == compOp)
         {
-            m_isysPara.period = paraValue;
+            m_isysPara->period = paraValue;
         }
     }
     return true;
@@ -269,21 +269,21 @@ bool CFilterHandler::Convert2Filter(
 {
     if (IsTagNameCol(colRef) && SE_COMP_EQ == compOp)
     {
-        m_isysPara.tagNames.push_back(paraValue);
+        m_isysPara->tagNames.push_back(paraValue);
     }
     else if (static_cast<simba_uint16>(RtdHisColIndex::TIME_STAMP) == colRef.m_colIndex)
     {
-        SBoundary<simba_wstring>* left = &m_isysPara.timeLeft;
-        SBoundary<simba_wstring>* right = &m_isysPara.timeRight;
+        SBoundary<simba_wstring>* left = &m_isysPara->timeLeft;
+        SBoundary<simba_wstring>* right = &m_isysPara->timeRight;
         if (!isLeftCol)
         {
-            left = &m_isysPara.timeRight;
-            right = &m_isysPara.timeLeft;
+            left = &m_isysPara->timeRight;
+            right = &m_isysPara->timeLeft;
         }
         switch (compOp)
         {
         case Simba::SQLEngine::SE_COMP_EQ:
-            m_isysPara.timeStamps.insert(paraValue);
+            m_isysPara->timeStamps.insert(paraValue);
             break;
         case Simba::SQLEngine::SE_COMP_NE:
             break;

@@ -13,6 +13,8 @@ CIsysResult::CIsysResult(const simba_wstring& tableName, ISYS::SQL::CIsysConn* i
 	, m_rowNow(0)
 	, m_log(log)
 {
+	m_isysPara = new SIsysPara();
+
 	m_tbName2Get[simba_wstring("isys_tag")] = std::bind(&CIsysResult::GetTagColStr, this, std::placeholders::_1);
 	m_tbName2Get[simba_wstring("isys_rtd")] = std::bind(&CIsysResult::GetRtdColStr, this, std::placeholders::_1);
 	m_tbName2Get[simba_wstring("isys_his")] = std::bind(&CIsysResult::GetHisColStr, this, std::placeholders::_1);
@@ -33,6 +35,7 @@ void CIsysResult::Reset()
 CIsysResult::~CIsysResult()
 {
 	Reset();
+	delete m_isysPara;
 }
 
 simba_wstring CIsysResult::GetColStr(simba_uint16 columnNum)

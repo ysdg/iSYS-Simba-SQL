@@ -128,6 +128,7 @@ CFilterHandler::CFilterHandler(
     , m_codeBaseSettings(in_codeBaseSettings)
     , m_isPassedDown(false)
     , m_result(result)
+    , m_isysPara(result->GetPara())
 {
     assert(!in_table.IsNull());
     assert(in_codeBaseSettings);
@@ -150,7 +151,7 @@ SharedPtr<DSIExtResultSet> CFilterHandler::TakeResult()
         return SharedPtr<DSIExtResultSet>();
     }
     // Return filter result.
-    return SharedPtr<DSIExtResultSet>(new CFilterResult(m_table, m_filter, m_isysPara, m_result));
+    return SharedPtr<DSIExtResultSet>(new CFilterResult(m_table, m_filter, m_result));
 }
 
 // Protected =======================================================================================
@@ -260,7 +261,7 @@ bool CFilterHandler::PassdownSimpleInPredicate(
         for (const auto& literal : in_literals)
         {
             const auto& tagName = literal.first->GetLiteralValue();
-            m_isysPara.tagNames.push_back(tagName);
+            m_isysPara->tagNames.push_back(tagName);
         }
     }
     if (static_cast<simba_uint16>(RtdHisColIndex::TIME_STAMP) == in_column.m_colIndex)
@@ -268,7 +269,7 @@ bool CFilterHandler::PassdownSimpleInPredicate(
         for (const auto& literal : in_literals)
         {
             const auto& timeStamp = literal.first->GetLiteralValue();
-            m_isysPara.timeStamps.insert(timeStamp);
+            m_isysPara->timeStamps.insert(timeStamp);
         }
     }
     m_isPassedDown = true;

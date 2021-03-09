@@ -12,7 +12,6 @@ public:
     CFilterResult(
         Simba::Support::SharedPtr<CAbstractResultSet> in_table,
         const simba_wstring& in_filter, 
-        SIsysPara& isysPara, 
         CIsysResult* result);
 
     virtual void DeleteRow();
@@ -74,8 +73,6 @@ public:
 private:
     simba_wstring m_filter;
     Simba::Support::SharedPtr<CAbstractResultSet> m_table;
-
-    SIsysPara m_isysPara;
 
     /// Flag indicating if Move() has been called yet.
     bool m_hasStartedFetch;

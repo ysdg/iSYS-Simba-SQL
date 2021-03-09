@@ -36,7 +36,7 @@ public:
 
 	void Reset();
 
-	void SetPara(SIsysPara* para);
+	SIsysPara* GetPara();
 private:
 	using GetColStrFunc = std::function<simba_wstring(simba_uint16)>;
 	simba_wstring GetTagColStr(simba_uint16 columnNum);
@@ -94,9 +94,9 @@ inline ::HTAG* CIsysResult::ConvertTagIds()
 	return tagIds;
 }
 
-inline void CIsysResult::SetPara(SIsysPara* para)
+inline SIsysPara* CIsysResult::GetPara()
 {
-	m_isysPara = para;
+	return m_isysPara;
 }
 
 inline bool CIsysResult::IsOver()
