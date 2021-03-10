@@ -124,6 +124,9 @@
     <ClCompile Include="IsysResult.cpp">
       <Filter>DataEngine</Filter>
     </ClCompile>
+    <ClCompile Include="DataEngine\Filter\CIAggregationHandler.cpp">
+      <Filter>DataEngine\Filter</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\QSConnection.h">
@@ -219,6 +222,9 @@
     </ClInclude>
     <ClInclude Include="IsysResult.h">
       <Filter>DataEngine\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="DataEngine\Filter\CIAggregationHandler.h">
+      <Filter>DataEngine\Filter\include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

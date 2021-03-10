@@ -140,7 +140,7 @@ simba_wstring CIsysResult::TagValue2Str(const ::VARIANT& tagValue, const ::VARTY
 	case VT_I8:		valueStr = NumberConverter::ConvertInt64ToWString(tagValue.llVal);		break;
 	case VT_UI8:	valueStr = NumberConverter::ConvertUInt64ToWString(tagValue.ullVal);	break;
 	case VT_BOOL:	valueStr = NumberConverter::ConvertDouble64ToWString(tagValue.dblVal);	break;
-	case VT_R4:		valueStr = NumberConverter::ConvertDouble64ToWString(tagValue.fltVal);	break;
+	case VT_R4:		valueStr = NumberConverter::ConvertDouble64ToWString(tagValue.dblVal);	break;
 	case VT_R8:		valueStr = NumberConverter::ConvertDouble64ToWString(tagValue.dblVal);	break;
 	default:
 		assert(false);
@@ -255,7 +255,7 @@ bool CIsysResult::ReadSampleDataFromIsys()
 		SaveHisData(tagValues, resultLen, m_result.tagInfos[i]);
 		if (!ISYS_SUCCESS(result))
 		{
-			ISYS_LOG_WARNING(m_log, simba_wstring("Read his data eror, tag name: ") + simba_wstring(m_result.tagInfos[i].baseDef.szTagName) + simba_wstring(", time in: ") + m_isysPara->timeLeft.value + simba_wstring(", ") + m_isysPara->timeRight.value);
+			ISYS_LOG_WARNING(m_log, simba_wstring("Read his data error: [" + NumberConverter::ConvertUInt32ToWString(result) + "], tag name: ") + simba_wstring(m_result.tagInfos[i].baseDef.szTagName) + simba_wstring(", time in: ") + m_isysPara->timeLeft.value + simba_wstring(", ") + m_isysPara->timeRight.value);
 		}
 		::CoTaskMemFree(tagValues);
 	}
@@ -337,6 +337,7 @@ bool CIsysResult::SaveData(::TAGVALSTATE* tagValues, ::HRESULT* results, DWORD r
 bool CIsysResult::SavePeriodHisData(::HTAG* tagIds, std::size_t len)
 {
 	::TAGVALSTATE* tagValues = nullptr;
+	::VARIANT tagFuncValue;
 
 	FILETIME timeBegin;
 	FILETIME timeEnd;
@@ -345,23 +346,51 @@ bool CIsysResult::SavePeriodHisData(::HTAG* tagIds, std::size_t len)
 	ConvertHisPara(boundStrategy, timeBegin, timeEnd);
 	for (const auto& tag : m_result.tagInfos)
 	{
-		auto result = ::ReadTagHisInTime(
-			m_isysConn->GetConn(),
-			tag.baseDef.hTag,
-			timeBegin,
-			timeEnd,
-			boundStrategy,
-			resultLen,
-			&tagValues
-		);
+		::HRESULT result = S_OK;
+		switch (m_isysPara->func)
+		{
+		case SEAggrFunctionID::SE_FUNCT_AVG: 
+			resultLen = 1;
+			result = ::ReadAvgDiskHisInTime(m_isysConn->GetConn(), tag.baseDef.hTag, timeBegin, timeEnd, boundStrategy, &tagFuncValue);
+			break;
+		case SEAggrFunctionID::SE_FUNCT_MAX: 
+			resultLen = 1;
+			result = ::ReadMaxDiskHisInTime(m_isysConn->GetConn(), tag.baseDef.hTag, timeBegin, timeEnd, boundStrategy, &tagFuncValue);
+			break;
+		case SEAggrFunctionID::SE_FUNCT_MIN: 
+			resultLen = 1;
+			result = ::ReadMinDiskHisInTime(m_isysConn->GetConn(), tag.baseDef.hTag, timeBegin, timeEnd, boundStrategy, &tagFuncValue);
+			break;
+		case SEAggrFunctionID::SE_FUNCT_SUM: 
+			resultLen = 1;
+			result = ::ReadSumDiskHisInTime(m_isysConn->GetConn(), tag.baseDef.hTag, timeBegin, timeEnd, boundStrategy, &tagFuncValue);
+			break;
+		default:
+			result = ::ReadTagHisInTime(m_isysConn->GetConn(), tag.baseDef.hTag, timeBegin, timeEnd, boundStrategy, resultLen, &tagValues);
+			break;
+		}
+		
 		if (!ISYS_SUCCESS(result))
 		{
-			ISYS_LOG_WARNING(m_log, simba_wstring("Read his data eror, tag name: ") + simba_wstring(tag.baseDef.szTagName) + simba_wstring(", time in: ") + m_isysPara->timeLeft.value + simba_wstring(", ") + m_isysPara->timeRight.value);
+			ISYS_LOG_WARNING(m_log, simba_wstring("Read his data error: [" + NumberConverter::ConvertUInt32ToWString(result) + "], tag name: ") + simba_wstring(tag.baseDef.szTagName) + simba_wstring(", time in: ") + m_isysPara->timeLeft.value + simba_wstring(", ") + m_isysPara->timeRight.value);
 		}
 		else
 		{
-			SaveHisData(tagValues, resultLen, tag);
-			::CoTaskMemFree(tagValues);
+			if (m_isysPara->func == SEAggrFunctionID::SE_FUNCT_AVG ||
+				m_isysPara->func == SEAggrFunctionID::SE_FUNCT_MAX ||
+				m_isysPara->func == SEAggrFunctionID::SE_FUNCT_MIN ||
+				m_isysPara->func == SEAggrFunctionID::SE_FUNCT_SUM)
+			{
+				::TAGVALSTATE value;
+				value.vEng_value = tagFuncValue;
+				value.hTag = tag.baseDef.hTag;
+				SaveHisData(&value, resultLen, tag);
+			}
+			else
+			{
+				SaveHisData(tagValues, resultLen, tag);
+				::CoTaskMemFree(tagValues);
+			}
 		}
 	}
 	return true;

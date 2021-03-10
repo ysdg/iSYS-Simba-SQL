@@ -1715,6 +1715,7 @@ xcopy /Y /D "$(SIMBAENGINE_DIR)\ErrorMessages\en-US\ServerMessages.xml" ..\Error
     <ClCompile Include="Core\QSDriver.cpp" />
     <ClCompile Include="Core\QSEnvironment.cpp" />
     <ClCompile Include="Core\QSStatement.cpp" />
+    <ClCompile Include="DataEngine\Filter\CIAggregationHandler.cpp" />
     <ClCompile Include="DataEngine\Filter\CPassdownInfo.cpp" />
     <ClCompile Include="DataEngine\Filter\FilterHandler.cpp" />
     <ClCompile Include="DataEngine\Filter\FilterResult.cpp" />
@@ -1755,6 +1756,7 @@ xcopy /Y /D "$(SIMBAENGINE_DIR)\ErrorMessages\en-US\ServerMessages.xml" ..\Error
     <ClInclude Include="Core\QSEnvironment.h" />
     <ClInclude Include="Core\QSStatement.h" />
     <ClInclude Include="DataEngine\Filter\AbStractResultSet.h" />
+    <ClInclude Include="DataEngine\Filter\CIAggregationHandler.h" />
     <ClInclude Include="DataEngine\Filter\ColumnHolder.h" />
     <ClInclude Include="DataEngine\Filter\CPassdownInfo.h" />
     <ClInclude Include="DataEngine\Filter\FilterHandler.h" />

@@ -3,6 +3,7 @@
 #include "DSIExtSimpleAggregationHandler.h"
 #include "IBooleanExprHandler.h"
 #include "Filter/FilterHandler.h"
+#include "Filter/CIAggregationHandler.h"
 
 using namespace Simba::Quickstart;
 using namespace Simba::SQLEngine;
@@ -20,10 +21,9 @@ COperationHandlerFactory::COperationHandlerFactory(QuickstartSettings* in_Settin
 AutoPtr<IAggregationHandler> COperationHandlerFactory::CreateAggregationHandler(
     SharedPtr<Simba::SQLEngine::DSIExtResultSet> in_table)
 {
-    //SharedPtr<CBAbstractResultSet> temp(static_cast<CBAbstractResultSet*> (in_table.Get()));
+    SharedPtr<CAbstractResultSet> temp(static_cast<CAbstractResultSet*> (in_table.Get()));
 
-    //return AutoPtr<IAggregationHandler>(new CBAggregationHandler(temp, m_codeBaseSettings));
-    return AutoPtr<IAggregationHandler>(nullptr);
+    return AutoPtr<IAggregationHandler>(new CIAggregationHandler(temp, m_settings, m_result));
 }
 
 AutoPtr<Simba::SQLEngine::IBooleanExprHandler> COperationHandlerFactory::CreateFilterHandler(

@@ -11,9 +11,12 @@
 
 #include "IsysCommon.h"
 #include "Quickstart.h"
+#include "SEDefs.h"
 #include <set>
 
 ISYS_SQL_NAMESPACE_BEGIN
+
+using Simba::SQLEngine::SEAggrFunctionID;
 
 template<typename T>
 struct SBoundary
@@ -25,10 +28,12 @@ struct SBoundary
 struct SIsysPara
 {
 	std::vector<simba_wstring> tagNames;
+	//std::vector<SEAggrFunctionID> funces;
 	SBoundary<simba_wstring> timeLeft;
 	SBoundary<simba_wstring> timeRight;
 	std::set<simba_wstring> timeStamps;
 	simba_uint32 period;
+	SEAggrFunctionID func = SEAggrFunctionID::SE_FUNCT_INVALID;
 };
 
 enum class DataType : simba_uint32
