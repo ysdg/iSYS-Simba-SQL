@@ -46,6 +46,8 @@ protected:
 
     virtual bool PassdownOr(Simba::SQLEngine::AEOr* in_node);
 
+    virtual bool PassdownLikePredicate(Simba::SQLEngine::AELikePredicate* in_node);
+
 private:
 
     void ConstructFilter(

@@ -34,6 +34,9 @@ struct SIsysPara
 	std::set<simba_wstring> timeStamps;
 	simba_uint32 period;
 	SEAggrFunctionID func = SEAggrFunctionID::SE_FUNCT_INVALID;
+
+	simba_wstring likeColName;
+	simba_wstring likeCond;
 };
 
 enum class DataType : simba_uint32

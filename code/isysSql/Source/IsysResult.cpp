@@ -50,7 +50,7 @@ simba_wstring CIsysResult::GetColStr(simba_uint16 columnNum)
 
 bool CIsysResult::NextRow()
 {
-	if (m_rowNow < m_result.tagValues.values.size() - 1)
+	if (m_rowNow+1 < m_result.tagValues.values.size())
 	{
 		++m_rowNow;
 		return true;

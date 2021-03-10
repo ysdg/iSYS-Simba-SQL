@@ -19,6 +19,7 @@ UpgradeLog.htm
 *.ipch
 *.opendb
 *.sdf
+*.dll
 
 
 *.gif
@@ -40,3 +41,6 @@ code/Antlr4/grammer/sqlite/*
 .antlr/
 *.ico
 code/isysSql/Source/Windows_vs2015/*
+code/isysSql/Source/Windows_/*
+code/isysSql/Test/*
+

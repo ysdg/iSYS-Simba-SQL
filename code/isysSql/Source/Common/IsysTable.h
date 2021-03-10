@@ -91,6 +91,7 @@ public:
 	using Columns = std::vector<ColumnData>;
 	static const Columns& GetColumns(const simba_wstring& tbName);
 	static const bool IsContainTbName(const simba_wstring& tbName);
+	static const bool IsTagTb(simba_wstring tbName);
 
 private:
 	static std::map<simba_wstring, Columns> m_tbName2Cols;
@@ -100,5 +101,10 @@ private:
 	static Columns SampleColumns;
 };
 
+
+inline const bool CIsysTable::IsTagTb(simba_wstring tbName)
+{
+	return tbName.ToLower() == simba_wstring("isys_tag");
+}
 
 ISYS_SQL_NAMESPACE_END

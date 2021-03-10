@@ -8,6 +8,8 @@
 #include "AEComparison.h"
 #include "AELiteral.h"
 #include "AEParameter.h"
+#include "AELikePredicate.h"
+#include "AEColumn.h"
 
 #include "DSIExtColumnRef.h"
 #include "DSIExtResultSet.h"
@@ -460,7 +462,7 @@ bool CFilterHandler::PassdownOr(AEOr* in_node)
         auto childCount = node->GetChildCount();
         if( childCount == 2 && 
             node->GetChild(0)->GetChildCount() == 1 && 
-            node->GetChild(0)->GetChildCount() == 1)
+            node->GetChild(1)->GetChildCount() == 1)
         {
             auto expr = node->GetAsBooleanExpr();
             auto compNode = expr->GetAsComparison();
@@ -473,3 +475,39 @@ bool CFilterHandler::PassdownOr(AEOr* in_node)
 }
 
 
+bool CFilterHandler::PassdownLikePredicate(Simba::SQLEngine::AELikePredicate* in_node)
+{
+    if (in_node->GetChildCount() != 2)
+    {
+        return false;
+    }
+
+    auto childLeft = in_node->GetChild(0);
+    auto childRight = in_node->GetChild(1);
+    if (childLeft->GetChildCount() != 0 ||
+        childRight->GetChildCount() != 0)
+    {
+        return false;
+    }
+    auto cond = childRight->GetAsValueExpr()->GetAsLiteral()->GetLiteralValue();
+    
+    DSIExtColumnRef colRef;
+    auto columnExpr = childLeft->GetAsValueExpr();
+    GetTableColRef(columnExpr, colRef);
+    if (static_cast<simba_uint16>(TagColIndex::NAME) != colRef.m_colIndex && 
+        static_cast<simba_uint16>(TagColIndex::DESCR) != colRef.m_colIndex )
+    {
+        return false;
+    }
+    simba_wstring tbName;
+    m_table->GetTableName(tbName);
+    if (!CIsysTable::IsTagTb(tbName))
+    {
+        return false;
+    }
+
+    m_isysPara->likeColName = CIsysTable::GetColumns(tbName)[colRef.m_colIndex].name;
+    m_isysPara->likeCond = cond;
+
+    return false;
+}
