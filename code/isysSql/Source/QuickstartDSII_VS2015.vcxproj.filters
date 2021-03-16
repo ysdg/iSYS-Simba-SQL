@@ -37,6 +37,9 @@
     <Filter Include="DataEngine\Filter\include">
       <UniqueIdentifier>{df672daa-e671-4cb8-8c92-58c5c822f063}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Include">
+      <UniqueIdentifier>{98b68218-dde2-48ac-9160-dcdab75d91ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\QSConnection.cpp">
@@ -123,6 +126,9 @@
     </ClCompile>
     <ClCompile Include="IsysResult.cpp">
       <Filter>DataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="DataEngine\Filter\CIAggregationHandler.cpp">
+      <Filter>DataEngine\Filter</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -219,6 +225,375 @@
     </ClInclude>
     <ClInclude Include="IsysResult.h">
       <Filter>DataEngine\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="DataEngine\Filter\CIAggregationHandler.h">
+      <Filter>DataEngine\Filter\include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEAdd.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEAggregate.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEAggrFunction.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEAlterTable.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEAnd.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEBinaryBooleanExpr.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEBinaryExprT.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEBinaryRelationalExpr.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEBinaryValueExpr.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEBooleanExpr.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEBooleanTrue.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEBooleanValueExpr.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AECastFn.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AECloneValidator.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEColumn.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEColumnInfo.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEComparison.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AECountStarAggrFunction.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AECreateIndex.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AECreateTable.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AECreateTableAsSelect.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AECreateView.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AECrossJoin.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AECustomAggregateFn.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AECustomScalarFn.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEDefault.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEDistinct.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEDivide.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEDropIndex.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEDropTable.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEDropView.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEDummyTable.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEExcept.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEExistsPredicate.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEGrant.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEGraphVizLog.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEInPredicate.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEInsert.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEInsertDefaults.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEInsertionTable.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEIntersect.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEIntervalLiteral.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEJoin.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AELikePredicate.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AELiteral.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEMerge.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEModifiedRows.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEMultiply.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AENamedRelationalExpr.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AENativeRelationalExpr.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AENativeValueExpr.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AENegate.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AENode.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AENodeIterator.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AENodeListT.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AENodeTypes.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AENodeUtils.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AENodeVisitor.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AENot.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AENull.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AENullPredicate.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEOr.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEParameter.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEPivot.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEPivotColumn.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEPivotColumnList.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEProcedure.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEProcedureCall.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEProject.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEProxyColumn.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEQColumnName.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEQSClauseType.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEQTableName.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEQuantifiedComparison.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEQuery.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEQueryOperation.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEQuinaryExprT.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AERelationalExpr.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AERelationshipColumn.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AERename.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AERevoke.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AERowCountStatement.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEScalarFn.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AESearchedCase.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AESearchedDelete.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AESearchedUpdate.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AESearchedUpsert.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AESearchedWhenClause.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AESelect.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AESetCatalog.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AESetClause.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AESetClauseList.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AESetOperation.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AESetSchema.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AESetStatement.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AESimpleCase.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AESimpleWhenClause.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AESort.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AESqlTypesLookupTable.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEStatement.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEStatements.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AESubQuery.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AESubtract.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AETable.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AETableConstructor.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AETerminalExprT.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AETernaryExprT.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AETop.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AETopNSort.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AETreeLog.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AETreeLogVisitor.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AETreeWalker.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEUnaryExprT.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEUnaryRelationalExpr.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEUnaryValueExpr.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEUnion.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEUnpivot.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEUnpivotGroupDefinition.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEUnpivotGroupDefinitionList.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEValueExpr.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEValueList.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Simba Technologies\SimbaEngineSDK\10.1\DataAccessComponents\Include\SQLEngine\AETree\AEValueSubQuery.h">
+      <Filter>Include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

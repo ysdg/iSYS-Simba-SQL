@@ -150,6 +150,7 @@ SharedPtr<DSIExtResultSet> CFilterHandler::TakeResult()
     if (!m_isPassedDown)
     {
         // Return NULL and let the engine do the filtering.
+        m_isPassedDown = true;
         return SharedPtr<DSIExtResultSet>();
     }
     // Return filter result.
@@ -509,5 +510,6 @@ bool CFilterHandler::PassdownLikePredicate(Simba::SQLEngine::AELikePredicate* in
     m_isysPara->likeColName = CIsysTable::GetColumns(tbName)[colRef.m_colIndex].name;
     m_isysPara->likeCond = cond;
 
-    return false;
+    m_isPassedDown = true;
+    return true;
 }

@@ -439,11 +439,46 @@ bool CIsysResult::ReadHisDataFromIsys()
 	return true;
 }
 
+bool CIsysResult::ReadLike()
+{
+	if (m_isysPara->likeCond.IsEmpty() && m_isysPara->likeColName.IsEmpty())
+	{
+		ISYS_LOG_TRACE(m_log, simba_wstring("Empty like condition"));
+		return false;
+	}
+	::DWORD count = 0;
+	::REALTAGDEF* tagInfos = nullptr;
+
+	auto result = ::SearchRealTagsByFilter(
+		m_isysConn->GetConn(), 
+		m_isysPara->likeCond.GetAsPlatformWString().c_str(), 
+		m_isysPara->likeColName.GetAsPlatformWString().c_str(),
+		count,
+		&tagInfos);
+
+	if (!ISYS_SUCCESS(result))
+	{
+		ISYS_LOG_DEBUG(
+			m_log,
+			simba_wstring("Error SearchTags from isys: ") + NumberConverter::ConvertUInt32ToWString(result) +
+			simba_wstring(", like conditon: " + m_isysPara->likeCond + ", like column name: " + m_isysPara->likeColName)
+		);
+	}
+
+	m_result.tagInfos.reserve(count + m_result.tagInfos.size());
+	for (std::size_t i = 0; i < count; i++)
+	{
+		m_result.tagInfos.push_back(tagInfos[i]);
+	}
+
+	::CoTaskMemFree(tagInfos);
+}
+
 bool CIsysResult::Read()
 {
 	auto tags = m_isysPara->tagNames;
 	auto size = tags.size();
-	m_result.tagInfos.reserve(size);
+	m_result.tagInfos.reserve(size + m_result.tagInfos.size());
 
 	::HTAG* tagIds = (::HTAG*)malloc(size * sizeof(::HTAG));
 
@@ -481,6 +516,8 @@ bool CIsysResult::Read()
 	realloc(tagIds, size * sizeof(::HTAG));
 	::CoTaskMemFree(results);
 	::CoTaskMemFree(tagInfos);
+
+	ReadLike();
 
 	return ReadDataFromIsys();
 };

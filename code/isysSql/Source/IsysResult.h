@@ -45,6 +45,7 @@ private:
 	simba_wstring GetSampleColStr(simba_uint16 columnNum);
 	
 	using ReadDataFunc = std::function<bool()>;
+	bool ReadLike();
 	bool ReadDataFromIsys();
 	bool ReadTagDataFromIsys();
 	bool ReadRtdDataFromIsys();

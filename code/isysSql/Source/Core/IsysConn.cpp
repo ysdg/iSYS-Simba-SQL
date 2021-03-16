@@ -68,5 +68,6 @@ void CIsysConn::ErrorMsg(bool throwErr)
 	else
 	{
 		ErrorMsg(throwErr);
+		return NULL;
 	}
 }

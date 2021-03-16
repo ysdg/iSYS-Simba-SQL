@@ -340,3 +340,6 @@ HRESULT _stdcall ReadMinDiskHisInTimeEx(HANDLE handle, HTAG hTag, FILETIME ftBeg
 HRESULT _stdcall FindRealTags(HANDLE handle,LPCWSTR wszFilter, LPCWSTR wszRegionPath, LPCWSTR wszTransferName,  DWORD dwVtCount, VARTYPE* pVtDataTypes, DWORD* pdwCount, HTAG** pphTags);
 //在所有位号范围下模糊查找虚位号，支持“*、?”等基于正则表达式的模糊查找。
 HRESULT _stdcall FindVirtualTags(HANDLE handle,LPCWSTR wszFilter, LPCWSTR wszRegionPath, DWORD dwVtCount, VARTYPE* pVtDataTypes, DWORD* pdwCount, HTAG** pphTags);
+
+//通过SQL Like语句 获取实位号信息
+HRESULT _stdcall SearchRealTagsByFilter(HANDLE handle, LPCWSTR wszFilter, LPCWSTR attrName, DWORD& dwCount, REALTAGDEF** ppTags);
