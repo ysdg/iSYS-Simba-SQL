@@ -78,5 +78,5 @@ bool CIAggregationHandler::SetAggregateFn(Simba::SQLEngine::SEAggrFunctionID in_
 
 bool CIAggregationHandler::SetGroupingColumn(simba_uint16 in_colIndex)
 {
-    return false;
+    return true;
 }
