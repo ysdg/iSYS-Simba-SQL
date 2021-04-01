@@ -140,7 +140,7 @@ simba_wstring CIsysResult::TagValue2Str(const ::VARIANT& tagValue, const ::VARTY
 	case VT_I8:		valueStr = NumberConverter::ConvertInt64ToWString(tagValue.llVal);		break;
 	case VT_UI8:	valueStr = NumberConverter::ConvertUInt64ToWString(tagValue.ullVal);	break;
 	case VT_BOOL:	valueStr = NumberConverter::ConvertDouble64ToWString(tagValue.dblVal);	break;
-	case VT_R4:		valueStr = NumberConverter::ConvertDouble64ToWString(tagValue.dblVal);	break;
+	case VT_R4:		valueStr = NumberConverter::ConvertDouble32ToWString(tagValue.fltVal);	break;
 	case VT_R8:		valueStr = NumberConverter::ConvertDouble64ToWString(tagValue.dblVal);	break;
 	default:
 		assert(false);
