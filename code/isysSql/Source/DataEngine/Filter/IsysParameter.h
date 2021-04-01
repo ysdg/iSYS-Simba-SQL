@@ -37,6 +37,8 @@ struct SIsysPara
 
 	simba_wstring likeColName;
 	simba_wstring likeCond;
+	simba_uint32 maxCount = 0;
+	simba_uint32 hopCount = 10000;
 };
 
 enum class DataType : simba_uint32

@@ -337,7 +337,7 @@ bool CIsysResult::SaveData(::TAGVALSTATE* tagValues, ::HRESULT* results, DWORD r
 bool CIsysResult::SavePeriodHisData(::HTAG* tagIds, std::size_t len)
 {
 	::TAGVALSTATE* tagValues = nullptr;
-	::VARIANT tagFuncValue;
+	::VARIANT tagFuncValue{};
 
 	FILETIME timeBegin;
 	FILETIME timeEnd;
@@ -446,32 +446,62 @@ bool CIsysResult::ReadLike()
 		ISYS_LOG_TRACE(m_log, simba_wstring("Empty like condition"));
 		return false;
 	}
-	::DWORD count = 0;
-	::REALTAGDEF* tagInfos = nullptr;
 
-	auto result = ::SearchRealTagsByFilter(
-		m_isysConn->GetConn(), 
-		m_isysPara->likeCond.GetAsPlatformWString().c_str(), 
-		m_isysPara->likeColName.GetAsPlatformWString().c_str(),
-		count,
-		&tagInfos);
+	::DWORD offset = 0;
 
-	if (!ISYS_SUCCESS(result))
+	auto times = m_isysPara->maxCount == 0 ? UINT_MAX : m_isysPara->maxCount / m_isysPara->hopCount;
+	auto left = m_isysPara->maxCount - times * m_isysPara->hopCount;
+	for (uint32_t i = 0; i <= times; ++i)
 	{
-		ISYS_LOG_DEBUG(
-			m_log,
-			simba_wstring("Error SearchTags from isys: ") + NumberConverter::ConvertUInt32ToWString(result) +
-			simba_wstring(", like conditon: " + m_isysPara->likeCond + ", like column name: " + m_isysPara->likeColName)
-		);
+		::DWORD hopCount = m_isysPara->hopCount;
+		if (times == i)
+		{
+			if (left == 0)
+			{
+				break;
+			}
+			else
+			{
+				hopCount = left;
+			}
+		}
+		offset += i * m_isysPara->hopCount;
+
+		::DWORD count = 0;
+		::REALTAGDEF* tagInfos = nullptr;
+		auto result = ::SearchRealTagsByFilter(
+			m_isysConn->GetConn(),
+			m_isysPara->likeCond.GetAsPlatformWString().c_str(),
+			m_isysPara->likeColName.GetAsPlatformWString().c_str(),
+			hopCount,
+			offset,
+			count,
+			&tagInfos);
+
+		if (!ISYS_SUCCESS(result))
+		{
+			ISYS_LOG_DEBUG(
+				m_log,
+				simba_wstring("Error SearchTags from isys: ") + NumberConverter::ConvertUInt32ToWString(result) +
+				simba_wstring(", like conditon: " + m_isysPara->likeCond + ", like column name: " + m_isysPara->likeColName)
+			);
+		}
+
+		m_result.tagInfos.reserve(count + m_result.tagInfos.size());
+		for (std::size_t i = 0; i < count; i++)
+		{
+			m_result.tagInfos.push_back(tagInfos[i]);
+		}
+
+		::CoTaskMemFree(tagInfos);
+
+		if (count < m_isysPara->hopCount)
+		{
+			break;
+		}
 	}
 
-	m_result.tagInfos.reserve(count + m_result.tagInfos.size());
-	for (std::size_t i = 0; i < count; i++)
-	{
-		m_result.tagInfos.push_back(tagInfos[i]);
-	}
 
-	::CoTaskMemFree(tagInfos);
 }
 
 bool CIsysResult::Read()

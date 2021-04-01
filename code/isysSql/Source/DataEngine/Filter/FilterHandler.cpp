@@ -4,6 +4,7 @@
 #include "FilterResult.h"
 #include "IsysParameter.h"
 #include "Filter/ColumnHolder.h"
+#include "AETop.h"
 
 #include "AEComparison.h"
 #include "AELiteral.h"
@@ -509,6 +510,28 @@ bool CFilterHandler::PassdownLikePredicate(Simba::SQLEngine::AELikePredicate* in
 
     m_isysPara->likeColName = CIsysTable::GetColumns(tbName)[colRef.m_colIndex].name;
     m_isysPara->likeCond = cond;
+
+    auto parent1 = in_node->GetParent();
+    if (parent1)
+    {
+        auto parent2 = parent1->GetParent();
+        if (parent2)
+        {
+            auto parent3 = parent2->GetParent();
+
+            
+            if (parent3->GetNodeType() == AENodeType::AE_NT_RX_TOP)
+            {
+                AETop* topNode = parent3->GetAsRelationalExpr()->GetAsTop();
+                auto offset = topNode->GetSkipValueExpr()->GetAsLiteral()->GetLiteralValue();
+                auto num = topNode->GetTopValueExpr()->GetAsLiteral()->GetLiteralValue();
+
+                m_isysPara->maxCount = NumberConverter::ConvertWStringToUInt32(num) + NumberConverter::ConvertWStringToUInt32(offset);             
+            }
+        }
+    }
+
+    m_isysPara->hopCount = m_codeBaseSettings->hopCount;
 
     m_isPassedDown = true;
     return true;

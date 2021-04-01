@@ -61,6 +61,7 @@ namespace Quickstart
     #define PASSWORD simba_wstring(L"PWD")
     #define ISYS_ADDR simba_wstring(L"ISYS_ADDR")
     #define ISYS_PORT simba_wstring(L"ISYS_PORT")
+    #define ISYS_HOP_COUNT simba_wstring(L"ISYS_HOP_COUNT")
 
     // Aggregate Functions
     static const simba_wstring CB_AGGRFN_NAME(L"AF_NAME");
@@ -156,6 +157,8 @@ namespace Quickstart
         /// as it allows for a table to be fetched at most once per query even when doing joins
         /// which may require multiple passes over the data.
         bool m_useTableCaching;
+
+        simba_uint32 hopCount;
     };
         
     /// Set type to store custom property keys in QSConnection and QSStatement.

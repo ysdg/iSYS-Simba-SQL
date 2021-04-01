@@ -342,4 +342,4 @@ HRESULT _stdcall FindRealTags(HANDLE handle,LPCWSTR wszFilter, LPCWSTR wszRegion
 HRESULT _stdcall FindVirtualTags(HANDLE handle,LPCWSTR wszFilter, LPCWSTR wszRegionPath, DWORD dwVtCount, VARTYPE* pVtDataTypes, DWORD* pdwCount, HTAG** pphTags);
 
 //通过SQL Like语句 获取实位号信息
-HRESULT _stdcall SearchRealTagsByFilter(HANDLE handle, LPCWSTR wszFilter, LPCWSTR attrName, DWORD& dwCount, REALTAGDEF** ppTags);
+HRESULT _stdcall SearchRealTagsByFilter(HANDLE handle, LPCWSTR wszFilter, LPCWSTR attrName, DWORD maxCount, DWORD offset, DWORD& dwCount, REALTAGDEF** ppTags);

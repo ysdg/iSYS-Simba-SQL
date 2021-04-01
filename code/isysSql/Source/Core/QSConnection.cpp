@@ -129,6 +129,7 @@ void QSConnection::Connect(const DSIConnSettingRequestMap& in_connectionSettings
         m_locale = data->GetWStringValue().GetAsPlatformString();
     }
 
+    m_settings.hopCount = GetOptionalSetting(ISYS_HOP_COUNT, in_connectionSettings, &data) ? data->GetUInt32Value() : 10000;
 	m_isysConn.addr = GetOptionalSetting(ISYS_ADDR, in_connectionSettings, &data) ? data->GetWStringValue() : L"127.0.0.1";
 	m_isysConn.port = GetOptionalSetting(ISYS_PORT, in_connectionSettings, &data) ? data->GetUInt32Value() : 5150;
 	m_isysConn.user = GetOptionalSetting(USER_ID, in_connectionSettings, &data) ? data->GetWStringValue() : L"Administrator";
